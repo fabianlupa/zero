@@ -53,8 +53,7 @@ public abstract class AbstractScreen implements Screen {
         //FPS Label
         fpsLabel.setFontScale(0.5f);
         fpsLabel.setPosition(SCREEN_WIDTH - fpsLabel.getPrefWidth(), SCREEN_HEIGHT - fpsLabel.getHeight());
-        //if (zero.getPreferencesManager().isFpsCounterEnabled())
-        uiStage.addActor(fpsLabel);
+        if (zero.getPreferencesManager().isFpsCounterEnabled()) uiStage.addActor(fpsLabel);
 
     }
 
