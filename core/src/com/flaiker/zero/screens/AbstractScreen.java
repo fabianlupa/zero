@@ -19,8 +19,8 @@ import com.flaiker.zero.Zero;
 public abstract class AbstractScreen implements Screen {
     public static final String LOG = AbstractScreen.class.getSimpleName();
 
-    protected static final float SCREEN_WIDTH  = 800;
-    protected static final float SCREEN_HEIGHT = 480;
+    protected static final float SCREEN_WIDTH  = 1280;
+    protected static final float SCREEN_HEIGHT = 720;
 
     protected final Stage              uiStage;
     protected final Skin               skin;
