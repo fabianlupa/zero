@@ -1,27 +1,44 @@
 package com.flaiker.zero;
 
-import com.badlogic.gdx.ApplicationAdapter;
+import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
-public class Zero extends ApplicationAdapter {
-    SpriteBatch batch;
-    Texture     img;
+public class Zero extends Game {
+    public static final String LOG = Zero.class.getSimpleName();
 
     @Override
     public void create() {
-        batch = new SpriteBatch();
-        img = new Texture("badlogic.jpg");
+        Gdx.app.log(LOG, "Creating game on " + Gdx.app.getType());
+    }
+
+    @Override
+    public void dispose() {
+        super.dispose();
+        Gdx.app.log(LOG, "Disposing game");
+    }
+
+    @Override
+    public void pause() {
+        super.pause();
+        Gdx.app.log(LOG, "Pausing game");
+    }
+
+    @Override
+    public void resume() {
+        super.resume();
+        Gdx.app.log(LOG, "Resuming game");
     }
 
     @Override
     public void render() {
-        Gdx.gl.glClearColor(1, 0, 0, 1);
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        batch.begin();
-        batch.draw(img, 0, 0);
-        batch.end();
+        super.render();
+    }
+
+    @Override
+    public void resize(int width, int height) {
+        super.resize(width, height);
+        Gdx.app.log(LOG, "Resizing game to: " + width + " x " + height);
+
+        //if (getScreen() == null) setScreen(new MenuScreen(this));
     }
 }
