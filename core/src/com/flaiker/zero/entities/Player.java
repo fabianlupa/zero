@@ -138,14 +138,10 @@ public class Player extends AbstractEntity implements InputProcessor, ContactLis
             case Input.Keys.LEFT:
             case Input.Keys.RIGHT:
                 // Aufhören zu bewegen, wenn Taste losgelassen
-                if (!(Gdx.input.isKeyPressed(Input.Keys.LEFT) || Gdx.input.isKeyPressed(Input.Keys.RIGHT) ||
-                      Gdx.input.isKeyPressed(Input.Keys.A) || Gdx.input.isKeyPressed(Input.Keys.D))) setRequestedDirection(Direction.NONE);
-
-                if ((keycode == Input.Keys.LEFT || keycode == Input.Keys.A) &&
-                    (Gdx.input.isKeyPressed(Input.Keys.RIGHT) || keycode == Input.Keys.D)) setRequestedDirection(Direction.RIGHT);
-
-                if ((keycode == Input.Keys.RIGHT || keycode == Input.Keys.D) &&
-                    (Gdx.input.isKeyPressed(Input.Keys.LEFT) || keycode == Input.Keys.A)) setRequestedDirection(Direction.LEFT);
+                if (!(Gdx.input.isKeyPressed(Input.Keys.LEFT) || Gdx.input.isKeyPressed(Input.Keys.RIGHT)))
+                    setRequestedDirection(Direction.NONE);
+                if ((keycode == Input.Keys.LEFT) && Gdx.input.isKeyPressed(Input.Keys.RIGHT)) setRequestedDirection(Direction.RIGHT);
+                if ((keycode == Input.Keys.RIGHT)  && Gdx.input.isKeyPressed(Input.Keys.LEFT)) setRequestedDirection(Direction.LEFT);
                 keyProcessed = true;
                 break;
         }
