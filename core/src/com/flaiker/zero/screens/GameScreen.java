@@ -5,19 +5,15 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.maps.tiled.TiledMap;
-import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
-import com.badlogic.gdx.maps.tiled.TmxMapLoader;
-import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.utils.Array;
 import com.flaiker.zero.Zero;
 import com.flaiker.zero.blocks.AbstractBlock;
-import com.flaiker.zero.blocks.WhiteBlock;
+import com.flaiker.zero.entities.AbstractEntity;
 import com.flaiker.zero.entities.Player;
-import com.flaiker.zero.helper.EntityConverterInterface;
+import com.flaiker.zero.helper.Map;
 
 /**
  * Screen where the game is played on
@@ -33,13 +29,9 @@ public class GameScreen extends AbstractScreen implements InputProcessor {
     private final OrthographicCamera box2dCamera;
     private final Player             player;
 
-    private TiledMap                   tiledMap;
-    private OrthogonalTiledMapRenderer mapRenderer;
-
-    private RenderMode renderMode;
-
+    private Map              map;
+    private RenderMode       renderMode;
     private InputMultiplexer inputMultiplexer;
-
     private float accumulator = 0;
 
     public GameScreen(Zero zero) {
@@ -71,45 +63,8 @@ public class GameScreen extends AbstractScreen implements InputProcessor {
         inputMultiplexer.addProcessor((Player) playerBody.getUserData());
 
         // load the map
-        loadMap("map1.tmx");
-    }
-
-    private void loadMap(String fileName) {
-        tiledMap = new TmxMapLoader().load("maps/" + fileName);
-        mapRenderer = new OrthogonalTiledMapRenderer(tiledMap);
-        TiledMapTileLayer collisionLayer = (TiledMapTileLayer) tiledMap.getLayers().get("mgLayer");
-        float tileSize = collisionLayer.getTileWidth();
-
-        // make Box2d objects/bodies out of the tiles
-        BodyDef bdef = new BodyDef();
-        FixtureDef fdef = new FixtureDef();
-
-        for (int row = 0; row < collisionLayer.getHeight(); row++) {
-            for (int col = 0; col < collisionLayer.getWidth(); col++) {
-                // get cell
-                TiledMapTileLayer.Cell cell = collisionLayer.getCell(col, row);
-
-                if (cell != null && cell.getTile() != null) {
-                    // create a body + fixture from cell
-                    bdef.type = BodyDef.BodyType.StaticBody;
-                    bdef.position.set((col + 0.5f) * tileSize / PIXEL_PER_METER, (row + 0.5f) * tileSize / PIXEL_PER_METER);
-
-                    ChainShape cs = new ChainShape();
-                    Vector2[] v = new Vector2[4];
-                    v[0] = new Vector2(-tileSize / 2 / PIXEL_PER_METER, -tileSize / 2 / PIXEL_PER_METER);
-                    v[1] = new Vector2(-tileSize / 2 / PIXEL_PER_METER, tileSize / 2 / PIXEL_PER_METER);
-                    v[2] = new Vector2(tileSize / 2 / PIXEL_PER_METER, tileSize / 2 / PIXEL_PER_METER);
-                    v[3] = new Vector2(tileSize / 2 / PIXEL_PER_METER, -tileSize / 2 / PIXEL_PER_METER);
-                    cs.createLoop(v);
-                    //fdef.friction = 0.5f;
-                    fdef.shape = cs;
-                    fdef.isSensor = false;
-                    Body tileBody = world.createBody(bdef);
-                    tileBody.setUserData(new WhiteBlock(col * PIXEL_PER_METER, row * PIXEL_PER_METER));
-                    tileBody.createFixture(fdef);
-                }
-            }
-        }
+        map = new Map("map1.tmx", camera);
+        map.addTilesAsBodiesToWorld("mgLayer", world, PIXEL_PER_METER);
     }
 
     private void doPhysicsStep(float deltaTime) {
@@ -129,32 +84,27 @@ public class GameScreen extends AbstractScreen implements InputProcessor {
     @Override
     public void preUIrender(float delta) {
         // render TiledMap
-        mapRenderer.setView(camera);
-        if (renderMode == RenderMode.TILED) mapRenderer.render();
+        if (renderMode == RenderMode.TILED) map.render();
 
         // render Box2d
         box2dCamera.update();
         if (renderMode == RenderMode.BOX2D) debugRenderer.render(world, box2dCamera.combined);
-
-        mapRenderer.getSpriteBatch().begin();
 
         Array<Body> bodies = new Array<Body>();
         world.getBodies(bodies);
 
         for (Body b : bodies) {
             Object userData = b.getUserData();
-            if (userData instanceof EntityConverterInterface) {
-                EntityConverterInterface e = (EntityConverterInterface) userData;
-                e.setPosition(b.getPosition().x * PIXEL_PER_METER, b.getPosition().y * PIXEL_PER_METER);
-                e.setRotation(MathUtils.radiansToDegrees * b.getAngle());
-                e.update();
-                if (renderMode == RenderMode.GAME || renderMode == RenderMode.TILED) e.render(mapRenderer.getSpriteBatch());
+            if (userData instanceof AbstractEntity) {
+                AbstractEntity entity = (AbstractEntity) userData;
+                entity.setPosition(b.getPosition().x * PIXEL_PER_METER, b.getPosition().y * PIXEL_PER_METER);
+                entity.setRotation(MathUtils.radiansToDegrees * b.getAngle());
+                entity.update();
+                if (renderMode == RenderMode.GAME || renderMode == RenderMode.TILED) entity.render(batch);
             } else if (userData instanceof AbstractBlock) {
-                if (renderMode == RenderMode.GAME) ((AbstractBlock) userData).render(mapRenderer.getSpriteBatch());
+                if (renderMode == RenderMode.GAME) ((AbstractBlock) userData).render(batch);
             }
         }
-
-        mapRenderer.getSpriteBatch().end();
 
         doPhysicsStep(delta);
     }
