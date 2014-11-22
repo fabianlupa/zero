@@ -39,6 +39,14 @@ public abstract class AbstractEntity {
         return sprite.getY();
     }
 
+    public float getEntityWidth() {
+        return sprite.getWidth();
+    }
+
+    public float getEntityHeight() {
+        return sprite.getHeight();
+    }
+
     protected void setX(float x) {
         sprite.setX(x);
     }

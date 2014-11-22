@@ -76,6 +76,24 @@ public class GameScreen extends AbstractScreen implements InputProcessor {
         }
     }
 
+    private void updateLogic(float delta) {
+        // update camera
+        float playerCenterPos = player.getX() + player.getEntityWidth() / 2;
+        boolean playerOutLeft = playerCenterPos < (SCREEN_WIDTH / 2);
+        boolean playerOutRight = false; //playerCenterPos > (getMap().getMapWidthAsScreenUnits() - (SCREEN_WIDTH / 2));
+
+        if (!playerOutLeft && !playerOutRight) {
+            box2dCamera.position.x = (player.getX() + player.getEntityWidth() / 2) / PIXEL_PER_METER;
+            camera.position.x = player.getX() + player.getEntityWidth() / 2;
+        } else {
+            if (playerOutLeft) {
+                box2dCamera.position.x = SCREEN_WIDTH / PIXEL_PER_METER / 2;
+                camera.position.x = SCREEN_WIDTH / 2;
+            }
+            //else camera.position.x = getMap().getMapWidthAsScreenUnits() - (SCREEN_WIDTH / 2);
+        }
+    }
+
     @Override
     public void show() {
         super.show();
@@ -107,6 +125,7 @@ public class GameScreen extends AbstractScreen implements InputProcessor {
         }
 
         doPhysicsStep(delta);
+        updateLogic(delta);
     }
 
     @Override
