@@ -3,12 +3,12 @@ package com.flaiker.zero.entities;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.flaiker.zero.helper.Box2dConverterInterface;
+import com.flaiker.zero.helper.EntityConverterInterface;
 
 /**
  * Created by Flaiker on 22.11.2014.
  */
-public abstract class AbstractEntity implements Box2dConverterInterface {
+public abstract class AbstractEntity implements EntityConverterInterface {
     private Sprite sprite;
 
     public AbstractEntity(String texturePath, float xPos, float yPos) {
@@ -29,6 +29,11 @@ public abstract class AbstractEntity implements Box2dConverterInterface {
     @Override
     public void setRotation(float degrees) {
         sprite.setRotation(degrees);
+    }
+
+    @Override
+    public void update() {
+
     }
 
     public float getX() {

@@ -43,6 +43,7 @@ public class Player extends AbstractEntity implements InputProcessor{
                     box2dBody.applyForceToCenter(ACCELERATION_X, 0f, true);
                     if(box2dBody.getLinearVelocity().x > 0) box2dBody.setLinearVelocity(0, box2dBody.getLinearVelocity().y);
                 }
+                break;
         }
     }
 
@@ -53,6 +54,11 @@ public class Player extends AbstractEntity implements InputProcessor{
     @Override
     public void render(Batch batch) {
         super.render(batch);
+    }
+
+    @Override
+    public void update() {
+        super.update();
         move();
     }
 
