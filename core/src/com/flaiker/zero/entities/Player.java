@@ -137,9 +137,10 @@ public class Player extends AbstractEntity implements InputProcessor, ContactLis
         switch (keycode) {
             case Input.Keys.LEFT:
             case Input.Keys.RIGHT:
-                // Aufhören zu bewegen, wenn Taste losgelassen
+                // Stop moving when no key is pressed
                 if (!(Gdx.input.isKeyPressed(Input.Keys.LEFT) || Gdx.input.isKeyPressed(Input.Keys.RIGHT)))
                     setRequestedDirection(Direction.NONE);
+                // Move in other direction if two keys were pressed
                 if ((keycode == Input.Keys.LEFT) && Gdx.input.isKeyPressed(Input.Keys.RIGHT)) setRequestedDirection(Direction.RIGHT);
                 if ((keycode == Input.Keys.RIGHT)  && Gdx.input.isKeyPressed(Input.Keys.LEFT)) setRequestedDirection(Direction.LEFT);
                 keyProcessed = true;
