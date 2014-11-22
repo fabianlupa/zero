@@ -60,6 +60,12 @@ public class GameScreen extends AbstractScreen implements InputProcessor {
         //fdef.friction = 0.5f;
         fdef.density = 0f;
         playerBody.createFixture(fdef).setUserData("player");
+        shape.setAsBox(0.2f, 0.1f, new Vector2(0, -0.4f), 0);
+        fdef.shape = shape;
+        fdef.isSensor = true;
+        playerBody.createFixture(fdef).setUserData("foot");
+        world.setContactListener(player);
+
         inputMultiplexer.addProcessor((Player) playerBody.getUserData());
 
         // load the map

@@ -1,21 +1,24 @@
 package com.flaiker.zero.entities;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.g2d.Batch;
-import com.badlogic.gdx.physics.box2d.Body;
+import com.badlogic.gdx.physics.box2d.*;
 
 /**
  * Created by Flaiker on 22.11.2014.
  */
-public class Player extends AbstractEntity implements InputProcessor{
+public class Player extends AbstractEntity implements InputProcessor, ContactListener{
     private static final float MAX_SPEED_X = 5f;
     private static final float MAX_SPEED_Y = 100f;
     private static final float ACCELERATION_X = 50f;
+    private static final float ACCELERATION_JUMP = 2000f;
 
     private final Body box2dBody;
 
     private Direction requestedDirection;
+    private int       numFootContacts;
 
     public Player(Body box2dBody, float xPos, float yPos) {
         super("player.png", xPos, yPos);
@@ -51,6 +54,8 @@ public class Player extends AbstractEntity implements InputProcessor{
         requestedDirection = direction;
     }
 
+    public boolean isPlayerOnGround() { return numFootContacts > 0; }
+
     @Override
     public void render(Batch batch) {
         super.render(batch);
@@ -61,6 +66,38 @@ public class Player extends AbstractEntity implements InputProcessor{
         super.update();
         move();
     }
+
+    @Override
+    public void beginContact(Contact contact) {
+        Fixture fa = contact.getFixtureA();
+        Fixture fb = contact.getFixtureB();
+
+        if(fa.getUserData() != null && fa.getUserData().equals("foot")) {
+            numFootContacts++;
+        }
+        if(fb.getUserData() != null && fb.getUserData().equals("foot")) {
+            numFootContacts++;
+        }
+    }
+
+    @Override
+    public void endContact(Contact contact) {
+        Fixture fa = contact.getFixtureA();
+        Fixture fb = contact.getFixtureB();
+
+        if(fa.getUserData() != null && fa.getUserData().equals("foot")) {
+            numFootContacts--;
+        }
+        if(fb.getUserData() != null && fb.getUserData().equals("foot")) {
+            numFootContacts--;
+        }
+    }
+
+    @Override
+    public void preSolve(Contact contact, Manifold oldManifold) {}
+
+    @Override
+    public void postSolve(Contact contact, ContactImpulse impulse) {}
 
     public static enum Direction {
         LEFT, RIGHT, NONE
@@ -81,7 +118,7 @@ public class Player extends AbstractEntity implements InputProcessor{
                 keyProcessed = true;
                 break;
             case Input.Keys.SPACE:
-                box2dBody.applyForceToCenter(0f, 2000f, true);
+                if(isPlayerOnGround()) box2dBody.applyForceToCenter(0f, ACCELERATION_JUMP, true);
                 keyProcessed = true;
                 break;
             case Input.Keys.R:
@@ -97,11 +134,18 @@ public class Player extends AbstractEntity implements InputProcessor{
     public boolean keyUp(int keycode) {
         boolean keyProcessed = false;
 
-        // Bewegung des Spielers an Tasten binden
         switch (keycode) {
             case Input.Keys.LEFT:
             case Input.Keys.RIGHT:
-                setRequestedDirection(Direction.NONE);
+                // Aufhören zu bewegen, wenn Taste losgelassen
+                if (!(Gdx.input.isKeyPressed(Input.Keys.LEFT) || Gdx.input.isKeyPressed(Input.Keys.RIGHT) ||
+                      Gdx.input.isKeyPressed(Input.Keys.A) || Gdx.input.isKeyPressed(Input.Keys.D))) setRequestedDirection(Direction.NONE);
+
+                if ((keycode == Input.Keys.LEFT || keycode == Input.Keys.A) &&
+                    (Gdx.input.isKeyPressed(Input.Keys.RIGHT) || keycode == Input.Keys.D)) setRequestedDirection(Direction.RIGHT);
+
+                if ((keycode == Input.Keys.RIGHT || keycode == Input.Keys.D) &&
+                    (Gdx.input.isKeyPressed(Input.Keys.LEFT) || keycode == Input.Keys.A)) setRequestedDirection(Direction.LEFT);
                 keyProcessed = true;
                 break;
         }
