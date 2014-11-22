@@ -1,6 +1,10 @@
 package com.flaiker.zero.screens;
 
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.maps.tiled.TiledMap;
+import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
+import com.badlogic.gdx.maps.tiled.TmxMapLoader;
+import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import com.flaiker.zero.Zero;
@@ -12,11 +16,14 @@ public class GameScreen extends AbstractScreen {
     private static final float TIME_STEP           = 1 / 300f;
     private static final int   VELOCITY_ITERATIONS = 6;
     private static final int   POSITION_ITERATIONS = 2;
-    private static final int   PIXEL_PER_METER     = 50;
+    private static final int   PIXEL_PER_METER     = 64;
 
     private final World              world;
     private final Box2DDebugRenderer debugRenderer;
     private final OrthographicCamera box2dCamera;
+
+    private TiledMap                   tiledMap;
+    private OrthogonalTiledMapRenderer mapRenderer;
 
     private float accumulator = 0;
 
@@ -39,6 +46,45 @@ public class GameScreen extends AbstractScreen {
         shape.setAsBox(0.5f, 0.5f);
         fdef.shape = shape;
         playerBody.createFixture(fdef).setUserData("player");
+
+        // load the map
+        loadMap("map1.tmx");
+    }
+
+    private void loadMap(String fileName) {
+        tiledMap = new TmxMapLoader().load("maps/" + fileName);
+        mapRenderer = new OrthogonalTiledMapRenderer(tiledMap);
+        TiledMapTileLayer collisionLayer = (TiledMapTileLayer) tiledMap.getLayers().get("mgLayer");
+        float tileSize = collisionLayer.getTileWidth();
+
+        // make Box2d objects/bodies out of the tiles
+        BodyDef bdef = new BodyDef();
+        FixtureDef fdef = new FixtureDef();
+
+        for (int row = 0; row < collisionLayer.getHeight(); row++) {
+            for (int col = 0; col < collisionLayer.getWidth(); col++) {
+                // get cell
+                TiledMapTileLayer.Cell cell = collisionLayer.getCell(col, row);
+
+                if (cell != null && cell.getTile() != null) {
+                    // create a body + fixture from cell
+                    bdef.type = BodyDef.BodyType.StaticBody;
+                    bdef.position.set((col + 0.5f) * tileSize / PIXEL_PER_METER, (row + 0.5f) * tileSize / PIXEL_PER_METER);
+
+                    ChainShape cs = new ChainShape();
+                    Vector2[] v = new Vector2[4];
+                    v[0] = new Vector2(-tileSize / 2 / PIXEL_PER_METER, -tileSize / 2 / PIXEL_PER_METER);
+                    v[1] = new Vector2(-tileSize / 2 / PIXEL_PER_METER, tileSize / 2 / PIXEL_PER_METER);
+                    v[2] = new Vector2(tileSize / 2 / PIXEL_PER_METER, tileSize / 2 / PIXEL_PER_METER);
+                    v[3] = new Vector2(tileSize / 2 / PIXEL_PER_METER, -tileSize / 2 / PIXEL_PER_METER);
+                    cs.createLoop(v);
+                    fdef.friction = 0;
+                    fdef.shape = cs;
+                    fdef.isSensor = false;
+                    world.createBody(bdef).createFixture(fdef);
+                }
+            }
+        }
     }
 
     private void doPhysicsStep(float deltaTime) {
@@ -57,6 +103,11 @@ public class GameScreen extends AbstractScreen {
 
     @Override
     public void preUIrender(float delta) {
+        // render TiledMap
+        mapRenderer.setView(camera);
+        //mapRenderer.render();
+
+        // render Box2d
         box2dCamera.update();
         debugRenderer.render(world, box2dCamera.combined);
 
