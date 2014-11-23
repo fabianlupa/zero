@@ -6,6 +6,7 @@ import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
+import com.flaiker.zero.screens.GameScreen;
 
 /**
  * Created by Flaiker on 22.11.2014.
@@ -61,17 +62,17 @@ public class Player extends AbstractEntity implements InputProcessor, ContactLis
         FixtureDef fdef = new FixtureDef();
         PolygonShape shape = new PolygonShape();
 
-        bdef.position.set(0.5f, 6);
+        bdef.position.set(getX() / GameScreen.PIXEL_PER_METER, getY() / GameScreen.PIXEL_PER_METER);
         bdef.type = BodyDef.BodyType.DynamicBody;
         Body playerBody = world.createBody(bdef);
         playerBody.setUserData(this);
 
-        shape.setAsBox(0.5f, 0.5f);
+        shape.setAsBox(sprite.getWidth() / GameScreen.PIXEL_PER_METER / 2f, sprite.getHeight() / GameScreen.PIXEL_PER_METER / 2f);
         fdef.shape = shape;
         //fdef.friction = 0.5f;
         fdef.density = 0f;
         playerBody.createFixture(fdef).setUserData("player");
-        shape.setAsBox(0.2f, 0.1f, new Vector2(0, -0.4f), 0);
+        shape.setAsBox(0.2f, 0.1f, new Vector2(0, -sprite.getHeight() / GameScreen.PIXEL_PER_METER / 2f + 0.1f), 0);
         fdef.shape = shape;
         fdef.isSensor = true;
         playerBody.createFixture(fdef).setUserData("foot");
