@@ -45,10 +45,10 @@ public class GameScreen extends AbstractScreen implements InputProcessor {
         renderMode = RenderMode.GAME;
         inputMultiplexer = new InputMultiplexer(this);
         Gdx.input.setInputProcessor(inputMultiplexer);
-        bodies = new Array<Body>();
+        bodies = new Array<>();
 
         // create the player
-        player = new Player(world, 100, 100);
+        player = new Player(world, 3f * PIXEL_PER_METER, 3f * PIXEL_PER_METER);
 
         inputMultiplexer.addProcessor(player);
 

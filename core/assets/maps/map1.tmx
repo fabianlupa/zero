@@ -2,6 +2,60 @@
 <map version="1.0" orientation="orthogonal" renderorder="right-down" width="50" height="15" tilewidth="64" tileheight="64">
  <tileset firstgid="1" name="tileset" tilewidth="64" tileheight="64">
   <image source="tileset.png" width="640" height="640"/>
+  <tile id="0">
+   <properties>
+    <property name="direction" value="Middle"/>
+    <property name="tile" value="Metal"/>
+   </properties>
+  </tile>
+  <tile id="1">
+   <properties>
+    <property name="direction" value="TopLeft"/>
+    <property name="tile" value="Metal"/>
+   </properties>
+  </tile>
+  <tile id="2">
+   <properties>
+    <property name="direction" value="Top"/>
+    <property name="tile" value="Metal"/>
+   </properties>
+  </tile>
+  <tile id="3">
+   <properties>
+    <property name="direction" value="TopRight"/>
+    <property name="tile" value="Metal"/>
+   </properties>
+  </tile>
+  <tile id="4">
+   <properties>
+    <property name="direction" value="Right"/>
+    <property name="tile" value="Metal"/>
+   </properties>
+  </tile>
+  <tile id="5">
+   <properties>
+    <property name="direction" value="BottomRight"/>
+    <property name="tile" value="Metal"/>
+   </properties>
+  </tile>
+  <tile id="6">
+   <properties>
+    <property name="direction" value="Bottom"/>
+    <property name="tile" value="Metal"/>
+   </properties>
+  </tile>
+  <tile id="7">
+   <properties>
+    <property name="direction" value="BottomLeft"/>
+    <property name="tile" value="Metal"/>
+   </properties>
+  </tile>
+  <tile id="8">
+   <properties>
+    <property name="direction" value="Left"/>
+    <property name="tile" value="Metal"/>
+   </properties>
+  </tile>
  </tileset>
  <layer name="bgLayer" width="50" height="15">
   <data encoding="base64" compression="zlib">
@@ -10,7 +64,7 @@
  </layer>
  <layer name="mgLayer" width="50" height="15">
   <data encoding="base64" compression="zlib">
-   eJxjYiANMJGonl6AVHeN+oO2YNQfgwsMZ38wEcCDEQwlt46CkQOGSxocKv5gpAAPJKDE3aOYcgwAMGIAqg==
+   eJztkzkKACAMBL2P/3/YtbCLaRSNkoGpbGaFGKMo+4m3AzahO2Tx8w4HPQyHW1agdlRoJ29SoVoLzDAdblnhpT/n+H3HuHVKifR7ploto0S43pd2NHCSAJg=
   </data>
  </layer>
  <layer name="fgLayer" width="50" height="15">
