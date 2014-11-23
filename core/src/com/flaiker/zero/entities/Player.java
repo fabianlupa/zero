@@ -11,9 +11,9 @@ import com.badlogic.gdx.physics.box2d.*;
  * Created by Flaiker on 22.11.2014.
  */
 public class Player extends AbstractEntity implements InputProcessor, ContactListener{
-    private static final float MAX_SPEED_X = 5f;
+    private static final float MAX_SPEED_X = 7f;
     private static final float MAX_SPEED_Y = 100f;
-    private static final float ACCELERATION_X = 50f;
+    private static final float ACCELERATION_X = 150;
     private static final float ACCELERATION_JUMP = 2000f;
 
     private Direction requestedDirection;
