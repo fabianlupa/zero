@@ -1,50 +1,26 @@
 package com.flaiker.zero.entities;
 
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Batch;
-import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.physics.box2d.World;
+import com.flaiker.zero.helper.AbstractBox2dObject;
+import com.flaiker.zero.screens.GameScreen;
 
 /**
  * Created by Flaiker on 22.11.2014.
  */
-public abstract class AbstractEntity {
-    private Sprite sprite;
-
-    public AbstractEntity(String texturePath, float xPos, float yPos) {
-        this.sprite = new Sprite(new Texture(texturePath));
-        this.sprite.setPosition(xPos, yPos);
-    }
-
-    public void render(Batch batch) {
-        sprite.draw(batch);
-    }
-
-    public void setPosition(float x, float y) {
-        sprite.setPosition(x - sprite.getWidth() / 2f, y - sprite.getHeight() / 2f);
-    }
-
-    public void setRotation(float degrees) {
-        sprite.setRotation(degrees);
+public abstract class AbstractEntity extends AbstractBox2dObject {
+    public AbstractEntity(World world, String texturePath, float xPos, float yPos) {
+        super(world, texturePath, xPos, yPos);
     }
 
     public void update() {
-
+        setPosition(body.getPosition().x * GameScreen.PIXEL_PER_METER - getEntityWidth() / 2f,
+                    body.getPosition().y * GameScreen.PIXEL_PER_METER - getEntityHeight() / 2f);
+        setRotation(MathUtils.radiansToDegrees * body.getAngle());
     }
 
-    public float getX() {
-        return sprite.getX();
-    }
-
-    public float getY() {
-        return sprite.getY();
-    }
-
-    public float getEntityWidth() {
-        return sprite.getWidth();
-    }
-
-    public float getEntityHeight() {
-        return sprite.getHeight();
+    protected void setPosition(float x, float y) {
+        sprite.setPosition(x, y);
     }
 
     protected void setX(float x) {
@@ -53,5 +29,9 @@ public abstract class AbstractEntity {
 
     protected void setY(float y) {
         sprite.setY(y);
+    }
+
+    protected void setRotation(float degrees) {
+        sprite.setRotation(degrees);
     }
 }

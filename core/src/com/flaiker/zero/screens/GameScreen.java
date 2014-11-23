@@ -22,7 +22,7 @@ public class GameScreen extends AbstractScreen implements InputProcessor {
     private static final float TIME_STEP           = 1 / 300f;
     private static final int   VELOCITY_ITERATIONS = 6;
     private static final int   POSITION_ITERATIONS = 2;
-    private static final int   PIXEL_PER_METER     = 64;
+    public static final  int   PIXEL_PER_METER     = 64;
 
     private final World              world;
     private final Box2DDebugRenderer debugRenderer;
@@ -45,32 +45,13 @@ public class GameScreen extends AbstractScreen implements InputProcessor {
         Gdx.input.setInputProcessor(inputMultiplexer);
 
         // create the player
-        BodyDef bdef = new BodyDef();
-        FixtureDef fdef = new FixtureDef();
-        PolygonShape shape = new PolygonShape();
+        player = new Player(world, 100, 100);
 
-        bdef.position.set(0.5f, 6);
-        bdef.type = BodyDef.BodyType.DynamicBody;
-        Body playerBody = world.createBody(bdef);
-        player = new Player(playerBody, bdef.position.x, bdef.position.y);
-        playerBody.setUserData(player);
-
-        shape.setAsBox(0.5f, 0.5f);
-        fdef.shape = shape;
-        //fdef.friction = 0.5f;
-        fdef.density = 0f;
-        playerBody.createFixture(fdef).setUserData("player");
-        shape.setAsBox(0.2f, 0.1f, new Vector2(0, -0.4f), 0);
-        fdef.shape = shape;
-        fdef.isSensor = true;
-        playerBody.createFixture(fdef).setUserData("foot");
-        world.setContactListener(player);
-
-        inputMultiplexer.addProcessor((Player) playerBody.getUserData());
+        inputMultiplexer.addProcessor(player);
 
         // load the map
         map = new Map("map1.tmx", camera);
-        map.addTilesAsBodiesToWorld("mgLayer", world, PIXEL_PER_METER);
+        map.addTilesAsBodiesToWorld("mgLayer", world);
     }
 
     private void doPhysicsStep(float deltaTime) {
@@ -121,8 +102,6 @@ public class GameScreen extends AbstractScreen implements InputProcessor {
             Object userData = b.getUserData();
             if (userData instanceof AbstractEntity) {
                 AbstractEntity entity = (AbstractEntity) userData;
-                entity.setPosition(b.getPosition().x * PIXEL_PER_METER, b.getPosition().y * PIXEL_PER_METER);
-                entity.setRotation(MathUtils.radiansToDegrees * b.getAngle());
                 entity.update();
                 if (renderMode == RenderMode.GAME || renderMode == RenderMode.TILED) entity.render(batch);
             } else if (userData instanceof AbstractBlock) {

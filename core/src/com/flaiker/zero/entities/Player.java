@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 
 /**
@@ -15,36 +16,33 @@ public class Player extends AbstractEntity implements InputProcessor, ContactLis
     private static final float ACCELERATION_X = 50f;
     private static final float ACCELERATION_JUMP = 2000f;
 
-    private final Body box2dBody;
-
     private Direction requestedDirection;
     private int       numFootContacts;
 
-    public Player(Body box2dBody, float xPos, float yPos) {
-        super("player.png", xPos, yPos);
-        this.box2dBody = box2dBody;
+    public Player(World world, float xPos, float yPos) {
+        super(world, "player.png", xPos, yPos);
         this.requestedDirection = Direction.NONE;
     }
 
     private void move() {
         switch (requestedDirection) {
             case RIGHT:
-                box2dBody.applyForceToCenter(ACCELERATION_X, 0f, true);
-                if (box2dBody.getLinearVelocity().x > MAX_SPEED_X)
-                    box2dBody.setLinearVelocity(MAX_SPEED_X, box2dBody.getLinearVelocity().y);
+                body.applyForceToCenter(ACCELERATION_X, 0f, true);
+                if (body.getLinearVelocity().x > MAX_SPEED_X)
+                    body.setLinearVelocity(MAX_SPEED_X, body.getLinearVelocity().y);
                 break;
             case LEFT:
-                box2dBody.applyForceToCenter(-ACCELERATION_X, 0f, true);
-                if (box2dBody.getLinearVelocity().x < -MAX_SPEED_X)
-                    box2dBody.setLinearVelocity(-MAX_SPEED_X, box2dBody.getLinearVelocity().y);
+                body.applyForceToCenter(-ACCELERATION_X, 0f, true);
+                if (body.getLinearVelocity().x < -MAX_SPEED_X)
+                    body.setLinearVelocity(-MAX_SPEED_X, body.getLinearVelocity().y);
                 break;
             case NONE:
-                if (box2dBody.getLinearVelocity().x > 0) {
-                    box2dBody.applyForceToCenter(-ACCELERATION_X, 0f, true);
-                    if(box2dBody.getLinearVelocity().x < 0) box2dBody.setLinearVelocity(0, box2dBody.getLinearVelocity().y);
-                } else if (box2dBody.getLinearVelocity().x < 0) {
-                    box2dBody.applyForceToCenter(ACCELERATION_X, 0f, true);
-                    if(box2dBody.getLinearVelocity().x > 0) box2dBody.setLinearVelocity(0, box2dBody.getLinearVelocity().y);
+                if (body.getLinearVelocity().x > 0) {
+                    body.applyForceToCenter(-ACCELERATION_X, 0f, true);
+                    if(body.getLinearVelocity().x < 0) body.setLinearVelocity(0, body.getLinearVelocity().y);
+                } else if (body.getLinearVelocity().x < 0) {
+                    body.applyForceToCenter(ACCELERATION_X, 0f, true);
+                    if(body.getLinearVelocity().x > 0) body.setLinearVelocity(0, body.getLinearVelocity().y);
                 }
                 break;
         }
@@ -55,6 +53,32 @@ public class Player extends AbstractEntity implements InputProcessor, ContactLis
     }
 
     public boolean isPlayerOnGround() { return numFootContacts > 0; }
+
+    @Override
+    protected Body createBody(World world) {
+        // create the player
+        BodyDef bdef = new BodyDef();
+        FixtureDef fdef = new FixtureDef();
+        PolygonShape shape = new PolygonShape();
+
+        bdef.position.set(0.5f, 6);
+        bdef.type = BodyDef.BodyType.DynamicBody;
+        Body playerBody = world.createBody(bdef);
+        playerBody.setUserData(this);
+
+        shape.setAsBox(0.5f, 0.5f);
+        fdef.shape = shape;
+        //fdef.friction = 0.5f;
+        fdef.density = 0f;
+        playerBody.createFixture(fdef).setUserData("player");
+        shape.setAsBox(0.2f, 0.1f, new Vector2(0, -0.4f), 0);
+        fdef.shape = shape;
+        fdef.isSensor = true;
+        playerBody.createFixture(fdef).setUserData("foot");
+        world.setContactListener(this);
+
+        return playerBody;
+    }
 
     @Override
     public void render(Batch batch) {
@@ -118,12 +142,12 @@ public class Player extends AbstractEntity implements InputProcessor, ContactLis
                 keyProcessed = true;
                 break;
             case Input.Keys.SPACE:
-                if(isPlayerOnGround()) box2dBody.applyForceToCenter(0f, ACCELERATION_JUMP, true);
+                if(isPlayerOnGround()) body.applyForceToCenter(0f, ACCELERATION_JUMP, true);
                 keyProcessed = true;
                 break;
             case Input.Keys.R:
-                box2dBody.setTransform(1f,2f,0f);
-                box2dBody.setLinearVelocity(0f, 0f);
+                body.setTransform(1f,2f,0f);
+                body.setLinearVelocity(0f, 0f);
                 keyProcessed = true;
                 break;
         }
