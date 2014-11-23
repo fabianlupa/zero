@@ -5,9 +5,10 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.*;
+import com.badlogic.gdx.physics.box2d.Body;
+import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
+import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Array;
 import com.flaiker.zero.Zero;
 import com.flaiker.zero.blocks.AbstractBlock;
@@ -32,7 +33,8 @@ public class GameScreen extends AbstractScreen implements InputProcessor {
     private Map              map;
     private RenderMode       renderMode;
     private InputMultiplexer inputMultiplexer;
-    private float accumulator = 0;
+    private float            accumulator;
+    private Array<Body>      bodies;
 
     public GameScreen(Zero zero) {
         super(zero);
@@ -43,6 +45,7 @@ public class GameScreen extends AbstractScreen implements InputProcessor {
         renderMode = RenderMode.GAME;
         inputMultiplexer = new InputMultiplexer(this);
         Gdx.input.setInputProcessor(inputMultiplexer);
+        bodies = new Array<Body>();
 
         // create the player
         player = new Player(world, 100, 100);
@@ -95,9 +98,7 @@ public class GameScreen extends AbstractScreen implements InputProcessor {
         box2dCamera.update();
         if (renderMode == RenderMode.BOX2D) debugRenderer.render(world, box2dCamera.combined);
 
-        Array<Body> bodies = new Array<Body>();
         world.getBodies(bodies);
-
         for (Body b : bodies) {
             Object userData = b.getUserData();
             if (userData instanceof AbstractEntity) {
