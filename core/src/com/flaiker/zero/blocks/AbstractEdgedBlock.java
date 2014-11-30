@@ -25,7 +25,7 @@ public abstract class AbstractEdgedBlock extends AbstractBlock {
 
         public static EdgeDirection getEdgeDirectionFromString(String directionString) {
             for (EdgeDirection edgeDirection : EdgeDirection.values()) {
-                if(edgeDirection.toString().equals(directionString)) return edgeDirection;
+                if (edgeDirection.toString().equals(directionString)) return edgeDirection;
             }
             return null;
         }
