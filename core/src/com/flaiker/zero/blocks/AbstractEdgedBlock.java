@@ -16,7 +16,7 @@ public class AbstractEdgedBlock extends AbstractBlock {
 
     public enum EdgeDirection {
         LEFT, TOP, RIGHT, BOTTOM, TOPLEFT, TOP_RIGHT, BOTTOM_LEFT, BOTTOM_RIGHT, INNER_TOP_LEFT, INNER_TOP_RIGHT, INNER_BOTTOM_LEFT,
-        INNER_BOTTOM_RIGHT;
+        INNER_BOTTOM_RIGHT, CENTER;
 
         @Override
         public String toString() {
