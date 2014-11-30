@@ -9,7 +9,6 @@ import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.physics.box2d.World;
 import com.flaiker.zero.blocks.AbstractEdgedBlock;
 import com.flaiker.zero.blocks.MetalBlock;
-import com.flaiker.zero.blocks.WhiteBlock;
 
 /**
  * Created by Flaiker on 22.11.2014.
@@ -48,7 +47,6 @@ public class Map {
                                 if (edgeDirection != null) new MetalBlock(world, col * tileSize, row * tileSize, edgeDirection);
                                 break;
                             default:
-                                new WhiteBlock(world, col * tileSize, row * tileSize);
                                 break;
                         }
                     }
