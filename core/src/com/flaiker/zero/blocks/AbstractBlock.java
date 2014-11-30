@@ -1,6 +1,7 @@
 package com.flaiker.zero.blocks;
 
 import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import com.flaiker.zero.helper.AbstractBox2dObject;
@@ -10,8 +11,10 @@ import com.flaiker.zero.screens.GameScreen;
  * Created by Flaiker on 22.11.2014.
  */
 public abstract class AbstractBlock extends AbstractBox2dObject {
-    public AbstractBlock(World world, String texturePath, float xPos, float yPos) {
-        super(world, texturePath, xPos, yPos);
+    private static TextureAtlas blockTextureAtlas = new TextureAtlas("atlases/blocks.atlas");
+
+    public AbstractBlock(World world, String atlasPath, float xPos, float yPos) {
+        super(world, atlasPath, blockTextureAtlas, xPos, yPos);
     }
 
     @Override

@@ -39,17 +39,18 @@ public class Map {
                 if (cell != null && cell.getTile() != null) {
                     TiledMapTile tile = cell.getTile();
                     String material = tile.getProperties().get("material", String.class);
-
-                    switch (material) {
-                        case "metal":
-                            String direction = tile.getProperties().get("direction", String.class);
-                            AbstractEdgedBlock.EdgeDirection edgeDirection =
-                                    AbstractEdgedBlock.EdgeDirection.getEdgeDirectionFromString(direction);
-                            if (edgeDirection != null) new MetalBlock(world, col * tileSize, row * tileSize, edgeDirection);
-                            break;
-                        default:
-                            new WhiteBlock(world, col * tileSize, row * tileSize);
-                            break;
+                    if (material != null) {
+                        switch (material) {
+                            case "metal":
+                                String direction = tile.getProperties().get("direction", String.class);
+                                AbstractEdgedBlock.EdgeDirection edgeDirection =
+                                        AbstractEdgedBlock.EdgeDirection.getEdgeDirectionFromString(direction);
+                                if (edgeDirection != null) new MetalBlock(world, col * tileSize, row * tileSize, edgeDirection);
+                                break;
+                            default:
+                                new WhiteBlock(world, col * tileSize, row * tileSize);
+                                break;
+                        }
                     }
                 }
             }

@@ -1,59 +1,83 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <map version="1.0" orientation="orthogonal" renderorder="right-down" width="50" height="15" tilewidth="64" tileheight="64">
- <tileset firstgid="1" name="tileset" tilewidth="64" tileheight="64">
-  <image source="tileset.png" width="640" height="640"/>
+ <tileset firstgid="1" name="blocks" tilewidth="64" tileheight="64" spacing="2" margin="2">
+  <image source="../atlases/blocks.png" width="1024" height="128"/>
   <tile id="0">
    <properties>
-    <property name="direction" value="Middle"/>
-    <property name="tile" value="Metal"/>
+    <property name="direction" value="bottom"/>
+    <property name="material" value="metal"/>
    </properties>
   </tile>
   <tile id="1">
    <properties>
-    <property name="direction" value="TopLeft"/>
-    <property name="tile" value="Metal"/>
+    <property name="direction" value="bottom_left"/>
+    <property name="material" value="metal"/>
    </properties>
   </tile>
   <tile id="2">
    <properties>
-    <property name="direction" value="Top"/>
-    <property name="tile" value="Metal"/>
+    <property name="direction" value="bottom_right"/>
+    <property name="material" value="metal"/>
    </properties>
   </tile>
   <tile id="3">
    <properties>
-    <property name="direction" value="TopRight"/>
-    <property name="tile" value="Metal"/>
+    <property name="direction" value="center"/>
+    <property name="material" value="metal"/>
    </properties>
   </tile>
   <tile id="4">
    <properties>
-    <property name="direction" value="Right"/>
-    <property name="tile" value="Metal"/>
+    <property name="direction" value="inner_bottom_left"/>
+    <property name="material" value="metal"/>
    </properties>
   </tile>
   <tile id="5">
    <properties>
-    <property name="direction" value="BottomRight"/>
-    <property name="tile" value="Metal"/>
+    <property name="direction" value="inner_bottom_right"/>
+    <property name="material" value="metal"/>
    </properties>
   </tile>
   <tile id="6">
    <properties>
-    <property name="direction" value="Bottom"/>
-    <property name="tile" value="Metal"/>
+    <property name="direction" value="inner_top_left"/>
+    <property name="material" value="metal"/>
    </properties>
   </tile>
   <tile id="7">
    <properties>
-    <property name="direction" value="BottomLeft"/>
-    <property name="tile" value="Metal"/>
+    <property name="direction" value="inner_top_right"/>
+    <property name="material" value="metal"/>
    </properties>
   </tile>
   <tile id="8">
    <properties>
-    <property name="direction" value="Left"/>
-    <property name="tile" value="Metal"/>
+    <property name="direction" value="left"/>
+    <property name="material" value="metal"/>
+   </properties>
+  </tile>
+  <tile id="9">
+   <properties>
+    <property name="direction" value="right"/>
+    <property name="material" value="metal"/>
+   </properties>
+  </tile>
+  <tile id="10">
+   <properties>
+    <property name="direction" value="top"/>
+    <property name="material" value="metal"/>
+   </properties>
+  </tile>
+  <tile id="11">
+   <properties>
+    <property name="direction" value="top_left"/>
+    <property name="material" value="metal"/>
+   </properties>
+  </tile>
+  <tile id="12">
+   <properties>
+    <property name="direction" value="top_right"/>
+    <property name="material" value="metal"/>
    </properties>
   </tile>
  </tileset>
@@ -64,7 +88,7 @@
  </layer>
  <layer name="mgLayer" width="50" height="15">
   <data encoding="base64" compression="zlib">
-   eJztkzkKACAMBL2P/3/YtbCLaRSNkoGpbGaFGKMo+4m3AzahO2Tx8w4HPQyHW1agdlRoJ29SoVoLzDAdblnhpT/n+H3HuHVKifR7ploto0S43pd2NHCSAJg=
+   eJzdVlsOgCAMwyfi4/7XdUtcYgwOJwjDJv2FditsxvwDK3ARcCsjMwgH7AWcy8gMorQPykNsn3P5uMuvBQ7AycR5yeXDHXo5xvS6BTYCdi/v8fkYE52dEpgbLhdYr6t+DbrPQA+Y81DGqffa9BOo1lhnrRqfAr3U7kEDuL1E6w7iAzc/8N3W4k86P3z/jXTX/GIP3QG5lgS1
   </data>
  </layer>
  <layer name="fgLayer" width="50" height="15">

@@ -146,7 +146,7 @@ public class Player extends AbstractEntity implements InputProcessor, ContactLis
                 keyProcessed = true;
                 break;
             case Input.Keys.R:
-                body.setTransform(3f, 3f, 0f);
+                body.setTransform(3f, 6f, 0f);
                 body.setLinearVelocity(0f, 0f);
                 keyProcessed = true;
                 break;

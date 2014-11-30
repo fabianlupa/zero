@@ -15,7 +15,7 @@ public abstract class AbstractEdgedBlock extends AbstractBlock {
     }
 
     public enum EdgeDirection {
-        LEFT, TOP, RIGHT, BOTTOM, TOPLEFT, TOP_RIGHT, BOTTOM_LEFT, BOTTOM_RIGHT, INNER_TOP_LEFT, INNER_TOP_RIGHT, INNER_BOTTOM_LEFT,
+        LEFT, TOP, RIGHT, BOTTOM, TOP_LEFT, TOP_RIGHT, BOTTOM_LEFT, BOTTOM_RIGHT, INNER_TOP_LEFT, INNER_TOP_RIGHT, INNER_BOTTOM_LEFT,
         INNER_BOTTOM_RIGHT, CENTER;
 
         @Override
@@ -25,7 +25,7 @@ public abstract class AbstractEdgedBlock extends AbstractBlock {
 
         public static EdgeDirection getEdgeDirectionFromString(String directionString) {
             for (EdgeDirection edgeDirection : EdgeDirection.values()) {
-                if(edgeDirection.name().equals(directionString)) return edgeDirection;
+                if(edgeDirection.toString().equals(directionString)) return edgeDirection;
             }
             return null;
         }
