@@ -11,10 +11,10 @@ import com.flaiker.zero.screens.GameScreen;
 /**
  * Created by Flaiker on 22.11.2014.
  */
-public class Player extends AbstractEntity implements InputProcessor, ContactListener{
-    private static final float MAX_SPEED_X = 7f;
-    private static final float MAX_SPEED_Y = 100f;
-    private static final float ACCELERATION_X = 150;
+public class Player extends AbstractEntity implements InputProcessor, ContactListener {
+    private static final float MAX_SPEED_X       = 7f;
+    private static final float MAX_SPEED_Y       = 100f;
+    private static final float ACCELERATION_X    = 150;
     private static final float ACCELERATION_JUMP = 2000f;
 
     private Direction requestedDirection;
@@ -30,21 +30,19 @@ public class Player extends AbstractEntity implements InputProcessor, ContactLis
         switch (requestedDirection) {
             case RIGHT:
                 body.applyForceToCenter(ACCELERATION_X, 0f, true);
-                if (body.getLinearVelocity().x > MAX_SPEED_X)
-                    body.setLinearVelocity(MAX_SPEED_X, body.getLinearVelocity().y);
+                if (body.getLinearVelocity().x > MAX_SPEED_X) body.setLinearVelocity(MAX_SPEED_X, body.getLinearVelocity().y);
                 break;
             case LEFT:
                 body.applyForceToCenter(-ACCELERATION_X, 0f, true);
-                if (body.getLinearVelocity().x < -MAX_SPEED_X)
-                    body.setLinearVelocity(-MAX_SPEED_X, body.getLinearVelocity().y);
+                if (body.getLinearVelocity().x < -MAX_SPEED_X) body.setLinearVelocity(-MAX_SPEED_X, body.getLinearVelocity().y);
                 break;
             case NONE:
                 if (body.getLinearVelocity().x > 0) {
                     body.applyForceToCenter(-ACCELERATION_X, 0f, true);
-                    if(lastLinearVelocityX < 0) body.setLinearVelocity(0, body.getLinearVelocity().y);
+                    if (lastLinearVelocityX < 0) body.setLinearVelocity(0, body.getLinearVelocity().y);
                 } else if (body.getLinearVelocity().x < 0) {
                     body.applyForceToCenter(ACCELERATION_X, 0f, true);
-                    if(lastLinearVelocityX > 0) body.setLinearVelocity(0, body.getLinearVelocity().y);
+                    if (lastLinearVelocityX > 0) body.setLinearVelocity(0, body.getLinearVelocity().y);
                 }
                 lastLinearVelocityX = body.getLinearVelocity().x;
                 break;
@@ -99,10 +97,10 @@ public class Player extends AbstractEntity implements InputProcessor, ContactLis
         Fixture fa = contact.getFixtureA();
         Fixture fb = contact.getFixtureB();
 
-        if(fa.getUserData() != null && fa.getUserData().equals("foot")) {
+        if (fa.getUserData() != null && fa.getUserData().equals("foot")) {
             numFootContacts++;
         }
-        if(fb.getUserData() != null && fb.getUserData().equals("foot")) {
+        if (fb.getUserData() != null && fb.getUserData().equals("foot")) {
             numFootContacts++;
         }
     }
@@ -112,10 +110,10 @@ public class Player extends AbstractEntity implements InputProcessor, ContactLis
         Fixture fa = contact.getFixtureA();
         Fixture fb = contact.getFixtureB();
 
-        if(fa.getUserData() != null && fa.getUserData().equals("foot")) {
+        if (fa.getUserData() != null && fa.getUserData().equals("foot")) {
             numFootContacts--;
         }
-        if(fb.getUserData() != null && fb.getUserData().equals("foot")) {
+        if (fb.getUserData() != null && fb.getUserData().equals("foot")) {
             numFootContacts--;
         }
     }
@@ -145,11 +143,11 @@ public class Player extends AbstractEntity implements InputProcessor, ContactLis
                 keyProcessed = true;
                 break;
             case Input.Keys.SPACE:
-                if(isPlayerOnGround()) body.applyForceToCenter(0f, ACCELERATION_JUMP, true);
+                if (isPlayerOnGround()) body.applyForceToCenter(0f, ACCELERATION_JUMP, true);
                 keyProcessed = true;
                 break;
             case Input.Keys.R:
-                body.setTransform(3f,3f,0f);
+                body.setTransform(3f, 3f, 0f);
                 body.setLinearVelocity(0f, 0f);
                 keyProcessed = true;
                 break;
@@ -169,7 +167,7 @@ public class Player extends AbstractEntity implements InputProcessor, ContactLis
                     setRequestedDirection(Direction.NONE);
                 // Move in other direction if two keys were pressed
                 if ((keycode == Input.Keys.LEFT) && Gdx.input.isKeyPressed(Input.Keys.RIGHT)) setRequestedDirection(Direction.RIGHT);
-                if ((keycode == Input.Keys.RIGHT)  && Gdx.input.isKeyPressed(Input.Keys.LEFT)) setRequestedDirection(Direction.LEFT);
+                if ((keycode == Input.Keys.RIGHT) && Gdx.input.isKeyPressed(Input.Keys.LEFT)) setRequestedDirection(Direction.LEFT);
                 keyProcessed = true;
                 break;
         }
