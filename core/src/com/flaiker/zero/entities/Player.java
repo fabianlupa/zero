@@ -19,6 +19,7 @@ public class Player extends AbstractEntity implements InputProcessor, ContactLis
 
     private Direction requestedDirection;
     private int       numFootContacts;
+    private float     lastLinearVelocityX;
 
     public Player(World world, float xPos, float yPos) {
         super(world, "player.png", xPos, yPos);
@@ -40,11 +41,12 @@ public class Player extends AbstractEntity implements InputProcessor, ContactLis
             case NONE:
                 if (body.getLinearVelocity().x > 0) {
                     body.applyForceToCenter(-ACCELERATION_X, 0f, true);
-                    if(body.getLinearVelocity().x < 0) body.setLinearVelocity(0, body.getLinearVelocity().y);
+                    if(lastLinearVelocityX < 0) body.setLinearVelocity(0, body.getLinearVelocity().y);
                 } else if (body.getLinearVelocity().x < 0) {
                     body.applyForceToCenter(ACCELERATION_X, 0f, true);
-                    if(body.getLinearVelocity().x > 0) body.setLinearVelocity(0, body.getLinearVelocity().y);
+                    if(lastLinearVelocityX > 0) body.setLinearVelocity(0, body.getLinearVelocity().y);
                 }
+                lastLinearVelocityX = body.getLinearVelocity().x;
                 break;
         }
     }
