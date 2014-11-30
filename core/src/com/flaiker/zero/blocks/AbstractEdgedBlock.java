@@ -5,7 +5,7 @@ import com.badlogic.gdx.physics.box2d.World;
 /**
  * Created by Flaiker on 30.11.2014.
  */
-public class AbstractEdgedBlock extends AbstractBlock {
+public abstract class AbstractEdgedBlock extends AbstractBlock {
     public AbstractEdgedBlock(World world, String material, float xPos, float yPos, EdgeDirection edgeDirection) {
         super(world, getAtlasPathName(material, edgeDirection), xPos, yPos);
     }
@@ -21,6 +21,13 @@ public class AbstractEdgedBlock extends AbstractBlock {
         @Override
         public String toString() {
             return super.toString().toLowerCase();
+        }
+
+        public static EdgeDirection getEdgeDirectionFromString(String directionString) {
+            for (EdgeDirection edgeDirection : EdgeDirection.values()) {
+                if(edgeDirection.name().equals(directionString)) return edgeDirection;
+            }
+            return null;
         }
     }
 }

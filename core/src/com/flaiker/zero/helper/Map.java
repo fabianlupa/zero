@@ -7,6 +7,7 @@ import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.physics.box2d.World;
+import com.flaiker.zero.blocks.AbstractEdgedBlock;
 import com.flaiker.zero.blocks.MetalBlock;
 import com.flaiker.zero.blocks.WhiteBlock;
 
@@ -37,42 +38,14 @@ public class Map {
                 TiledMapTileLayer.Cell cell = layer.getCell(col, row);
                 if (cell != null && cell.getTile() != null) {
                     TiledMapTile tile = cell.getTile();
-                    String type = tile.getProperties().get("tile", String.class);
+                    String material = tile.getProperties().get("material", String.class);
 
-                    switch (type) {
-                        case "Metal":
+                    switch (material) {
+                        case "metal":
                             String direction = tile.getProperties().get("direction", String.class);
-                            MetalBlock.Direction dir;
-                            switch (direction) {
-                                case "TopLeft":
-                                    dir = MetalBlock.Direction.TOPLEFT;
-                                    break;
-                                case "Top":
-                                    dir = MetalBlock.Direction.TOP;
-                                    break;
-                                case "TopRight":
-                                    dir = MetalBlock.Direction.TOPRIGHT;
-                                    break;
-                                case "Right":
-                                    dir = MetalBlock.Direction.RIGHT;
-                                    break;
-                                case "BottomRight":
-                                    dir = MetalBlock.Direction.BOTTOMRIGHT;
-                                    break;
-                                case "Bottom":
-                                    dir = MetalBlock.Direction.BOTTOM;
-                                    break;
-                                case "BottomLeft":
-                                    dir = MetalBlock.Direction.BOTTOMLEFT;
-                                    break;
-                                case "Left":
-                                    dir = MetalBlock.Direction.LEFT;
-                                    break;
-                                case "Middle":
-                                default:
-                                    dir = MetalBlock.Direction.MIDDLE;
-                            }
-                            new MetalBlock(world, dir, col * tileSize, row * tileSize);
+                            AbstractEdgedBlock.EdgeDirection edgeDirection =
+                                    AbstractEdgedBlock.EdgeDirection.getEdgeDirectionFromString(direction);
+                            if (edgeDirection != null) new MetalBlock(world, col * tileSize, row * tileSize, edgeDirection);
                             break;
                         default:
                             new WhiteBlock(world, col * tileSize, row * tileSize);
