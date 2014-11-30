@@ -132,7 +132,6 @@ public class Player extends AbstractEntity implements InputProcessor, ContactLis
     public boolean keyDown(int keycode) {
         boolean keyProcessed = false;
 
-        // Bewegung des Spielers an Tasten binden
         switch (keycode) {
             case Input.Keys.LEFT:
                 setRequestedDirection(Direction.LEFT);
