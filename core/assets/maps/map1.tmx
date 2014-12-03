@@ -81,6 +81,14 @@
    </properties>
   </tile>
  </tileset>
+ <tileset firstgid="16" name="spawns" tilewidth="64" tileheight="64" spacing="2" margin="2">
+  <image source="../atlases/spawns.png" width="128" height="128"/>
+  <tile id="0">
+   <properties>
+    <property name="type" value="player"/>
+   </properties>
+  </tile>
+ </tileset>
  <layer name="bgLayer" width="50" height="15">
   <data encoding="base64" compression="zlib">
    eJztwTEBAAAAwqD1T20ND6AAAIB3Awu4AAE=
@@ -96,4 +104,7 @@
    eJztwTEBAAAAwqD1T20ND6AAAIB3Awu4AAE=
   </data>
  </layer>
+ <objectgroup name="ojLayer">
+  <object gid="16" x="192" y="640"/>
+ </objectgroup>
 </map>
