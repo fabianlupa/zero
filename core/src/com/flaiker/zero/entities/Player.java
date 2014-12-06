@@ -67,7 +67,7 @@ public class Player extends AbstractEntity implements InputProcessor, ContactLis
         Body playerBody = world.createBody(bdef);
         playerBody.setUserData(this);
 
-        shape.setAsBox(sprite.getWidth() / GameScreen.PIXEL_PER_METER / 2f, sprite.getHeight() / GameScreen.PIXEL_PER_METER / 2f);
+        shape.setAsBox(getEntityWidthInMeter() / 2f, getEntityHeightInMeter() / 2f);
         fdef.shape = shape;
         //fdef.friction = 0.5f;
         fdef.density = 0f;

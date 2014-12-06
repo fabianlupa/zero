@@ -4,7 +4,6 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import com.flaiker.zero.helper.AbstractBox2dObject;
-import com.flaiker.zero.screens.GameScreen;
 
 /**
  * Created by Flaiker on 22.11.2014.
@@ -21,14 +20,14 @@ public abstract class AbstractBlock extends AbstractBox2dObject {
         BodyDef bdef = new BodyDef();
         FixtureDef fdef = new FixtureDef();
         bdef.type = BodyDef.BodyType.StaticBody;
-        bdef.position.set(getX() / GameScreen.PIXEL_PER_METER + 0.5f, getY() / GameScreen.PIXEL_PER_METER + 0.5f);
+        bdef.position.set(getXInMeter() + 0.5f, getYInMeter() + 0.5f);
 
         ChainShape cs = new ChainShape();
         Vector2[] v = new Vector2[4];
-        v[0] = new Vector2(-getEntityWidth() / 2 / GameScreen.PIXEL_PER_METER, -getEntityWidth() / 2 / GameScreen.PIXEL_PER_METER);
-        v[1] = new Vector2(-getEntityWidth() / 2 / GameScreen.PIXEL_PER_METER, getEntityWidth() / 2 / GameScreen.PIXEL_PER_METER);
-        v[2] = new Vector2(getEntityWidth() / 2 / GameScreen.PIXEL_PER_METER, getEntityWidth() / 2 / GameScreen.PIXEL_PER_METER);
-        v[3] = new Vector2(getEntityWidth() / 2 / GameScreen.PIXEL_PER_METER, -getEntityWidth() / 2 / GameScreen.PIXEL_PER_METER);
+        v[0] = new Vector2(-getEntityHeightInMeter() / 2f, -getEntityWidthInMeter() / 2f);
+        v[1] = new Vector2(-getEntityWidthInMeter() / 2f, getEntityWidthInMeter() / 2f);
+        v[2] = new Vector2(getEntityWidthInMeter() / 2f, getEntityWidthInMeter() / 2f);
+        v[3] = new Vector2(getEntityWidthInMeter() / 2f, -getEntityWidthInMeter() / 2f);
         cs.createLoop(v);
         //fdef.friction = 0.5f;
         fdef.shape = cs;
