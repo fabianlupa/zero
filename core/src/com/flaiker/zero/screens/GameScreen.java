@@ -47,14 +47,15 @@ public class GameScreen extends AbstractScreen implements InputProcessor {
         Gdx.input.setInputProcessor(inputMultiplexer);
         bodies = new Array<>();
 
-        // create the player
-        player = new Player(world, 3f * PIXEL_PER_METER, 3f * PIXEL_PER_METER);
-
-        inputMultiplexer.addProcessor(player);
-
         // load the map
         map = new Map("map1.tmx", camera);
         map.addTilesAsBodiesToWorld("mgLayer", world);
+
+        // create the player
+        Vector2 playerSpawnPos = map.getPlayerSpawnPosition();
+        player = new Player(world, playerSpawnPos.x * PIXEL_PER_METER, playerSpawnPos.y * PIXEL_PER_METER);
+
+        inputMultiplexer.addProcessor(player);
     }
 
     private void doPhysicsStep(float deltaTime) {
