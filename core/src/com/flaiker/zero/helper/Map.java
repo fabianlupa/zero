@@ -20,6 +20,24 @@ import com.flaiker.zero.blocks.MetalBlock;
 /**
  * Created by Flaiker on 22.11.2014.
  */
+
+/**
+ * Holder-Class for a map made in Tiled (.tmx).
+ *
+ * <p>
+ * Needs to have the following layers:
+ * <ul>
+ *     <li>fgLayer - rendered by {@link com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer}</li>
+ *     <li>mgLayer - rendered using Box2d, provides collision with entities</li>
+ *     <li>bgLayer - rendered by {@link com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer}</li>
+ *     <li>ojLayer - not rendered, defines spawnpositions of entities</li>
+ * </ul>
+ * </p>
+ *
+ * <p>
+ * The width of a tile is taken from the mgLayer-tileset. Tiles must be squares.
+ * </p>
+ */
 public class Map {
     public static final String LOG = Map.class.getSimpleName();
 
