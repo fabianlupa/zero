@@ -20,14 +20,14 @@ public abstract class AbstractBlock extends AbstractBox2dObject {
         BodyDef bdef = new BodyDef();
         FixtureDef fdef = new FixtureDef();
         bdef.type = BodyDef.BodyType.StaticBody;
-        bdef.position.set(getXInMeter() + 0.5f, getYInMeter() + 0.5f);
+        bdef.position.set(getSpriteX() + 0.5f, getSpriteY() + 0.5f);
 
         ChainShape cs = new ChainShape();
         Vector2[] v = new Vector2[4];
-        v[0] = new Vector2(-getEntityHeightInMeter() / 2f, -getEntityWidthInMeter() / 2f);
-        v[1] = new Vector2(-getEntityWidthInMeter() / 2f, getEntityWidthInMeter() / 2f);
-        v[2] = new Vector2(getEntityWidthInMeter() / 2f, getEntityWidthInMeter() / 2f);
-        v[3] = new Vector2(getEntityWidthInMeter() / 2f, -getEntityWidthInMeter() / 2f);
+        v[0] = new Vector2(-getEntityHeight() / 2f, -getEntityWidth() / 2f);
+        v[1] = new Vector2(-getEntityWidth() / 2f, getEntityWidth() / 2f);
+        v[2] = new Vector2(getEntityWidth() / 2f, getEntityWidth() / 2f);
+        v[3] = new Vector2(getEntityWidth() / 2f, -getEntityWidth() / 2f);
         cs.createLoop(v);
         //fdef.friction = 0.5f;
         fdef.shape = cs;

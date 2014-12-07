@@ -59,13 +59,13 @@ public class GameScreen extends AbstractScreen implements InputProcessor {
 
     private void updateLogic(float delta) {
         // update camera
-        float playerCenterPos = player.getX() + player.getEntityWidth() / 2f;
-        boolean playerOutLeft = playerCenterPos < (SCREEN_WIDTH / 2f);
+        float playerCenterPos = player.getSpriteX() + player.getEntityWidth() / 2f;
+        boolean playerOutLeft = playerCenterPos < (SCREEN_WIDTH / 2f / PIXEL_PER_METER);
         boolean playerOutRight = false; //playerCenterPos > (getMap().getMapWidthAsScreenUnits() - (SCREEN_WIDTH / 2));
 
         if (!playerOutLeft && !playerOutRight) {
-            box2dCamera.position.x = (player.getX() + player.getEntityWidth() / 2f) / PIXEL_PER_METER;
-            camera.position.x = player.getX() + player.getEntityWidth() / 2f;
+            box2dCamera.position.x = player.getSpriteX() + player.getEntityWidth() / 2f;
+            camera.position.x = (player.getSpriteX() + player.getEntityWidth() / 2f) * PIXEL_PER_METER;
         } else {
             if (playerOutLeft) {
                 box2dCamera.position.x = SCREEN_WIDTH / PIXEL_PER_METER / 2f;

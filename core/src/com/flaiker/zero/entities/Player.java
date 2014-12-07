@@ -62,12 +62,12 @@ public class Player extends AbstractEntity implements InputProcessor, ContactLis
         FixtureDef fdef = new FixtureDef();
         PolygonShape shape = new PolygonShape();
 
-        bdef.position.set(getX() / GameScreen.PIXEL_PER_METER, getY() / GameScreen.PIXEL_PER_METER);
+        bdef.position.set(getSpriteX(), getSpriteY());
         bdef.type = BodyDef.BodyType.DynamicBody;
         Body playerBody = world.createBody(bdef);
         playerBody.setUserData(this);
 
-        shape.setAsBox(getEntityWidthInMeter() / 2f, getEntityHeightInMeter() / 2f);
+        shape.setAsBox(getEntityWidth() / 2f, getEntityHeight() / 2f);
         fdef.shape = shape;
         //fdef.friction = 0.5f;
         fdef.density = 0f;

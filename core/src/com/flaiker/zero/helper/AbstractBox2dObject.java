@@ -36,35 +36,19 @@ public abstract class AbstractBox2dObject {
     public void update() {
     }
 
-    public float getX() {
-        return sprite.getX();
-    }
-
-    public float getXInMeter() {
+    public float getSpriteX() {
         return sprite.getX() / GameScreen.PIXEL_PER_METER;
     }
 
-    public float getY() {
-        return sprite.getY();
-    }
-
-    public float getYInMeter() {
+    public float getSpriteY() {
         return sprite.getY() / GameScreen.PIXEL_PER_METER;
     }
 
     public float getEntityWidth() {
-        return sprite.getWidth();
-    }
-
-    public float getEntityWidthInMeter() {
         return sprite.getWidth() / GameScreen.PIXEL_PER_METER;
     }
 
     public float getEntityHeight() {
-        return sprite.getHeight();
-    }
-
-    public float getEntityHeightInMeter() {
         return sprite.getHeight() / GameScreen.PIXEL_PER_METER;
     }
 }

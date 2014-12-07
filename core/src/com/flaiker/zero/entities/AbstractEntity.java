@@ -15,24 +15,24 @@ public abstract class AbstractEntity extends AbstractBox2dObject {
 
     public void update() {
         // update the sprite's position and rotation to the box2d body properties
-        setPosition(body.getPosition().x * GameScreen.PIXEL_PER_METER - getEntityWidth() / 2f,
-                    body.getPosition().y * GameScreen.PIXEL_PER_METER - getEntityHeight() / 2f);
-        setRotation(MathUtils.radiansToDegrees * body.getAngle());
+        setSpritePosition(body.getPosition().x - getEntityWidth() / 2f,
+                          body.getPosition().y - getEntityHeight() / 2f);
+        setSpriteRotation(MathUtils.radiansToDegrees * body.getAngle());
     }
 
-    protected void setPosition(float x, float y) {
-        sprite.setPosition(x, y);
+    protected void setSpritePosition(float xMeter, float yMeter) {
+        sprite.setPosition(xMeter * GameScreen.PIXEL_PER_METER, yMeter * GameScreen.PIXEL_PER_METER);
     }
 
-    protected void setX(float x) {
-        sprite.setX(x);
+    protected void setSpriteX(float xMeter) {
+        sprite.setX(xMeter * GameScreen.PIXEL_PER_METER);
     }
 
-    protected void setY(float y) {
-        sprite.setY(y);
+    protected void setSpriteY(float yMeter) {
+        sprite.setY(yMeter * GameScreen.PIXEL_PER_METER);
     }
 
-    protected void setRotation(float degrees) {
+    protected void setSpriteRotation(float degrees) {
         sprite.setRotation(degrees);
     }
 }
