@@ -90,7 +90,7 @@ public class GameScreen extends AbstractScreen implements InputProcessor {
 
         // create the player
         Vector2 playerSpawnPos = map.getPlayerSpawnPosition();
-        player = new Player(world, playerSpawnPos.x * PIXEL_PER_METER, playerSpawnPos.y * PIXEL_PER_METER);
+        player = new Player(world, playerSpawnPos.x, playerSpawnPos.y);
         inputMultiplexer.addProcessor(player);
     }
 

@@ -15,9 +15,9 @@ public abstract class AbstractBox2dObject {
     protected Sprite sprite;
     protected Body   body;
 
-    public AbstractBox2dObject(World world, String atlasPath, TextureAtlas textureAtlas, float xPos, float yPos) {
+    public AbstractBox2dObject(World world, String atlasPath, TextureAtlas textureAtlas, float xPosMeter, float yPosMeter) {
         this.sprite = textureAtlas.createSprite(atlasPath);
-        sprite.setPosition(xPos, yPos);
+        sprite.setPosition(xPosMeter * GameScreen.PIXEL_PER_METER, yPosMeter * GameScreen.PIXEL_PER_METER);
         body = createBody(world);
     }
 
