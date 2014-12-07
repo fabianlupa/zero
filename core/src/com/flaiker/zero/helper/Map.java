@@ -2,6 +2,7 @@ package com.flaiker.zero.helper;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.maps.MapLayer;
 import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.MapObjects;
@@ -41,37 +42,84 @@ import com.flaiker.zero.blocks.MetalBlock;
 public class Map {
     public static final String LOG = Map.class.getSimpleName();
 
+    private static final String COLLISION_LAYER_NAME                = "mgLayer";
+    private static final String FOREGROUND_LAYER_NAME               = "fgLayer";
+    private static final String BACKGROUND_LAYER_NAME               = "bgLayer";
     private static final String SPAWN_LAYER_NAME                    = "ojLayer";
     private static final String SPAWN_LAYER_OBJECT_TYPE_NAME        = "type";
     private static final String SPAWN_LAYER_OBJECT_TYPE_PLAYER_NAME = "player";
+    private static final String GID                                 = "gid";
 
-    private final float MAP_TILE_SIZE;
+    private static String lastError;
+
+    private float             mapTileSize;
+    private TiledMapTileLayer foregroundLayer;
+    private TiledMapTileLayer collisionLayer;
+    private TiledMapTileLayer backgroundLayer;
+    private MapLayer          spawnLayer;
 
     private TiledMap                   tiledMap;
     private OrthogonalTiledMapRenderer mapRenderer;
     private OrthographicCamera         camera;
     private Vector2                    playerSpawnPosition;
+    private SpriteBatch                batch;
 
-    public Map(String fileName, OrthographicCamera camera) {
+    public static Map create(String fileName, OrthographicCamera camera, SpriteBatch batch) {
+        if (camera == null) {
+            lastError = "Camera cannot be null.";
+            return null;
+        }
+        if (!Gdx.files.local("maps/" + fileName).exists()) {
+            lastError = "To be loaded map at \"maps/" + fileName + "\" does not exist.";
+            return null;
+        }
+        if (batch == null) {
+            lastError = "Batch cannot be null.";
+            return null;
+        }
+
+        Map map = new Map(fileName, camera, batch);
+        if (map.getErrorString() != null) {
+            lastError = map.getErrorString();
+            return null;
+        } else return map;
+    }
+
+    public static String getLastError() {
+        return lastError;
+    }
+
+    private Map(String fileName, OrthographicCamera camera, SpriteBatch batch) {
         this.camera = camera;
+        this.batch = batch;
         loadMap(fileName);
-        MAP_TILE_SIZE = ((TiledMapTileLayer)tiledMap.getLayers().get(0)).getTileWidth();
         loadSpawns();
     }
 
+    private void loadMap(String fileName) {
+        tiledMap = new TmxMapLoader().load("maps/" + fileName);
+        collisionLayer = (TiledMapTileLayer) tiledMap.getLayers().get(COLLISION_LAYER_NAME);
+        foregroundLayer = (TiledMapTileLayer) tiledMap.getLayers().get(FOREGROUND_LAYER_NAME);
+        backgroundLayer = (TiledMapTileLayer) tiledMap.getLayers().get(BACKGROUND_LAYER_NAME);
+        spawnLayer = tiledMap.getLayers().get(SPAWN_LAYER_NAME);
+        mapTileSize = collisionLayer.getTileWidth();
+        mapRenderer = new OrthogonalTiledMapRenderer(tiledMap, batch);
+    }
+
     private void loadSpawns() {
-        MapLayer ojLayer = tiledMap.getLayers().get(SPAWN_LAYER_NAME);
-        MapObjects objects = ojLayer.getObjects();
+        if (spawnLayer == null) return;
+
+        MapObjects objects = spawnLayer.getObjects();
         for (MapObject object : objects) {
             if (object instanceof RectangleMapObject) {
-                MapProperties tileProperties = tiledMap.getTileSets().getTile((Integer) object.getProperties().get("gid")).getProperties();
+                MapProperties tileProperties = tiledMap.getTileSets().getTile((Integer) object.getProperties().get(GID)).getProperties();
                 if (tileProperties.containsKey(SPAWN_LAYER_OBJECT_TYPE_NAME)) {
                     String typeName = tileProperties.get("type", String.class);
                     switch (typeName) {
                         case SPAWN_LAYER_OBJECT_TYPE_PLAYER_NAME:
                             if (playerSpawnPosition == null) {
-                                playerSpawnPosition = new Vector2(((RectangleMapObject) object).getRectangle().getX() / MAP_TILE_SIZE,
-                                                                  ((RectangleMapObject) object).getRectangle().getY() / MAP_TILE_SIZE);
+                                playerSpawnPosition = new Vector2(((RectangleMapObject) object).getRectangle().getX() / mapTileSize,
+                                                                  ((RectangleMapObject) object).getRectangle().getY() / mapTileSize);
                                 Gdx.app.log(LOG, "Set player spawn to " + playerSpawnPosition.x + "|" + playerSpawnPosition.y);
                             }
                             break;
@@ -84,18 +132,21 @@ public class Map {
         }
     }
 
-    private void loadMap(String fileName) {
-        tiledMap = new TmxMapLoader().load("maps/" + fileName);
-        mapRenderer = new OrthogonalTiledMapRenderer(tiledMap);
+    public String getErrorString() {
+        if (foregroundLayer == null || backgroundLayer == null || collisionLayer == null || spawnLayer == null)
+            return "Not all layers could be loaded.";
+        if (mapTileSize == 0f) return "Maptilesize could not be loaded.";
+        if (playerSpawnPosition == null) return "PlayerSpawnPosition could not be loaded.";
+
+        return null;
     }
 
-    public void addTilesAsBodiesToWorld(String layerName, World world) {
-        TiledMapTileLayer layer = (TiledMapTileLayer) tiledMap.getLayers().get(layerName);
-        float tileSize = layer.getTileWidth();
+    public void addTilesAsBodiesToWorld(World world) {
+        if (collisionLayer == null) return;
 
-        for (int row = 0; row < layer.getHeight(); row++) {
-            for (int col = 0; col < layer.getWidth(); col++) {
-                TiledMapTileLayer.Cell cell = layer.getCell(col, row);
+        for (int row = 0; row < collisionLayer.getHeight(); row++) {
+            for (int col = 0; col < collisionLayer.getWidth(); col++) {
+                TiledMapTileLayer.Cell cell = collisionLayer.getCell(col, row);
                 if (cell != null && cell.getTile() != null) {
                     TiledMapTile tile = cell.getTile();
                     String material = tile.getProperties().get("material", String.class);
@@ -105,7 +156,7 @@ public class Map {
                                 String direction = tile.getProperties().get("direction", String.class);
                                 AbstractEdgedBlock.EdgeDirection edgeDirection =
                                         AbstractEdgedBlock.EdgeDirection.getEdgeDirectionFromString(direction);
-                                if (edgeDirection != null) new MetalBlock(world, col * tileSize, row * tileSize, edgeDirection);
+                                if (edgeDirection != null) new MetalBlock(world, col * mapTileSize, row * mapTileSize, edgeDirection);
                                 break;
                             default:
                                 break;
@@ -116,9 +167,20 @@ public class Map {
         }
     }
 
-    public void render() {
+    public void updateCamera() {
         mapRenderer.setView(camera);
-        mapRenderer.render();
+    }
+
+    public void renderBackground() {
+        mapRenderer.renderTileLayer(backgroundLayer);
+    }
+
+    public void renderForeground() {
+        mapRenderer.renderTileLayer(foregroundLayer);
+    }
+
+    public void renderCollisionLayer() {
+        mapRenderer.renderTileLayer(collisionLayer);
     }
 
     public Vector2 getPlayerSpawnPosition() {

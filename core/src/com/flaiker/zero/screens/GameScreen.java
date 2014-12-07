@@ -28,9 +28,9 @@ public class GameScreen extends AbstractScreen implements InputProcessor {
     private final World              world;
     private final Box2DDebugRenderer debugRenderer;
     private final OrthographicCamera box2dCamera;
-    private final Player             player;
 
     private Map              map;
+    private Player           player;
     private RenderMode       renderMode;
     private InputMultiplexer inputMultiplexer;
     private float            accumulator;
@@ -46,16 +46,6 @@ public class GameScreen extends AbstractScreen implements InputProcessor {
         inputMultiplexer = new InputMultiplexer(this);
         Gdx.input.setInputProcessor(inputMultiplexer);
         bodies = new Array<>();
-
-        // load the map
-        map = new Map("map1.tmx", camera);
-        map.addTilesAsBodiesToWorld("mgLayer", world);
-
-        // create the player
-        Vector2 playerSpawnPos = map.getPlayerSpawnPosition();
-        player = new Player(world, playerSpawnPos.x * PIXEL_PER_METER, playerSpawnPos.y * PIXEL_PER_METER);
-
-        inputMultiplexer.addProcessor(player);
     }
 
     private void doPhysicsStep(float deltaTime) {
@@ -88,14 +78,31 @@ public class GameScreen extends AbstractScreen implements InputProcessor {
     @Override
     public void show() {
         super.show();
+        // load the map
+        map = Map.create("map1.tmx", camera, batch);
+        if (map == null) {
+            Gdx.app.log(LOG, "Map could not be loaded:\n" + Map.getLastError());
+            zero.setScreen(new MenuScreen(zero));
+            return;
+        } else {
+            map.addTilesAsBodiesToWorld(world);
+        }
+
+        // create the player
+        Vector2 playerSpawnPos = map.getPlayerSpawnPosition();
+        player = new Player(world, playerSpawnPos.x * PIXEL_PER_METER, playerSpawnPos.y * PIXEL_PER_METER);
+        inputMultiplexer.addProcessor(player);
     }
 
     @Override
     public void preUIrender(float delta) {
-        // render TiledMap
-        if (renderMode == RenderMode.TILED) map.render();
+        // start tiledmaprenderer for this frame
+        map.updateCamera();
 
-        // render Box2d
+        // render background using tiled
+        if (renderMode == RenderMode.TILED || renderMode == RenderMode.GAME) map.renderBackground();
+
+        // render collisionlayer using Box2d
         box2dCamera.update();
         if (renderMode == RenderMode.BOX2D) debugRenderer.render(world, box2dCamera.combined);
 
@@ -110,6 +117,12 @@ public class GameScreen extends AbstractScreen implements InputProcessor {
                 if (renderMode == RenderMode.GAME) ((AbstractBlock) userData).render(batch);
             }
         }
+
+        // render collisionlayer using tiled
+        if (renderMode == RenderMode.TILED) map.renderCollisionLayer();
+
+        // render foregroundlayer using tiled
+        if (renderMode == RenderMode.TILED || renderMode == RenderMode.GAME) map.renderForeground();
 
         doPhysicsStep(delta);
         updateLogic(delta);
@@ -131,14 +144,17 @@ public class GameScreen extends AbstractScreen implements InputProcessor {
         switch (keycode) {
             case Input.Keys.F1:
                 renderMode = RenderMode.GAME;
+                Gdx.app.log(LOG, "Set rendermode to GAME");
                 keyProcessed = true;
                 break;
             case Input.Keys.F2:
                 renderMode = RenderMode.BOX2D;
+                Gdx.app.log(LOG, "Set rendermode to BOX2D");
                 keyProcessed = true;
                 break;
             case Input.Keys.F3:
                 renderMode = RenderMode.TILED;
+                Gdx.app.log(LOG, "Set rendermode to TILED");
                 keyProcessed = true;
                 break;
         }
