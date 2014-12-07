@@ -91,17 +91,17 @@
  </tileset>
  <layer name="bgLayer" width="50" height="15">
   <data encoding="base64" compression="zlib">
-   eJztwTEBAAAAwqD1T20ND6AAAIB3Awu4AAE=
+   eJxjYBgFo2AUjIJRMNCAE4hZgJhroB1CIRj1x+ACo/4YnGC4+GMU0B8AADJiAH4=
   </data>
  </layer>
  <layer name="mgLayer" width="50" height="15">
   <data encoding="base64" compression="zlib">
-   eJzdVlsOgCAMwyfi4/7XdUtcYgwOJwjDJv2FditsxvwDK3ARcCsjMwgH7AWcy8gMorQPykNsn3P5uMuvBQ7AycR5yeXDHXo5xvS6BTYCdi/v8fkYE52dEpgbLhdYr6t+DbrPQA+Y81DGqffa9BOo1lhnrRqfAr3U7kEDuL1E6w7iAzc/8N3W4k86P3z/jXTX/GIP3QG5lgS1
+   eJzdVlsOgCAMm+/3/a8rTVyiCQIThWGT/rJ2KzCif2A1XATc8sj0YjJsBZzzyPQitw/OQ+ycU/m4y+9wnDtSnJdUPkLqxMy6NqwEbB7WsfnoXzr7TSA3rlygXx1d9WvQfQY8IOe+jPPstelncK/RZ60aQwEvpXvQANdeonUHscH1ruPeluJP+n/Y3hvprvnFHroDVqoEpw==
   </data>
  </layer>
  <layer name="fgLayer" width="50" height="15">
   <data encoding="base64" compression="zlib">
-   eJztwTEBAAAAwqD1T20ND6AAAIB3Awu4AAE=
+   eJxjYBgFo2AUjIJRMApGATGAB4h5B9oRVACcQMw10I6gAhj1x+ACo/6gPQAASgMAeQ==
   </data>
  </layer>
  <objectgroup name="ojLayer">

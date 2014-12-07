@@ -1,8 +1,10 @@
 package com.flaiker.zero.helper;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.maps.MapLayer;
 import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.MapObjects;
@@ -172,11 +174,15 @@ public class Map {
     }
 
     public void renderBackground() {
+        mapRenderer.getSpriteBatch().setColor(Color.GRAY);
         mapRenderer.renderTileLayer(backgroundLayer);
+        mapRenderer.getSpriteBatch().setColor(Color.WHITE);
     }
 
     public void renderForeground() {
+        mapRenderer.getSpriteBatch().setColor(Color.LIGHT_GRAY);
         mapRenderer.renderTileLayer(foregroundLayer);
+        mapRenderer.getSpriteBatch().setColor(Color.WHITE);
     }
 
     public void renderCollisionLayer() {
