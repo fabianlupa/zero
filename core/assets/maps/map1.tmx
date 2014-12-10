@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="50" height="15" tilewidth="64" tileheight="64">
+ <tileset firstgid="1" name="blocks" tilewidth="64" tileheight="64" spacing="2" margin="2">
+  <image source="../atlases/blocks.png" width="1024" height="128"/>
+  <tile id="0">
+   <properties>
+    <property name="direction" value="bottom"/>
+    <property name="material" value="metal"/>
+   </properties>
+  </tile>
+  <tile id="1">
+   <properties>
+    <property name="direction" value="bottom_left"/>
+    <property name="material" value="metal"/>
+   </properties>
+  </tile>
+  <tile id="2">
+   <properties>
+    <property name="direction" value="bottom_right"/>
+    <property name="material" value="metal"/>
+   </properties>
+  </tile>
+  <tile id="3">
+   <properties>
+    <property name="direction" value="center"/>
+    <property name="material" value="metal"/>
+   </properties>
+  </tile>
+  <tile id="4">
+   <properties>
+    <property name="direction" value="inner_bottom_left"/>
+    <property name="material" value="metal"/>
+   </properties>
+  </tile>
+  <tile id="5">
+   <properties>
+    <property name="direction" value="inner_bottom_right"/>
+    <property name="material" value="metal"/>
+   </properties>
+  </tile>
+  <tile id="6">
+   <properties>
+    <property name="direction" value="inner_top_left"/>
+    <property name="material" value="metal"/>
+   </properties>
+  </tile>
+  <tile id="7">
+   <properties>
+    <property name="direction" value="inner_top_right"/>
+    <property name="material" value="metal"/>
+   </properties>
+  </tile>
+  <tile id="8">
+   <properties>
+    <property name="direction" value="left"/>
+    <property name="material" value="metal"/>
+   </properties>
+  </tile>
+  <tile id="9">
+   <properties>
+    <property name="direction" value="right"/>
+    <property name="material" value="metal"/>
+   </properties>
+  </tile>
+  <tile id="10">
+   <properties>
+    <property name="direction" value="top"/>
+    <property name="material" value="metal"/>
+   </properties>
+  </tile>
+  <tile id="11">
+   <properties>
+    <property name="direction" value="top_left"/>
+    <property name="material" value="metal"/>
+   </properties>
+  </tile>
+  <tile id="12">
+   <properties>
+    <property name="direction" value="top_right"/>
+    <property name="material" value="metal"/>
+   </properties>
+  </tile>
+ </tileset>
+ <tileset firstgid="16" name="spawns" tilewidth="64" tileheight="64" spacing="2" margin="2">
+  <image source="../atlases/spawns.png" width="128" height="128"/>
+  <tile id="0">
+   <properties>
+    <property name="type" value="player"/>
+   </properties>
+  </tile>
+ </tileset>
+ <layer name="bgLayer" width="50" height="15">
+  <data encoding="base64" compression="zlib">
+   eJxjYBgFo2AUjIJRMNCAE4hZgJhroB1CIRj1x+ACo/4YnGC4+GMU0B8AADJiAH4=
+  </data>
+ </layer>
+ <layer name="mgLayer" width="50" height="15">
+  <data encoding="base64" compression="zlib">
+   eJzdVlsOgCAMm+/3/a8rTVyiCQIThWGT/rJ2KzCif2A1XATc8sj0YjJsBZzzyPQitw/OQ+ycU/m4y+9wnDtSnJdUPkLqxMy6NqwEbB7WsfnoXzr7TSA3rlygXx1d9WvQfQY8IOe+jPPstelncK/RZ60aQwEvpXvQANdeonUHscH1ruPeluJP+n/Y3hvprvnFHroDVqoEpw==
+  </data>
+ </layer>
+ <layer name="fgLayer" width="50" height="15">
+  <data encoding="base64" compression="zlib">
+   eJxjYBgFo2AUjIJRMApGATGAB4h5B9oRVACcQMw10I6gAhj1x+ACo/6gPQAASgMAeQ==
+  </data>
+ </layer>
+ <objectgroup name="ojLayer">
+  <object gid="16" x="192" y="640"/>
+ </objectgroup>
+</map>
