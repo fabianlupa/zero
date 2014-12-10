@@ -14,6 +14,7 @@ import com.flaiker.zero.Zero;
 import com.flaiker.zero.blocks.AbstractBlock;
 import com.flaiker.zero.entities.AbstractEntity;
 import com.flaiker.zero.entities.Player;
+import com.flaiker.zero.entities.RobotMob;
 import com.flaiker.zero.helper.Map;
 
 /**
@@ -92,6 +93,9 @@ public class GameScreen extends AbstractScreen implements InputProcessor {
         Vector2 playerSpawnPos = map.getPlayerSpawnPosition();
         player = new Player(world, playerSpawnPos.x, playerSpawnPos.y);
         inputMultiplexer.addProcessor(player);
+
+        // create a testmob
+        RobotMob testMob = new RobotMob(world, 4, 5);
     }
 
     @Override
