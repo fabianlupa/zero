@@ -10,14 +10,42 @@ import com.flaiker.zero.screens.GameScreen;
  * Created by Flaiker on 22.11.2014.
  */
 public abstract class AbstractEntity extends AbstractBox2dObject {
-    private Vector2 spawnVector;
+    private Direction requestedDirection;
+    private float     lastLinearVelocityX;
+    private Vector2   spawnVector;
 
     public AbstractEntity(World world, String texturePath, float xPosMeter, float yPosMeter) {
         super(world, texturePath, xPosMeter, yPosMeter);
         spawnVector = new Vector2(xPosMeter, yPosMeter);
+        this.requestedDirection = Direction.NONE;
+    }
+
+    protected void move() {
+        switch (requestedDirection) {
+            case RIGHT:
+                body.applyForceToCenter(getAccelerationX(), 0f, true);
+                if (body.getLinearVelocity().x > getMaxSpeedX()) body.setLinearVelocity(getMaxSpeedX(), body.getLinearVelocity().y);
+                break;
+            case LEFT:
+                body.applyForceToCenter(-getAccelerationX(), 0f, true);
+                if (body.getLinearVelocity().x < -getMaxSpeedX()) body.setLinearVelocity(-getMaxSpeedX(), body.getLinearVelocity().y);
+                break;
+            case NONE:
+                if (body.getLinearVelocity().x > 0) {
+                    body.applyForceToCenter(-getAccelerationX(), 0f, true);
+                    if (lastLinearVelocityX < 0) body.setLinearVelocity(0, body.getLinearVelocity().y);
+                } else if (body.getLinearVelocity().x < 0) {
+                    body.applyForceToCenter(getAccelerationX(), 0f, true);
+                    if (lastLinearVelocityX > 0) body.setLinearVelocity(0, body.getLinearVelocity().y);
+                }
+                lastLinearVelocityX = body.getLinearVelocity().x;
+                break;
+        }
     }
 
     public void update() {
+        move();
+
         // update the sprite's position and rotation to the box2d body properties
         setSpritePosition(body.getPosition().x - getEntityWidth() / 2f, body.getPosition().y - getEntityHeight() / 2f);
         setSpriteRotation(MathUtils.radiansToDegrees * body.getAngle());
@@ -31,6 +59,18 @@ public abstract class AbstractEntity extends AbstractBox2dObject {
             body.setTransform(spawnVector, 0f);
             body.setLinearVelocity(0f, 0f);
         }
+    }
+
+    protected abstract float getMaxSpeedX();
+
+    protected abstract float getAccelerationX();
+
+    protected void setRequestedDirection(Direction direction) {
+        requestedDirection = direction;
+    }
+
+    protected Direction getRequestedDirection() {
+        return requestedDirection;
     }
 
     protected void setSpritePosition(float xMeter, float yMeter) {
@@ -47,5 +87,9 @@ public abstract class AbstractEntity extends AbstractBox2dObject {
 
     protected void setSpriteRotation(float degrees) {
         sprite.setRotation(degrees);
+    }
+
+    public static enum Direction {
+        LEFT, RIGHT, NONE
     }
 }

@@ -16,6 +16,7 @@ import com.flaiker.zero.entities.AbstractEntity;
 import com.flaiker.zero.entities.Player;
 import com.flaiker.zero.entities.RobotMob;
 import com.flaiker.zero.helper.Map;
+import com.flaiker.zero.helper.WorldContactListener;
 
 /**
  * Screen where the game is played on
@@ -44,6 +45,7 @@ public class GameScreen extends AbstractScreen implements InputProcessor {
         world = new World(new Vector2(0, -10), true);
         debugRenderer = new Box2DDebugRenderer();
         renderMode = RenderMode.GAME;
+        world.setContactListener(new WorldContactListener());
         inputMultiplexer = new InputMultiplexer(this);
         Gdx.input.setInputProcessor(inputMultiplexer);
         bodies = new Array<>();
