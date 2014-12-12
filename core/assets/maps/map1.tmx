@@ -97,7 +97,7 @@
  </tileset>
  <layer name="bgLayer" width="50" height="15">
   <data encoding="base64" compression="zlib">
-   eJxjYBgFo2AUjIJRMNCAE4hZgJhroB1CIRj1x+ACo/4YnGC4+GMU0B8AADJiAH4=
+   eJxjYKAf4ARiLgrkBwsY9cfgAqP+GFxg1B/k28dCZTNh5o76gzz7KPEHDxDz4jB3KPiDG4ph7uFGw7jE8ckjm40tbKjtD0YkDHMPI5Hi+OSRzWcm0R8wQG4c40ofQ63cHfUH+f4AAOvmBAE=
   </data>
  </layer>
  <layer name="mgLayer" width="50" height="15">
