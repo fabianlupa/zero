@@ -82,10 +82,16 @@
   </tile>
  </tileset>
  <tileset firstgid="16" name="spawns" tilewidth="64" tileheight="64" spacing="2" margin="2">
-  <image source="../atlases/spawns.png" width="128" height="128"/>
+  <image source="../atlases/spawns.png" width="256" height="128"/>
   <tile id="0">
    <properties>
     <property name="type" value="player"/>
+   </properties>
+  </tile>
+  <tile id="1">
+   <properties>
+    <property name="mobname" value="robot"/>
+    <property name="type" value="mob"/>
    </properties>
   </tile>
  </tileset>
@@ -96,7 +102,7 @@
  </layer>
  <layer name="mgLayer" width="50" height="15">
   <data encoding="base64" compression="zlib">
-   eJzdVlsOwCAIY+/3/a87SUbiEgdjOnFr0l9poSoA/8DquCi42cgUMTm2Cs42MkVY+6A8xM45l4+r/A7HuSPEecnl406dmFnXjpWCzcM6IR99orNTAnPD5QL71cFZfwm6faAHzLmUcZp9afoJ1Gvss5VGrn9SVnygF8s+c7WttWnA7SWl7iAhcO863tuv+NP+H6H3RrtrvrGH7gChBNU=
+   eJzdVlsOgCAMm+/3h/e/rCyRBBMczgFDm/RT1m4FB/APrIYLg5uOzCAmw5bBWUdmENo+bB6kc87l4y6/w3nuCDIvuXw8qSOZdW1YMdi8rOPz0Uc6OyYwN1QusF8dXPWXoNsFesCchzJuZ59K/y783vYa+6zVY6p/oay4QC+aOaFqu9qkM0sNai8pdQfxgXrX8d5+xR/3/+F7b7i7Zoo99ACChQT3
   </data>
  </layer>
  <layer name="fgLayer" width="50" height="15">

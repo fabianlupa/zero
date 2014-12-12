@@ -1,12 +1,19 @@
 
 spawns.png
-size: 128,128
+size: 256,128
 format: RGBA8888
 filter: Nearest,Nearest
 repeat: none
 player
   rotate: false
   xy: 2, 2
+  size: 64, 64
+  orig: 64, 64
+  offset: 0, 0
+  index: -1
+robotMob
+  rotate: false
+  xy: 68, 2
   size: 64, 64
   orig: 64, 64
   offset: 0, 0
