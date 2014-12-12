@@ -102,7 +102,7 @@
  </layer>
  <layer name="mgLayer" width="50" height="15">
   <data encoding="base64" compression="zlib">
-   eJzdVlsOgCAMm+/3h/e/rCyRBBMczgFDm/RT1m4FB/APrIYLg5uOzCAmw5bBWUdmENo+bB6kc87l4y6/w3nuCDIvuXw8qSOZdW1YMdi8rOPz0Uc6OyYwN1QusF8dXPWXoNsFesCchzJuZ59K/y783vYa+6zVY6p/oay4QC+aOaFqu9qkM0sNai8pdQfxgXrX8d5+xR/3/+F7b7i7Zoo99ACChQT3
+   eJzdVlsOwCAIY+/3/a87SUbiEgdjOnFr0l9poSoA/8DquCi42cgUMTm2Cs42MkVY+6A8xM45l4+r/A7HuSPEecnl406dmFnXjpWCzcM6IR99orNTAnPD5QL71cFZfwm6faAHzLmUcZp9afoJ1Gvss5VGrn9SVnygF8s+c7WttWnA7SWl7iAhcO863tuv+NP+H6H3RrtrvrGH7gChBNU=
   </data>
  </layer>
  <layer name="fgLayer" width="50" height="15">
@@ -112,5 +112,7 @@
  </layer>
  <objectgroup name="ojLayer">
   <object gid="16" x="192" y="640"/>
+  <object gid="17" x="128.333" y="575"/>
+  <object gid="17" x="448" y="574.333"/>
  </objectgroup>
 </map>
