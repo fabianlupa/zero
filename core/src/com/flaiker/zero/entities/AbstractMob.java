@@ -9,8 +9,8 @@ public abstract class AbstractMob extends AbstractEntity {
     protected       int healthPoints;
     protected final int maxHealthPoints;
 
-    public AbstractMob(World world, String texturePath, float xPosMeter, float yPosMeter, int maxHealthPoints) {
-        super(world, texturePath, xPosMeter, yPosMeter);
+    public AbstractMob(World world, String atlasPath, float xPosMeter, float yPosMeter, int maxHealthPoints) {
+        super(world, atlasPath, xPosMeter, yPosMeter);
         this.maxHealthPoints = maxHealthPoints;
         this.healthPoints = maxHealthPoints;
     }

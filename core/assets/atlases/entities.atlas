@@ -1,0 +1,27 @@
+
+entities.png
+size: 256,128
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+ballMob
+  rotate: false
+  xy: 119, 40
+  size: 54, 54
+  orig: 54, 54
+  offset: 0, 0
+  index: -1
+player
+  rotate: false
+  xy: 68, 13
+  size: 49, 81
+  orig: 49, 81
+  offset: 0, 0
+  index: -1
+robotMob
+  rotate: false
+  xy: 2, 2
+  size: 64, 92
+  orig: 64, 92
+  offset: 0, 0
+  index: -1

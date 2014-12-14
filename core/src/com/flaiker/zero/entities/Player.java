@@ -21,7 +21,7 @@ public class Player extends AbstractEntity implements InputProcessor {
     private int numFootContacts;
 
     public Player(World world, float xPos, float yPos) {
-        super(world, "player.png", xPos, yPos);
+        super(world, "player", xPos, yPos);
     }
 
     public boolean isPlayerOnGround() { return numFootContacts > 0; }

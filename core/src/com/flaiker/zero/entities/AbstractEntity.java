@@ -1,5 +1,6 @@
 package com.flaiker.zero.entities;
 
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
@@ -10,12 +11,14 @@ import com.flaiker.zero.screens.GameScreen;
  * Created by Flaiker on 22.11.2014.
  */
 public abstract class AbstractEntity extends AbstractBox2dObject {
+    private static TextureAtlas blockTextureAtlas = new TextureAtlas("atlases/entities.atlas");
+
     private Direction requestedDirection;
     private float     lastLinearVelocityX;
     private Vector2   spawnVector;
 
-    public AbstractEntity(World world, String texturePath, float xPosMeter, float yPosMeter) {
-        super(world, texturePath, xPosMeter, yPosMeter);
+    public AbstractEntity(World world, String atlasPath, float xPosMeter, float yPosMeter) {
+        super(world, atlasPath, blockTextureAtlas , xPosMeter, yPosMeter);
         spawnVector = new Vector2(xPosMeter, yPosMeter);
         this.requestedDirection = Direction.NONE;
     }

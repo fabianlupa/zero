@@ -17,7 +17,7 @@ public class BallMob extends AbstractMob {
     private boolean wallLeft = false;
 
     public BallMob(World world, float xPosMeter, float yPosMeter) {
-        super(world, "ballMob.png", xPosMeter, yPosMeter, 5);
+        super(world, "ballMob", xPosMeter, yPosMeter, 5);
     }
 
     @Override

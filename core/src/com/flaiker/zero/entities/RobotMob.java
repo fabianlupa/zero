@@ -16,7 +16,7 @@ public class RobotMob extends AbstractMob {
     private boolean wallLeft = false;
 
     public RobotMob(World world, float xPosMeter, float yPosMeter) {
-        super(world, "robotMob.png", xPosMeter, yPosMeter, 5);
+        super(world, "robotMob", xPosMeter, yPosMeter, 5);
     }
 
     @Override
