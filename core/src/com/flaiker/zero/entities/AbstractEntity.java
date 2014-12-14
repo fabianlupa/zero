@@ -11,14 +11,16 @@ import com.flaiker.zero.screens.GameScreen;
  * Created by Flaiker on 22.11.2014.
  */
 public abstract class AbstractEntity extends AbstractBox2dObject {
-    private static TextureAtlas blockTextureAtlas = new TextureAtlas("atlases/entities.atlas");
+
+
+    private static TextureAtlas entityTextureAtlas = new TextureAtlas("atlases/entities.atlas");
 
     private Direction requestedDirection;
     private float     lastLinearVelocityX;
     private Vector2   spawnVector;
 
     public AbstractEntity(World world, String atlasPath, float xPosMeter, float yPosMeter) {
-        super(world, atlasPath, blockTextureAtlas , xPosMeter, yPosMeter);
+        super(world, atlasPath, entityTextureAtlas, xPosMeter, yPosMeter);
         spawnVector = new Vector2(xPosMeter, yPosMeter);
         this.requestedDirection = Direction.NONE;
     }
@@ -94,5 +96,9 @@ public abstract class AbstractEntity extends AbstractBox2dObject {
 
     public static enum Direction {
         LEFT, RIGHT, NONE
+    }
+
+    public static TextureAtlas getEntityTextureAtlas() {
+        return entityTextureAtlas;
     }
 }

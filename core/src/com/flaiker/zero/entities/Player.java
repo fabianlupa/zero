@@ -6,6 +6,7 @@ import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
+import com.flaiker.zero.helper.AnimationManager;
 import com.flaiker.zero.helper.ContactCallback;
 import com.flaiker.zero.screens.GameScreen;
 
@@ -18,10 +19,13 @@ public class Player extends AbstractEntity implements InputProcessor {
     private static final float MAX_SPEED_Y       = 100f;
     private static final float ACCELERATION_JUMP = 2000f;
 
-    private int numFootContacts;
+    private int              numFootContacts;
+    private AnimationManager animationManager;
 
     public Player(World world, float xPos, float yPos) {
         super(world, "player", xPos, yPos);
+        animationManager = new AnimationManager(sprite);
+        animationManager.registerAnimation("walk", AbstractEntity.getEntityTextureAtlas(), 1 / 8f);
     }
 
     public boolean isPlayerOnGround() { return numFootContacts > 0; }
@@ -58,7 +62,6 @@ public class Player extends AbstractEntity implements InputProcessor {
             }
         });
 
-
         return playerBody;
     }
 
@@ -70,6 +73,15 @@ public class Player extends AbstractEntity implements InputProcessor {
     @Override
     public void update() {
         super.update();
+        if (getRequestedDirection() == Direction.NONE) {
+            animationManager.stopAnimation();
+        } else {
+            if (getRequestedDirection() == Direction.LEFT) animationManager.runAnimation("walk", AnimationManager.AnimationDirection.LEFT);
+            else if (getRequestedDirection() == Direction.RIGHT)
+                animationManager.runAnimation("walk", AnimationManager.AnimationDirection.RIGHT);
+        }
+        animationManager.updateSprite();
+        animationManager.updateAnimationFrameDuration("walk", 1f / Math.abs(body.getLinearVelocity().x));
     }
 
     @Override
