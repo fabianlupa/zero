@@ -82,29 +82,52 @@
   </tile>
  </tileset>
  <tileset firstgid="16" name="spawns" tilewidth="64" tileheight="64" spacing="2" margin="2">
-  <image source="../atlases/spawns.png" width="128" height="128"/>
+  <image source="../atlases/spawns.png" width="256" height="128"/>
   <tile id="0">
    <properties>
+    <property name="mobname" value="ball"/>
+    <property name="type" value="mob"/>
+   </properties>
+  </tile>
+  <tile id="1">
+   <properties>
     <property name="type" value="player"/>
+   </properties>
+  </tile>
+  <tile id="2">
+   <properties>
+    <property name="mobname" value="robot"/>
+    <property name="type" value="mob"/>
    </properties>
   </tile>
  </tileset>
  <layer name="bgLayer" width="50" height="15">
   <data encoding="base64" compression="zlib">
-   eJxjYBgFo2AUjIJRMNCAE4hZgJhroB1CIRj1x+ACo/4YnGC4+GMU0B8AADJiAH4=
+   eJxjYKAf4ARiLgrkBwsY9cfgAqP+GFxg1B/k28dCZTNh5o76gzz7KPEHDxDz4jB3KPiDG4ph7uFGw7jE8ckjm40tbKjtD0YkDHMPI5Hi+OSRzWcm0R8wQG4c40ofQ63cHfUH+f4AAOvmBAE=
   </data>
  </layer>
  <layer name="mgLayer" width="50" height="15">
   <data encoding="base64" compression="zlib">
-   eJzdVlsOgCAMm+/3/a8rTVyiCQIThWGT/rJ2KzCif2A1XATc8sj0YjJsBZzzyPQitw/OQ+ycU/m4y+9wnDtSnJdUPkLqxMy6NqwEbB7WsfnoXzr7TSA3rlygXx1d9WvQfQY8IOe+jPPstelncK/RZ60aQwEvpXvQANdeonUHscH1ruPeluJP+n/Y3hvprvnFHroDVqoEpw==
+   eJzdlusKgDAIhdf9/v6v24QGFU2PrVx04PwKnJ86l3P/0Ow9KbzkSVPU4F0rPOZJU1RujjAPqX224ojNb7fF7V0aixUHck5Kr0vvQuGKiXVV81DjK45WEdtKxEAzEsuN6tW4Y/5I3hTXakfuGbjcQu81dac+WuxIlOGuUA6uZ1JP32YgoRzSHEjfG/Ccu0I5uP8S5H69Pb9ofG6v09sk8X2FQ/t+nPcNnRPjfcIdyLECjw0GLg==
   </data>
  </layer>
  <layer name="fgLayer" width="50" height="15">
   <data encoding="base64" compression="zlib">
-   eJxjYBgFo2AUjIJRMApGATGAB4h5B9oRVACcQMw10I6gAhj1x+ACo/6gPQAASgMAeQ==
+   eJzt1LkNADAIQ9FcTa791w0sYClFAkh+0u+hcUpE/y1pgrbdaVe61EDD7rQrRcqgancakSu6XVH2CdHtirJPCP/whX+8dwDZ1gEa
   </data>
  </layer>
  <objectgroup name="ojLayer">
-  <object gid="16" x="192" y="640"/>
+  <object gid="16" x="172" y="604"/>
+  <object gid="17" x="481.333" y="570.333"/>
+  <object gid="18" x="642.667" y="762.667"/>
+  <object gid="16" x="1430.67" y="781.333"/>
+  <object gid="16" x="1734.67" y="844"/>
+  <object gid="16" x="2144" y="852"/>
+  <object gid="16" x="2418.67" y="809.333"/>
+  <object gid="16" x="2482.67" y="718.667"/>
+  <object gid="16" x="2434.67" y="633.333"/>
+  <object gid="16" x="2328" y="610.667"/>
+  <object gid="16" x="2228" y="630.667"/>
+  <object gid="18" x="1900" y="745.333"/>
  </objectgroup>
 </map>

@@ -6,51 +6,22 @@ import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
+import com.flaiker.zero.helper.ContactCallback;
 import com.flaiker.zero.screens.GameScreen;
 
 /**
  * Created by Flaiker on 22.11.2014.
  */
-public class Player extends AbstractEntity implements InputProcessor, ContactListener {
+public class Player extends AbstractEntity implements InputProcessor {
     private static final float MAX_SPEED_X       = 7f;
-    private static final float MAX_SPEED_Y       = 100f;
     private static final float ACCELERATION_X    = 150;
+    private static final float MAX_SPEED_Y       = 100f;
     private static final float ACCELERATION_JUMP = 2000f;
 
-    private Direction requestedDirection;
-    private int       numFootContacts;
-    private float     lastLinearVelocityX;
+    private int numFootContacts;
 
     public Player(World world, float xPos, float yPos) {
-        super(world, "player.png", xPos, yPos);
-        this.requestedDirection = Direction.NONE;
-    }
-
-    private void move() {
-        switch (requestedDirection) {
-            case RIGHT:
-                body.applyForceToCenter(ACCELERATION_X, 0f, true);
-                if (body.getLinearVelocity().x > MAX_SPEED_X) body.setLinearVelocity(MAX_SPEED_X, body.getLinearVelocity().y);
-                break;
-            case LEFT:
-                body.applyForceToCenter(-ACCELERATION_X, 0f, true);
-                if (body.getLinearVelocity().x < -MAX_SPEED_X) body.setLinearVelocity(-MAX_SPEED_X, body.getLinearVelocity().y);
-                break;
-            case NONE:
-                if (body.getLinearVelocity().x > 0) {
-                    body.applyForceToCenter(-ACCELERATION_X, 0f, true);
-                    if (lastLinearVelocityX < 0) body.setLinearVelocity(0, body.getLinearVelocity().y);
-                } else if (body.getLinearVelocity().x < 0) {
-                    body.applyForceToCenter(ACCELERATION_X, 0f, true);
-                    if (lastLinearVelocityX > 0) body.setLinearVelocity(0, body.getLinearVelocity().y);
-                }
-                lastLinearVelocityX = body.getLinearVelocity().x;
-                break;
-        }
-    }
-
-    private void setRequestedDirection(Direction direction) {
-        requestedDirection = direction;
+        super(world, "player", xPos, yPos);
     }
 
     public boolean isPlayerOnGround() { return numFootContacts > 0; }
@@ -75,8 +46,18 @@ public class Player extends AbstractEntity implements InputProcessor, ContactLis
         shape.setAsBox(0.2f, 0.1f, new Vector2(0, -sprite.getHeight() / GameScreen.PIXEL_PER_METER / 2f + 0.1f), 0);
         fdef.shape = shape;
         fdef.isSensor = true;
-        playerBody.createFixture(fdef).setUserData("foot");
-        world.setContactListener(this);
+        playerBody.createFixture(fdef).setUserData(new ContactCallback() {
+            @Override
+            public void onContactStart() {
+                numFootContacts++;
+            }
+
+            @Override
+            public void onContactStop() {
+                numFootContacts--;
+            }
+        });
+
 
         return playerBody;
     }
@@ -89,43 +70,16 @@ public class Player extends AbstractEntity implements InputProcessor, ContactLis
     @Override
     public void update() {
         super.update();
-        move();
     }
 
     @Override
-    public void beginContact(Contact contact) {
-        Fixture fa = contact.getFixtureA();
-        Fixture fb = contact.getFixtureB();
-
-        if (fa.getUserData() != null && fa.getUserData().equals("foot")) {
-            numFootContacts++;
-        }
-        if (fb.getUserData() != null && fb.getUserData().equals("foot")) {
-            numFootContacts++;
-        }
+    protected float getMaxSpeedX() {
+        return MAX_SPEED_X;
     }
 
     @Override
-    public void endContact(Contact contact) {
-        Fixture fa = contact.getFixtureA();
-        Fixture fb = contact.getFixtureB();
-
-        if (fa.getUserData() != null && fa.getUserData().equals("foot")) {
-            numFootContacts--;
-        }
-        if (fb.getUserData() != null && fb.getUserData().equals("foot")) {
-            numFootContacts--;
-        }
-    }
-
-    @Override
-    public void preSolve(Contact contact, Manifold oldManifold) {}
-
-    @Override
-    public void postSolve(Contact contact, ContactImpulse impulse) {}
-
-    public static enum Direction {
-        LEFT, RIGHT, NONE
+    protected float getAccelerationX() {
+        return ACCELERATION_X;
     }
 
     @Override

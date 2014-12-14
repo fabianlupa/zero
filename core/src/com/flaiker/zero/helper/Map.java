@@ -20,6 +20,9 @@ import com.badlogic.gdx.physics.box2d.World;
 import com.flaiker.zero.blocks.AbstractEdgedBlock;
 import com.flaiker.zero.blocks.MetalBlock;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Created by Flaiker on 22.11.2014.
  */
@@ -44,13 +47,17 @@ import com.flaiker.zero.blocks.MetalBlock;
 public class Map {
     public static final String LOG = Map.class.getSimpleName();
 
-    private static final String COLLISION_LAYER_NAME                = "mgLayer";
-    private static final String FOREGROUND_LAYER_NAME               = "fgLayer";
-    private static final String BACKGROUND_LAYER_NAME               = "bgLayer";
-    private static final String SPAWN_LAYER_NAME                    = "ojLayer";
-    private static final String SPAWN_LAYER_OBJECT_TYPE_NAME        = "type";
-    private static final String SPAWN_LAYER_OBJECT_TYPE_PLAYER_NAME = "player";
-    private static final String GID                                 = "gid";
+    private static final String COLLISION_LAYER_NAME                      = "mgLayer";
+    private static final String FOREGROUND_LAYER_NAME                     = "fgLayer";
+    private static final String BACKGROUND_LAYER_NAME                     = "bgLayer";
+    private static final String SPAWN_LAYER_NAME                          = "ojLayer";
+    private static final String SPAWN_LAYER_OBJECT_TYPE_NAME              = "type";
+    private static final String SPAWN_LAYER_OBJECT_TYPE_PLAYER_NAME       = "player";
+    private static final String SPAWN_LAYER_OBJECT_TYPE_MOB_NAME          = "mob";
+    private static final String SPAWN_LAYER_OBJECT_MOB_SUBTYPE_NAME       = "mobname";
+    private static final String SPAWN_LAYER_OBJECT_MOB_SUBTYPE_ROBOT_NAME = "robot";
+    private static final String SPAWN_LAYER_OBJECT_MOB_SUBTYPE_BALL_NAME  = "ball";
+    private static final String GID                                       = "gid";
 
     private static String lastError;
 
@@ -64,6 +71,7 @@ public class Map {
     private OrthogonalTiledMapRenderer mapRenderer;
     private OrthographicCamera         camera;
     private Vector2                    playerSpawnPosition;
+    private List<SpawnArgs>            mobSpawnPositions;
     private SpriteBatch                batch;
 
     public static Map create(String fileName, OrthographicCamera camera, SpriteBatch batch) {
@@ -94,6 +102,7 @@ public class Map {
     private Map(String fileName, OrthographicCamera camera, SpriteBatch batch) {
         this.camera = camera;
         this.batch = batch;
+        mobSpawnPositions = new ArrayList<>();
         loadMap(fileName);
         loadSpawns();
     }
@@ -116,7 +125,7 @@ public class Map {
             if (object instanceof RectangleMapObject) {
                 MapProperties tileProperties = tiledMap.getTileSets().getTile((Integer) object.getProperties().get(GID)).getProperties();
                 if (tileProperties.containsKey(SPAWN_LAYER_OBJECT_TYPE_NAME)) {
-                    String typeName = tileProperties.get("type", String.class);
+                    String typeName = tileProperties.get(SPAWN_LAYER_OBJECT_TYPE_NAME, String.class);
                     switch (typeName) {
                         case SPAWN_LAYER_OBJECT_TYPE_PLAYER_NAME:
                             if (playerSpawnPosition == null) {
@@ -125,6 +134,23 @@ public class Map {
                                 Gdx.app.log(LOG, "Set player spawn to " + playerSpawnPosition.x + "|" + playerSpawnPosition.y);
                             }
                             break;
+                        case SPAWN_LAYER_OBJECT_TYPE_MOB_NAME:
+                            if (tileProperties.containsKey(SPAWN_LAYER_OBJECT_MOB_SUBTYPE_NAME)) {
+                                String subtypeName = tileProperties.get(SPAWN_LAYER_OBJECT_MOB_SUBTYPE_NAME, String.class);
+                                switch (subtypeName) {
+                                    case SPAWN_LAYER_OBJECT_MOB_SUBTYPE_ROBOT_NAME:
+                                        mobSpawnPositions
+                                                .add(new SpawnArgs(((RectangleMapObject) object).getRectangle().getX() / mapTileSize,
+                                                                   ((RectangleMapObject) object).getRectangle().getY() / mapTileSize,
+                                                                   SpawnArgs.SpawnType.MOB_ROBOT));
+                                    case SPAWN_LAYER_OBJECT_MOB_SUBTYPE_BALL_NAME:
+                                        mobSpawnPositions
+                                                .add(new SpawnArgs(((RectangleMapObject) object).getRectangle().getX() / mapTileSize,
+                                                                   ((RectangleMapObject) object).getRectangle().getY() / mapTileSize,
+                                                                   SpawnArgs.SpawnType.MOB_BALL));
+                                }
+
+                            }
                         default:
                             Gdx.app.log(LOG, "Could not interpret spawn position of type " + typeName);
                             break;
@@ -191,5 +217,9 @@ public class Map {
 
     public Vector2 getPlayerSpawnPosition() {
         return playerSpawnPosition;
+    }
+
+    public List<SpawnArgs> getMobSpawnPositions() {
+        return mobSpawnPositions;
     }
 }

@@ -13,8 +13,12 @@ import com.badlogic.gdx.utils.Array;
 import com.flaiker.zero.Zero;
 import com.flaiker.zero.blocks.AbstractBlock;
 import com.flaiker.zero.entities.AbstractEntity;
+import com.flaiker.zero.entities.BallMob;
 import com.flaiker.zero.entities.Player;
+import com.flaiker.zero.entities.RobotMob;
 import com.flaiker.zero.helper.Map;
+import com.flaiker.zero.helper.SpawnArgs;
+import com.flaiker.zero.helper.WorldContactListener;
 
 /**
  * Screen where the game is played on
@@ -43,6 +47,7 @@ public class GameScreen extends AbstractScreen implements InputProcessor {
         world = new World(new Vector2(0, -10), true);
         debugRenderer = new Box2DDebugRenderer();
         renderMode = RenderMode.GAME;
+        world.setContactListener(new WorldContactListener());
         inputMultiplexer = new InputMultiplexer(this);
         Gdx.input.setInputProcessor(inputMultiplexer);
         bodies = new Array<>();
@@ -92,6 +97,18 @@ public class GameScreen extends AbstractScreen implements InputProcessor {
         Vector2 playerSpawnPos = map.getPlayerSpawnPosition();
         player = new Player(world, playerSpawnPos.x, playerSpawnPos.y);
         inputMultiplexer.addProcessor(player);
+
+        // create the mobs
+        for (SpawnArgs mobSpawn : map.getMobSpawnPositions()) {
+            switch (mobSpawn.getSpawnType()) {
+                case MOB_ROBOT:
+                    RobotMob testMob = new RobotMob(world, mobSpawn.getX(), mobSpawn.getY());
+                    break;
+                case MOB_BALL:
+                    BallMob testBall = new BallMob(world, mobSpawn.getX(), mobSpawn.getY());
+                    break;
+            }
+        }
     }
 
     @Override
