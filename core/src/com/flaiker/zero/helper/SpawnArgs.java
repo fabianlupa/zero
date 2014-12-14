@@ -27,6 +27,6 @@ public class SpawnArgs {
     }
 
     public enum SpawnType {
-        MOB_ROBOT, MOB_ZOMBIE, ITEM_HEALTH_BOOST
+        MOB_ROBOT, MOB_BALL, MOB_ZOMBIE, ITEM_HEALTH_BOOST
     }
 }

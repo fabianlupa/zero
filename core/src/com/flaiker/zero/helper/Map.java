@@ -56,6 +56,7 @@ public class Map {
     private static final String SPAWN_LAYER_OBJECT_TYPE_MOB_NAME          = "mob";
     private static final String SPAWN_LAYER_OBJECT_MOB_SUBTYPE_NAME       = "mobname";
     private static final String SPAWN_LAYER_OBJECT_MOB_SUBTYPE_ROBOT_NAME = "robot";
+    private static final String SPAWN_LAYER_OBJECT_MOB_SUBTYPE_BALL_NAME  = "ball";
     private static final String GID                                       = "gid";
 
     private static String lastError;
@@ -142,6 +143,11 @@ public class Map {
                                                 .add(new SpawnArgs(((RectangleMapObject) object).getRectangle().getX() / mapTileSize,
                                                                    ((RectangleMapObject) object).getRectangle().getY() / mapTileSize,
                                                                    SpawnArgs.SpawnType.MOB_ROBOT));
+                                    case SPAWN_LAYER_OBJECT_MOB_SUBTYPE_BALL_NAME:
+                                        mobSpawnPositions
+                                                .add(new SpawnArgs(((RectangleMapObject) object).getRectangle().getX() / mapTileSize,
+                                                                   ((RectangleMapObject) object).getRectangle().getY() / mapTileSize,
+                                                                   SpawnArgs.SpawnType.MOB_BALL));
                                 }
 
                             }

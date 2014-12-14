@@ -13,6 +13,7 @@ import com.badlogic.gdx.utils.Array;
 import com.flaiker.zero.Zero;
 import com.flaiker.zero.blocks.AbstractBlock;
 import com.flaiker.zero.entities.AbstractEntity;
+import com.flaiker.zero.entities.BallMob;
 import com.flaiker.zero.entities.Player;
 import com.flaiker.zero.entities.RobotMob;
 import com.flaiker.zero.helper.Map;
@@ -102,6 +103,9 @@ public class GameScreen extends AbstractScreen implements InputProcessor {
             switch (mobSpawn.getSpawnType()) {
                 case MOB_ROBOT:
                     RobotMob testMob = new RobotMob(world, mobSpawn.getX(), mobSpawn.getY());
+                    break;
+                case MOB_BALL:
+                    BallMob testBall = new BallMob(world, mobSpawn.getX(), mobSpawn.getY());
                     break;
             }
         }
