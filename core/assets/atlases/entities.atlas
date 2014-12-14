@@ -1,12 +1,12 @@
 
 entities.png
-size: 256,128
+size: 1024,128
 format: RGBA8888
 filter: Nearest,Nearest
 repeat: none
 ballMob
   rotate: false
-  xy: 119, 40
+  xy: 578, 40
   size: 54, 54
   orig: 54, 54
   offset: 0, 0
@@ -14,6 +14,118 @@ ballMob
 player
   rotate: false
   xy: 68, 13
+  size: 49, 81
+  orig: 49, 81
+  offset: 0, 0
+  index: -1
+player_walk-00
+  rotate: false
+  xy: 119, 13
+  size: 49, 81
+  orig: 49, 81
+  offset: 0, 0
+  index: -1
+player_walk-08
+  rotate: false
+  xy: 119, 13
+  size: 49, 81
+  orig: 49, 81
+  offset: 0, 0
+  index: -1
+player_walk-01
+  rotate: false
+  xy: 170, 13
+  size: 49, 81
+  orig: 49, 81
+  offset: 0, 0
+  index: -1
+player_walk-07
+  rotate: false
+  xy: 170, 13
+  size: 49, 81
+  orig: 49, 81
+  offset: 0, 0
+  index: -1
+player_walk-02
+  rotate: false
+  xy: 221, 13
+  size: 49, 81
+  orig: 49, 81
+  offset: 0, 0
+  index: -1
+player_walk-06
+  rotate: false
+  xy: 221, 13
+  size: 49, 81
+  orig: 49, 81
+  offset: 0, 0
+  index: -1
+player_walk-03
+  rotate: false
+  xy: 272, 13
+  size: 49, 81
+  orig: 49, 81
+  offset: 0, 0
+  index: -1
+player_walk-05
+  rotate: false
+  xy: 272, 13
+  size: 49, 81
+  orig: 49, 81
+  offset: 0, 0
+  index: -1
+player_walk-04
+  rotate: false
+  xy: 323, 13
+  size: 49, 81
+  orig: 49, 81
+  offset: 0, 0
+  index: -1
+player_walk-09
+  rotate: false
+  xy: 374, 13
+  size: 49, 81
+  orig: 49, 81
+  offset: 0, 0
+  index: -1
+player_walk-15
+  rotate: false
+  xy: 374, 13
+  size: 49, 81
+  orig: 49, 81
+  offset: 0, 0
+  index: -1
+player_walk-10
+  rotate: false
+  xy: 425, 13
+  size: 49, 81
+  orig: 49, 81
+  offset: 0, 0
+  index: -1
+player_walk-14
+  rotate: false
+  xy: 425, 13
+  size: 49, 81
+  orig: 49, 81
+  offset: 0, 0
+  index: -1
+player_walk-11
+  rotate: false
+  xy: 476, 13
+  size: 49, 81
+  orig: 49, 81
+  offset: 0, 0
+  index: -1
+player_walk-13
+  rotate: false
+  xy: 476, 13
+  size: 49, 81
+  orig: 49, 81
+  offset: 0, 0
+  index: -1
+player_walk-12
+  rotate: false
+  xy: 527, 13
   size: 49, 81
   orig: 49, 81
   offset: 0, 0
