@@ -6,133 +6,224 @@ filter: Nearest,Nearest
 repeat: none
 ballMob
   rotate: false
-  xy: 578, 40
+  xy: 578, 58
+  size: 54, 54
+  orig: 54, 54
+  offset: 0, 0
+  index: -1
+ballMob_idle-00
+  rotate: false
+  xy: 634, 58
+  size: 54, 54
+  orig: 54, 54
+  offset: 0, 0
+  index: -1
+ballMob_idle-12
+  rotate: false
+  xy: 634, 58
+  size: 54, 54
+  orig: 54, 54
+  offset: 0, 0
+  index: -1
+ballMob_idle-01
+  rotate: false
+  xy: 690, 58
+  size: 54, 54
+  orig: 54, 54
+  offset: 0, 0
+  index: -1
+ballMob_idle-11
+  rotate: false
+  xy: 690, 58
+  size: 54, 54
+  orig: 54, 54
+  offset: 0, 0
+  index: -1
+ballMob_idle-02
+  rotate: false
+  xy: 746, 58
+  size: 54, 54
+  orig: 54, 54
+  offset: 0, 0
+  index: -1
+ballMob_idle-10
+  rotate: false
+  xy: 746, 58
+  size: 54, 54
+  orig: 54, 54
+  offset: 0, 0
+  index: -1
+ballMob_idle-03
+  rotate: false
+  xy: 802, 58
+  size: 54, 54
+  orig: 54, 54
+  offset: 0, 0
+  index: -1
+ballMob_idle-09
+  rotate: false
+  xy: 802, 58
+  size: 54, 54
+  orig: 54, 54
+  offset: 0, 0
+  index: -1
+ballMob_idle-04
+  rotate: false
+  xy: 858, 58
+  size: 54, 54
+  orig: 54, 54
+  offset: 0, 0
+  index: -1
+ballMob_idle-08
+  rotate: false
+  xy: 858, 58
+  size: 54, 54
+  orig: 54, 54
+  offset: 0, 0
+  index: -1
+ballMob_idle-05
+  rotate: false
+  xy: 914, 58
+  size: 54, 54
+  orig: 54, 54
+  offset: 0, 0
+  index: -1
+ballMob_idle-07
+  rotate: false
+  xy: 914, 58
+  size: 54, 54
+  orig: 54, 54
+  offset: 0, 0
+  index: -1
+ballMob_idle-06
+  rotate: false
+  xy: 578, 2
   size: 54, 54
   orig: 54, 54
   offset: 0, 0
   index: -1
 player
   rotate: false
-  xy: 68, 13
+  xy: 68, 31
   size: 49, 81
   orig: 49, 81
   offset: 0, 0
   index: -1
 player_walk-00
   rotate: false
-  xy: 119, 13
+  xy: 119, 31
   size: 49, 81
   orig: 49, 81
   offset: 0, 0
   index: -1
 player_walk-08
   rotate: false
-  xy: 119, 13
+  xy: 119, 31
   size: 49, 81
   orig: 49, 81
   offset: 0, 0
   index: -1
 player_walk-01
   rotate: false
-  xy: 170, 13
+  xy: 170, 31
   size: 49, 81
   orig: 49, 81
   offset: 0, 0
   index: -1
 player_walk-07
   rotate: false
-  xy: 170, 13
+  xy: 170, 31
   size: 49, 81
   orig: 49, 81
   offset: 0, 0
   index: -1
 player_walk-02
   rotate: false
-  xy: 221, 13
+  xy: 221, 31
   size: 49, 81
   orig: 49, 81
   offset: 0, 0
   index: -1
 player_walk-06
   rotate: false
-  xy: 221, 13
+  xy: 221, 31
   size: 49, 81
   orig: 49, 81
   offset: 0, 0
   index: -1
 player_walk-03
   rotate: false
-  xy: 272, 13
+  xy: 272, 31
   size: 49, 81
   orig: 49, 81
   offset: 0, 0
   index: -1
 player_walk-05
   rotate: false
-  xy: 272, 13
+  xy: 272, 31
   size: 49, 81
   orig: 49, 81
   offset: 0, 0
   index: -1
 player_walk-04
   rotate: false
-  xy: 323, 13
+  xy: 323, 31
   size: 49, 81
   orig: 49, 81
   offset: 0, 0
   index: -1
 player_walk-09
   rotate: false
-  xy: 374, 13
+  xy: 374, 31
   size: 49, 81
   orig: 49, 81
   offset: 0, 0
   index: -1
 player_walk-15
   rotate: false
-  xy: 374, 13
+  xy: 374, 31
   size: 49, 81
   orig: 49, 81
   offset: 0, 0
   index: -1
 player_walk-10
   rotate: false
-  xy: 425, 13
+  xy: 425, 31
   size: 49, 81
   orig: 49, 81
   offset: 0, 0
   index: -1
 player_walk-14
   rotate: false
-  xy: 425, 13
+  xy: 425, 31
   size: 49, 81
   orig: 49, 81
   offset: 0, 0
   index: -1
 player_walk-11
   rotate: false
-  xy: 476, 13
+  xy: 476, 31
   size: 49, 81
   orig: 49, 81
   offset: 0, 0
   index: -1
 player_walk-13
   rotate: false
-  xy: 476, 13
+  xy: 476, 31
   size: 49, 81
   orig: 49, 81
   offset: 0, 0
   index: -1
 player_walk-12
   rotate: false
-  xy: 527, 13
+  xy: 527, 31
   size: 49, 81
   orig: 49, 81
   offset: 0, 0
   index: -1
 robotMob
   rotate: false
-  xy: 2, 2
+  xy: 2, 20
   size: 64, 92
   orig: 64, 92
   offset: 0, 0
