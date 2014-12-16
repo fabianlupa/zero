@@ -3,6 +3,7 @@ package com.flaiker.zero.entities;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.physics.box2d.joints.RevoluteJointDef;
+import com.flaiker.zero.helper.AnimationManager;
 import com.flaiker.zero.helper.ContactCallback;
 import com.flaiker.zero.screens.GameScreen;
 
@@ -13,11 +14,16 @@ public class BallMob extends AbstractMob {
     private static final float MAX_SPEED_X    = 2f;
     private static final float ACCELERATION_X = 100f;
 
+    private AnimationManager animationManager;
     private boolean wallRight = false;
-    private boolean wallLeft = false;
+    private boolean wallLeft  = false;
 
     public BallMob(World world, float xPosMeter, float yPosMeter) {
         super(world, "ballMob", xPosMeter, yPosMeter, 5);
+        animationManager = new AnimationManager(sprite);
+        animationManager.setMaximumAddedIdleTime(4f);
+        animationManager.setMinimumIdleTime(5f);
+        animationManager.registerIdleAnimation("ballMob", "idle", AbstractEntity.getEntityTextureAtlas(), 1 / 16f);
     }
 
     @Override
@@ -97,6 +103,7 @@ public class BallMob extends AbstractMob {
         super.update();
         if (getRequestedDirection() == Direction.NONE) setRequestedDirection(Direction.RIGHT);
         aiWalk();
+        animationManager.updateSprite();
     }
 
     private void aiWalk() {
