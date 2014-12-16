@@ -25,7 +25,10 @@ public class Player extends AbstractEntity implements InputProcessor {
     public Player(World world, float xPos, float yPos) {
         super(world, "player", xPos, yPos);
         animationManager = new AnimationManager(sprite);
+        animationManager.setMaximumAddedIdleTime(2f);
+        animationManager.setMinimumIdleTime(5f);
         animationManager.registerAnimation("player", "walk" , AbstractEntity.getEntityTextureAtlas(), 1 / 8f);
+        animationManager.registerIdleAnimation("player", "idle", AbstractEntity.getEntityTextureAtlas(), 1 / 4f);
     }
 
     public boolean isPlayerOnGround() { return numFootContacts > 0; }
@@ -73,15 +76,25 @@ public class Player extends AbstractEntity implements InputProcessor {
     @Override
     public void update() {
         super.update();
-        if (getRequestedDirection() == Direction.NONE) {
-            animationManager.stopAnimation();
-        } else {
-            if (getRequestedDirection() == Direction.LEFT) animationManager.runAnimation("walk", AnimationManager.AnimationDirection.LEFT);
-            else if (getRequestedDirection() == Direction.RIGHT)
-                animationManager.runAnimation("walk", AnimationManager.AnimationDirection.RIGHT);
-        }
         animationManager.updateSprite();
         animationManager.updateAnimationFrameDuration("walk", 1f / Math.abs(body.getLinearVelocity().x));
+    }
+
+    @Override
+    protected void setRequestedDirection(Direction direction) {
+        super.setRequestedDirection(direction);
+        switch (direction) {
+            case LEFT:
+                animationManager.runAnimation("walk", AnimationManager.AnimationDirection.LEFT);
+                break;
+            case RIGHT:
+                animationManager.runAnimation("walk", AnimationManager.AnimationDirection.RIGHT);
+                break;
+            case NONE:
+                animationManager.stopAnimation();
+                break;
+        }
+
     }
 
     @Override
