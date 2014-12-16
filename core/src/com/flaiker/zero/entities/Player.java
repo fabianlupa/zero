@@ -25,7 +25,7 @@ public class Player extends AbstractEntity implements InputProcessor {
     public Player(World world, float xPos, float yPos) {
         super(world, "player", xPos, yPos);
         animationManager = new AnimationManager(sprite);
-        animationManager.registerAnimation("walk", AbstractEntity.getEntityTextureAtlas(), 1 / 8f);
+        animationManager.registerAnimation("player", "walk" , AbstractEntity.getEntityTextureAtlas(), 1 / 8f);
     }
 
     public boolean isPlayerOnGround() { return numFootContacts > 0; }
