@@ -18,17 +18,24 @@ public class Player extends AbstractEntity implements InputProcessor {
     private static final float ACCELERATION_X    = 150;
     private static final float MAX_SPEED_Y       = 100f;
     private static final float ACCELERATION_JUMP = 2000f;
+    private static final int   MAX_HEALTH        = 5;
 
     private int              numFootContacts;
     private AnimationManager animationManager;
+    private int              currentHealth;
 
     public Player(World world, float xPos, float yPos) {
         super(world, "player", xPos, yPos);
         animationManager = new AnimationManager(sprite);
         animationManager.setMaximumAddedIdleTime(2f);
         animationManager.setMinimumIdleTime(5f);
-        animationManager.registerAnimation("player", "walk" , AbstractEntity.getEntityTextureAtlas(), 1 / 8f);
+        animationManager.registerAnimation("player", "walk", AbstractEntity.getEntityTextureAtlas(), 1 / 8f);
         animationManager.registerIdleAnimation("player", "idle", AbstractEntity.getEntityTextureAtlas(), 1 / 4f);
+        currentHealth = MAX_HEALTH;
+    }
+
+    public int getCurrentHealth() {
+        return currentHealth;
     }
 
     public boolean isPlayerOnGround() { return numFootContacts > 0; }
