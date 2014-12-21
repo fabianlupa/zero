@@ -108,7 +108,7 @@
  </layer>
  <layer name="mgLayer" width="50" height="15">
   <data encoding="base64" compression="zlib">
-   eJzdlusKgDAIhdf9/v6v24QGFU2PrVx04PwKnJ86l3P/0Ow9KbzkSVPU4F0rPOZJU1RujjAPqX224ojNb7fF7V0aixUHck5Kr0vvQuGKiXVV81DjK45WEdtKxEAzEsuN6tW4Y/5I3hTXakfuGbjcQu81dac+WuxIlOGuUA6uZ1JP32YgoRzSHEjfG/Ccu0I5uP8S5H69Pb9ofG6v09sk8X2FQ/t+nPcNnRPjfcIdyLECjw0GLg==
+   eJztldsOgCAMQ+cF7/7/78oeTNQIa40iMTbpEwn0MDZEvqHJeyQ8vxPTVO9dEx7eiWnq58hLqTjYPmR7tvQuCFdk1nUunN1XQ+ydSsrQSjib3peTfX4kt+6bakZuGWLZ1toz9651TNGTKMNVoRyxmlk1fZpBhXJY78Bad+A5V4VyxOYh0l9Pv190/9j/0YnNlwsH+38c542eE+K9wy3IsQA/bwZ/
   </data>
  </layer>
  <layer name="fgLayer" width="50" height="15">

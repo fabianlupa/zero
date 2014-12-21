@@ -2,6 +2,7 @@ package com.flaiker.zero.entities;
 
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
+import com.flaiker.zero.helper.AnimationManager;
 import com.flaiker.zero.helper.ContactCallback;
 import com.flaiker.zero.screens.GameScreen;
 
@@ -13,10 +14,13 @@ public class RobotMob extends AbstractMob {
     private static final float ACCELERATION_X = 500f;
 
     private boolean wallRight = false;
-    private boolean wallLeft = false;
+    private boolean wallLeft  = false;
+    private AnimationManager animationManager;
 
     public RobotMob(World world, float xPosMeter, float yPosMeter) {
         super(world, "robotMob", xPosMeter, yPosMeter, 5);
+        animationManager = new AnimationManager(sprite);
+        animationManager.registerAnimation("robotMob", "walk" , AbstractEntity.getEntityTextureAtlas(), 1 / 16f);
     }
 
     @Override
@@ -74,8 +78,13 @@ public class RobotMob extends AbstractMob {
     @Override
     public void update() {
         super.update();
-        if (getRequestedDirection() == Direction.NONE) setRequestedDirection(Direction.RIGHT);
+        if (getRequestedDirection() == Direction.NONE) {
+            setRequestedDirection(Direction.RIGHT);
+            animationManager.runAnimation("walk", AnimationManager.AnimationDirection.LEFT);
+        }
         aiWalk();
+        animationManager.updateSprite();
+        //animationManager.updateAnimationFrameDuration("walk", 1f / Math.abs(body.getLinearVelocity().x));
     }
 
     private void aiWalk() {

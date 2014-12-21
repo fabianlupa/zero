@@ -6,6 +6,7 @@ import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
+import com.flaiker.zero.helper.AnimationManager;
 import com.flaiker.zero.helper.ContactCallback;
 import com.flaiker.zero.screens.GameScreen;
 
@@ -18,10 +19,16 @@ public class Player extends AbstractEntity implements InputProcessor {
     private static final float MAX_SPEED_Y       = 100f;
     private static final float ACCELERATION_JUMP = 2000f;
 
-    private int numFootContacts;
+    private int              numFootContacts;
+    private AnimationManager animationManager;
 
     public Player(World world, float xPos, float yPos) {
         super(world, "player", xPos, yPos);
+        animationManager = new AnimationManager(sprite);
+        animationManager.setMaximumAddedIdleTime(2f);
+        animationManager.setMinimumIdleTime(5f);
+        animationManager.registerAnimation("player", "walk" , AbstractEntity.getEntityTextureAtlas(), 1 / 8f);
+        animationManager.registerIdleAnimation("player", "idle", AbstractEntity.getEntityTextureAtlas(), 1 / 4f);
     }
 
     public boolean isPlayerOnGround() { return numFootContacts > 0; }
@@ -58,7 +65,6 @@ public class Player extends AbstractEntity implements InputProcessor {
             }
         });
 
-
         return playerBody;
     }
 
@@ -70,6 +76,25 @@ public class Player extends AbstractEntity implements InputProcessor {
     @Override
     public void update() {
         super.update();
+        animationManager.updateSprite();
+        animationManager.updateAnimationFrameDuration("walk", 1f / Math.abs(body.getLinearVelocity().x));
+    }
+
+    @Override
+    protected void setRequestedDirection(Direction direction) {
+        super.setRequestedDirection(direction);
+        switch (direction) {
+            case LEFT:
+                animationManager.runAnimation("walk", AnimationManager.AnimationDirection.LEFT);
+                break;
+            case RIGHT:
+                animationManager.runAnimation("walk", AnimationManager.AnimationDirection.RIGHT);
+                break;
+            case NONE:
+                animationManager.stopAnimation();
+                break;
+        }
+
     }
 
     @Override
