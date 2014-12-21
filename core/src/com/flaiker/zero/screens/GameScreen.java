@@ -19,7 +19,9 @@ import com.flaiker.zero.helper.Map;
 import com.flaiker.zero.helper.SpawnArgs;
 import com.flaiker.zero.helper.WorldContactListener;
 import com.flaiker.zero.services.ConsoleManager;
+import com.flaiker.zero.ui.AbilityListItem;
 import com.flaiker.zero.ui.Healthbar;
+import com.flaiker.zero.ui.AbilityList;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -43,6 +45,7 @@ public class GameScreen extends AbstractScreen implements InputProcessor, Consol
     private float       accumulator;
     private Array<Body> bodies;
     private Healthbar   healthbar;
+    private AbilityList abilityList;
 
     public GameScreen(Zero zero) {
         super(zero);
@@ -121,6 +124,12 @@ public class GameScreen extends AbstractScreen implements InputProcessor, Consol
         healthbar.setPosition(0, SCREEN_HEIGHT - 55);
         healthbar.setSize(224, 55);
         uiStage.addActor(healthbar);
+
+        abilityList = new AbilityList(skin);
+        uiStage.addActor(abilityList.getActor());
+        // testabilities to make the list not empty
+        abilityList.addAbility(new AbilityListItem("Fireball", skin));
+        abilityList.addAbility(new AbilityListItem("Freeze", skin));
     }
 
     @Override
@@ -184,6 +193,10 @@ public class GameScreen extends AbstractScreen implements InputProcessor, Consol
             case Input.Keys.F3:
                 renderMode = RenderMode.TILED;
                 Gdx.app.log(LOG, "Set rendermode to TILED");
+                keyProcessed = true;
+                break;
+            case Input.Keys.TAB:
+                abilityList.switchState();
                 keyProcessed = true;
                 break;
         }
