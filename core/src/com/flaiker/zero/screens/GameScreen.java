@@ -2,7 +2,6 @@ package com.flaiker.zero.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
-import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.Vector2;
@@ -36,7 +35,6 @@ public class GameScreen extends AbstractScreen implements InputProcessor {
     private Map              map;
     private Player           player;
     private RenderMode       renderMode;
-    private InputMultiplexer inputMultiplexer;
     private float            accumulator;
     private Array<Body>      bodies;
 
@@ -48,8 +46,7 @@ public class GameScreen extends AbstractScreen implements InputProcessor {
         debugRenderer = new Box2DDebugRenderer();
         renderMode = RenderMode.GAME;
         world.setContactListener(new WorldContactListener());
-        inputMultiplexer = new InputMultiplexer(this);
-        Gdx.input.setInputProcessor(inputMultiplexer);
+        addInputProcessor(this);
         bodies = new Array<>();
     }
 
@@ -96,7 +93,7 @@ public class GameScreen extends AbstractScreen implements InputProcessor {
         // create the player
         Vector2 playerSpawnPos = map.getPlayerSpawnPosition();
         player = new Player(world, playerSpawnPos.x, playerSpawnPos.y);
-        inputMultiplexer.addProcessor(player);
+        addInputProcessor(player);
 
         // create the mobs
         for (SpawnArgs mobSpawn : map.getMobSpawnPositions()) {
