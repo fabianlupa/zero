@@ -45,6 +45,7 @@ public class Healthbar extends Actor {
     @Override
     public void draw(Batch batch, float parentAlpha) {
         super.draw(batch, parentAlpha);
+        batch.setColor(1, 1, 1, 1); // reset the alpha value of the batch after the abilityscrollpanel somehow messed it up -_-
         backgroundSprite.setPosition(getX(), getY());
         backgroundSprite.setSize(getWidth(), getHeight());
         backgroundSprite.draw(batch);
