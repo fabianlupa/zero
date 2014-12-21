@@ -2,6 +2,7 @@ package com.flaiker.zero.ui;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.graphics.g2d.NinePatch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 
@@ -11,9 +12,9 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 public class Healthbar extends Actor {
     private static final int BAR_INNER_WIDTH = 218;
 
-    private Sprite  backgroundSprite;
-    private Sprite  foregroundSprite;
-    private Texture blockTexture;
+    private Sprite    backgroundSprite;
+    private Sprite    foregroundSprite;
+    private NinePatch blockNinePatch;
 
     private int currentHealth;
     private int maxHealth;
@@ -21,7 +22,8 @@ public class Healthbar extends Actor {
     public Healthbar() {
         backgroundSprite = new Sprite(new Texture("ingameui/healthbar_bg.png"));
         foregroundSprite = new Sprite(new Texture("ingameui/healthbar_fg.png"));
-        blockTexture = new Texture("ingameui/healthbar_block.png");
+        blockNinePatch = new NinePatch(new Texture("ingameui/healthbar_block.png"), 4, 4, 4, 4);
+
     }
 
     public int getCurrentHealth() {
@@ -48,8 +50,8 @@ public class Healthbar extends Actor {
         backgroundSprite.draw(batch);
 
         for (int i = 0; i < currentHealth; i++) {
-            batch.draw(blockTexture, getX() + 4 + i * BAR_INNER_WIDTH / maxHealth, getY() + 1, BAR_INNER_WIDTH / maxHealth,
-                       blockTexture.getHeight());
+            blockNinePatch.draw(batch, getX() + 4 + i * BAR_INNER_WIDTH / maxHealth, getY() + 1, BAR_INNER_WIDTH / maxHealth,
+                                blockNinePatch.getTexture().getHeight());
         }
 
         foregroundSprite.setPosition(getX(), getY());
