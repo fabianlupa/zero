@@ -18,11 +18,16 @@ import com.flaiker.zero.entities.RobotMob;
 import com.flaiker.zero.helper.Map;
 import com.flaiker.zero.helper.SpawnArgs;
 import com.flaiker.zero.helper.WorldContactListener;
+import com.flaiker.zero.services.ConsoleManager;
+import com.flaiker.zero.ui.Healthbar;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Screen where the game is played on
  */
-public class GameScreen extends AbstractScreen implements InputProcessor {
+public class GameScreen extends AbstractScreen implements InputProcessor, ConsoleManager.CommandableInstance {
     private static final float TIME_STEP           = 1 / 300f;
     private static final int   VELOCITY_ITERATIONS = 6;
     private static final int   POSITION_ITERATIONS = 2;
@@ -32,11 +37,12 @@ public class GameScreen extends AbstractScreen implements InputProcessor {
     private final Box2DDebugRenderer debugRenderer;
     private final OrthographicCamera box2dCamera;
 
-    private Map              map;
-    private Player           player;
-    private RenderMode       renderMode;
-    private float            accumulator;
-    private Array<Body>      bodies;
+    private Map         map;
+    private Player      player;
+    private RenderMode  renderMode;
+    private float       accumulator;
+    private Array<Body> bodies;
+    private Healthbar   healthbar;
 
     public GameScreen(Zero zero) {
         super(zero);
@@ -75,6 +81,10 @@ public class GameScreen extends AbstractScreen implements InputProcessor {
             }
             //else camera.position.x = getMap().getMapWidthAsScreenUnits() - (SCREEN_WIDTH / 2f);
         }
+
+        // update healthbar
+        healthbar.setMaxHealth(player.getMaxHealth());
+        healthbar.setCurrentHealth(player.getCurrentHealth());
     }
 
     @Override
@@ -106,6 +116,11 @@ public class GameScreen extends AbstractScreen implements InputProcessor {
                     break;
             }
         }
+
+        healthbar = new Healthbar();
+        healthbar.setPosition(0, SCREEN_HEIGHT - 55);
+        healthbar.setSize(224, 55);
+        uiStage.addActor(healthbar);
     }
 
     @Override
@@ -204,6 +219,14 @@ public class GameScreen extends AbstractScreen implements InputProcessor {
     @Override
     public boolean scrolled(int amount) {
         return false;
+    }
+
+    @Override
+    public List<ConsoleManager.ConsoleCommand> getConsoleCommands() {
+        List<ConsoleManager.ConsoleCommand> outList = new ArrayList<>();
+        outList.addAll(player.getConsoleCommands());
+
+        return outList;
     }
 
     private enum RenderMode {

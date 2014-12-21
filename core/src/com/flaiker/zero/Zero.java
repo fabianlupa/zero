@@ -2,6 +2,7 @@ package com.flaiker.zero;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Screen;
 import com.flaiker.zero.screens.AbstractScreen;
 import com.flaiker.zero.screens.MenuScreen;
 import com.flaiker.zero.services.ConsoleManager;
@@ -78,6 +79,14 @@ public class Zero extends Game {
         Gdx.app.log(LOG, "Resizing game to: " + width + " x " + height);
 
         if (getScreen() == null) setScreen(new MenuScreen(this));
+    }
+
+    @Override
+    public void setScreen(Screen screen) {
+        super.setScreen(screen);
+        initializeConsoleCommands();
+        if (screen instanceof ConsoleManager.CommandableInstance)
+            consoleManager.addCommands(((ConsoleManager.CommandableInstance) screen).getConsoleCommands());
     }
 
     public PreferencesManager getPreferencesManager() {
