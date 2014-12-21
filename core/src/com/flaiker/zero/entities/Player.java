@@ -6,6 +6,7 @@ import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
+import com.flaiker.zero.abilities.AbstractAbility;
 import com.flaiker.zero.helper.AnimationManager;
 import com.flaiker.zero.helper.ContactCallback;
 import com.flaiker.zero.screens.GameScreen;
@@ -31,6 +32,7 @@ public class Player extends AbstractEntity implements InputProcessor, ConsoleMan
     private AnimationManager animationManager;
     private int              currentHealth;
     private int              maxHealth;
+    private AbstractAbility  selectedAbility;
 
     public Player(World world, float xPos, float yPos) {
         super(world, "player", xPos, yPos);
@@ -41,6 +43,7 @@ public class Player extends AbstractEntity implements InputProcessor, ConsoleMan
         animationManager.registerIdleAnimation("player", "idle", AbstractEntity.getEntityTextureAtlas(), 1 / 4f);
         currentHealth = MAX_HEALTH;
         maxHealth = MAX_HEALTH;
+        selectedAbility = null;
     }
 
     public int getCurrentHealth() {
@@ -52,6 +55,11 @@ public class Player extends AbstractEntity implements InputProcessor, ConsoleMan
     }
 
     public boolean isPlayerOnGround() { return numFootContacts > 0; }
+
+    public void switchSelectedAbility(AbstractAbility ability) {
+        selectedAbility = ability;
+        Gdx.app.log(LOG, "Selected ability changed to: " + selectedAbility.getName());
+    }
 
     @Override
     protected Body createBody(World world) {

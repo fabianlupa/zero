@@ -10,6 +10,7 @@ import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Array;
 import com.flaiker.zero.Zero;
+import com.flaiker.zero.abilities.FireballAbility;
 import com.flaiker.zero.blocks.AbstractBlock;
 import com.flaiker.zero.entities.AbstractEntity;
 import com.flaiker.zero.entities.BallMob;
@@ -19,7 +20,6 @@ import com.flaiker.zero.helper.Map;
 import com.flaiker.zero.helper.SpawnArgs;
 import com.flaiker.zero.helper.WorldContactListener;
 import com.flaiker.zero.services.ConsoleManager;
-import com.flaiker.zero.ui.AbilityListItem;
 import com.flaiker.zero.ui.Healthbar;
 import com.flaiker.zero.ui.AbilityList;
 
@@ -125,11 +125,11 @@ public class GameScreen extends AbstractScreen implements InputProcessor, Consol
         healthbar.setSize(224, 55);
         uiStage.addActor(healthbar);
 
-        abilityList = new AbilityList(skin);
+        abilityList = new AbilityList(player, skin);
         uiStage.addActor(abilityList.getActor());
         // testabilities to make the list not empty
-        abilityList.addAbility(new AbilityListItem("Fireball", skin));
-        abilityList.addAbility(new AbilityListItem("Freeze", skin));
+        abilityList.addAbility(new FireballAbility(skin));
+        abilityList.addAbility(new FireballAbility(skin));
     }
 
     @Override

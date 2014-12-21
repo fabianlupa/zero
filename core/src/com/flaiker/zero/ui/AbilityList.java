@@ -2,10 +2,10 @@ package com.flaiker.zero.ui;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.scenes.scene2d.ui.ButtonGroup;
-import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.scenes.scene2d.ui.VerticalGroup;
+import com.badlogic.gdx.scenes.scene2d.ui.*;
+import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
+import com.flaiker.zero.abilities.AbstractAbility;
+import com.flaiker.zero.entities.Player;
 
 import java.util.ArrayList;
 
@@ -17,12 +17,14 @@ public class AbilityList {
     private VerticalGroup verticalGroup;
     private ButtonGroup   buttonGroup;
 
-    private boolean               open;
-    private ArrayList<AbilityListItem> abilityList;
+    private boolean                    open;
+    private ArrayList<AbstractAbility> abilityList;
+    private Player                     player;
 
-    public AbilityList(Skin skin) {
+    public AbilityList(Player player, Skin skin) {
         abilityList = new ArrayList<>();
         open = false;
+        this.player = player;
 
         verticalGroup = new VerticalGroup();
 
@@ -46,19 +48,32 @@ public class AbilityList {
         verticalGroup.clear();
         buttonGroup.clear();
 
-        for (AbilityListItem item : abilityList) {
+        for (final AbstractAbility item : abilityList) {
             verticalGroup.addActor(item.getImageTextButton());
             verticalGroup.fill();
-            buttonGroup.add(item.getImageTextButton());
+            ImageTextButton button = item.getImageTextButton();
+            button.addListener(new ChangeListener() {
+                @Override
+                public void changed(ChangeEvent event, Actor actor) {
+                    if (actor instanceof ImageTextButton) {
+                        if (((ImageTextButton) actor).isChecked()) selectAbility((AbstractAbility) actor.getUserObject());
+                    }
+                }
+            });
+            buttonGroup.add(button);
         }
     }
 
-    public void addAbility(AbilityListItem item) {
+    private void selectAbility(AbstractAbility ability) {
+        player.switchSelectedAbility(ability);
+    }
+
+    public void addAbility(AbstractAbility item) {
         abilityList.add(item);
         updateList();
     }
 
-    public void removeAbility(AbilityListItem item) {
+    public void removeAbility(AbstractAbility item) {
         abilityList.remove(item);
         updateList();
     }
