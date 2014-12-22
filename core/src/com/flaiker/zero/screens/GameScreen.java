@@ -21,6 +21,7 @@ import com.flaiker.zero.helper.SpawnArgs;
 import com.flaiker.zero.helper.WorldContactListener;
 import com.flaiker.zero.services.ConsoleManager;
 import com.flaiker.zero.ui.EscapeMenu;
+import com.flaiker.zero.ui.GameTimer;
 import com.flaiker.zero.ui.Healthbar;
 import com.flaiker.zero.ui.AbilityList;
 
@@ -48,6 +49,7 @@ public class GameScreen extends AbstractScreen implements InputProcessor, Consol
     private Healthbar   healthbar;
     private AbilityList abilityList;
     private EscapeMenu  escapeMenu;
+    private GameTimer   gameTimer;
 
     public GameScreen(Zero zero) {
         super(zero);
@@ -60,6 +62,7 @@ public class GameScreen extends AbstractScreen implements InputProcessor, Consol
         addInputProcessor(this);
         bodies = new Array<>();
         escapeMenu = new EscapeMenu(zero, skin);
+        gameTimer = new GameTimer(skin);
     }
 
     private void doPhysicsStep(float deltaTime) {
@@ -91,6 +94,9 @@ public class GameScreen extends AbstractScreen implements InputProcessor, Consol
         // update healthbar
         healthbar.setMaxHealth(player.getMaxHealth());
         healthbar.setCurrentHealth(player.getCurrentHealth());
+
+        // update timer
+        gameTimer.updateTime(delta);
     }
 
     @Override
@@ -135,6 +141,8 @@ public class GameScreen extends AbstractScreen implements InputProcessor, Consol
         abilityList.addAbility(new FireballAbility(skin));
 
         uiStage.addActor(escapeMenu.getEscapeMenuTable());
+
+        uiStage.addActor(gameTimer.getTimerButton());
     }
 
     @Override
