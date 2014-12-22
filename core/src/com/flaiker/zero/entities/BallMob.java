@@ -27,7 +27,7 @@ public class BallMob extends AbstractMob {
         animationManager = new AnimationManager(sprite);
         animationManager.setMaximumAddedIdleTime(4f);
         animationManager.setMinimumIdleTime(5f);
-        animationManager.registerIdleAnimation("ballMob", "idle", AbstractEntity.getEntityTextureAtlas(), 1 / 16f);
+        animationManager.registerIdleAnimation("ballMob", "idle", AbstractEntity.ENTITY_TEXTURE_ATLAS, 1 / 16f);
 
         pointLight = new PointLight(rayHandler, 25, new Color(1, 1, 1, 0.5f), 2, xPosMeter, yPosMeter);
     }

@@ -5,7 +5,7 @@ import com.badlogic.gdx.physics.box2d.World;
 /**
  * Created by Flaiker on 10.12.2014.
  */
-public abstract class AbstractMob extends AbstractEntity {
+public abstract class AbstractMob extends AbstractLivingEntity {
     protected       int healthPoints;
     protected final int maxHealthPoints;
 

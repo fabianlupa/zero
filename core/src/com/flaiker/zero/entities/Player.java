@@ -19,7 +19,7 @@ import java.util.List;
 /**
  * Created by Flaiker on 22.11.2014.
  */
-public class Player extends AbstractEntity implements InputProcessor, ConsoleManager.CommandableInstance {
+public class Player extends AbstractLivingEntity implements InputProcessor, ConsoleManager.CommandableInstance {
     public static final String LOG = Player.class.getSimpleName();
 
     private static final float MAX_SPEED_X       = 7f;
@@ -39,8 +39,8 @@ public class Player extends AbstractEntity implements InputProcessor, ConsoleMan
         animationManager = new AnimationManager(sprite);
         animationManager.setMaximumAddedIdleTime(2f);
         animationManager.setMinimumIdleTime(5f);
-        animationManager.registerAnimation("player", "walk", AbstractEntity.getEntityTextureAtlas(), 1 / 8f);
-        animationManager.registerIdleAnimation("player", "idle", AbstractEntity.getEntityTextureAtlas(), 1 / 4f);
+        animationManager.registerAnimation("player", "walk", AbstractEntity.ENTITY_TEXTURE_ATLAS, 1 / 8f);
+        animationManager.registerIdleAnimation("player", "idle", AbstractEntity.ENTITY_TEXTURE_ATLAS, 1 / 4f);
         currentHealth = MAX_HEALTH;
         maxHealth = MAX_HEALTH;
         selectedAbility = null;

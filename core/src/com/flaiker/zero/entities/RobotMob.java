@@ -20,7 +20,7 @@ public class RobotMob extends AbstractMob {
     public RobotMob(World world, float xPosMeter, float yPosMeter) {
         super(world, "robotMob", xPosMeter, yPosMeter, 5);
         animationManager = new AnimationManager(sprite);
-        animationManager.registerAnimation("robotMob", "walk" , AbstractEntity.getEntityTextureAtlas(), 1 / 16f);
+        animationManager.registerAnimation("robotMob", "walk" , AbstractEntity.ENTITY_TEXTURE_ATLAS, 1 / 16f);
     }
 
     @Override
