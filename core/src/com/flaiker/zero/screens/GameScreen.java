@@ -20,6 +20,7 @@ import com.flaiker.zero.helper.Map;
 import com.flaiker.zero.helper.SpawnArgs;
 import com.flaiker.zero.helper.WorldContactListener;
 import com.flaiker.zero.services.ConsoleManager;
+import com.flaiker.zero.ui.EscapeMenu;
 import com.flaiker.zero.ui.Healthbar;
 import com.flaiker.zero.ui.AbilityList;
 
@@ -46,6 +47,7 @@ public class GameScreen extends AbstractScreen implements InputProcessor, Consol
     private Array<Body> bodies;
     private Healthbar   healthbar;
     private AbilityList abilityList;
+    private EscapeMenu  escapeMenu;
 
     public GameScreen(Zero zero) {
         super(zero);
@@ -57,6 +59,7 @@ public class GameScreen extends AbstractScreen implements InputProcessor, Consol
         world.setContactListener(new WorldContactListener());
         addInputProcessor(this);
         bodies = new Array<>();
+        escapeMenu = new EscapeMenu(zero, skin);
     }
 
     private void doPhysicsStep(float deltaTime) {
@@ -130,6 +133,8 @@ public class GameScreen extends AbstractScreen implements InputProcessor, Consol
         // testabilities to make the list not empty
         abilityList.addAbility(new FireballAbility(skin));
         abilityList.addAbility(new FireballAbility(skin));
+
+        uiStage.addActor(escapeMenu.getEscapeMenuTable());
     }
 
     @Override
@@ -162,8 +167,11 @@ public class GameScreen extends AbstractScreen implements InputProcessor, Consol
         // render foregroundlayer using tiled
         if (renderMode == RenderMode.TILED || renderMode == RenderMode.GAME) map.renderForeground();
 
-        doPhysicsStep(delta);
-        updateLogic(delta);
+        //TODO: properly pause the game
+        if (!isPaused()) {
+            doPhysicsStep(delta);
+            updateLogic(delta);
+        }
     }
 
     @Override
@@ -198,6 +206,9 @@ public class GameScreen extends AbstractScreen implements InputProcessor, Consol
             case Input.Keys.TAB:
                 abilityList.switchState();
                 keyProcessed = true;
+                break;
+            case Input.Keys.ESCAPE:
+                escapeMenu.switchVisibility();
                 break;
         }
 
