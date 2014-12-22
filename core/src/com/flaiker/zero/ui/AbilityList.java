@@ -2,6 +2,7 @@ package com.flaiker.zero.ui;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.flaiker.zero.abilities.AbstractAbility;
@@ -34,14 +35,12 @@ public class AbilityList {
         buttonGroup.setUncheckLast(true);
 
         scrollPane = new ScrollPane(verticalGroup, skin);
-        scrollPane.setPosition(0, 200);
+        scrollPane.setPosition(-160, 200);
         scrollPane.setSize(160, 400);
         scrollPane.setOverscroll(false, false);
         scrollPane.setScrollingDisabled(true, false);
         Color color = scrollPane.getColor();
         scrollPane.setColor(color.r, color.g, color.b, 0.8f);
-
-        hide();
     }
 
     private void updateList() {
@@ -83,12 +82,12 @@ public class AbilityList {
     }
 
     public void show() {
-        scrollPane.setVisible(true);
+        scrollPane.addAction(Actions.moveTo(0, 200, 1));
         open = true;
     }
 
     public void hide() {
-        scrollPane.setVisible(false);
+        scrollPane.addAction(Actions.moveTo(-160, 200, 1));
         open = false;
     }
 
