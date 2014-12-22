@@ -1,8 +1,10 @@
 package com.flaiker.zero.screens;
 
+import box2dLight.*;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
@@ -40,6 +42,7 @@ public class GameScreen extends AbstractScreen implements InputProcessor, Consol
     private final World              world;
     private final Box2DDebugRenderer debugRenderer;
     private final OrthographicCamera box2dCamera;
+    private final RayHandler         rayHandler;
 
     private Map         map;
     private Player      player;
@@ -57,6 +60,11 @@ public class GameScreen extends AbstractScreen implements InputProcessor, Consol
         box2dCamera.position.set(SCREEN_WIDTH / PIXEL_PER_METER / 2f, SCREEN_HEIGHT / PIXEL_PER_METER / 2f, 0);
         world = new World(new Vector2(0, -10), true);
         debugRenderer = new Box2DDebugRenderer();
+        RayHandler.setGammaCorrection(true);
+        RayHandler.useDiffuseLight(true);
+        rayHandler = new RayHandler(world);
+        rayHandler.setAmbientLight(0.3f, 0.3f, 0.3f, 1f);
+        rayHandler.setBlurNum(3);
         renderMode = RenderMode.GAME;
         world.setContactListener(new WorldContactListener());
         addInputProcessor(this);
@@ -150,6 +158,8 @@ public class GameScreen extends AbstractScreen implements InputProcessor, Consol
         // start tiledmaprenderer for this frame
         map.updateCamera();
 
+        batch.enableBlending();
+
         // render background using tiled
         if (renderMode == RenderMode.TILED || renderMode == RenderMode.GAME) map.renderBackground();
 
@@ -174,6 +184,13 @@ public class GameScreen extends AbstractScreen implements InputProcessor, Consol
 
         // render foregroundlayer using tiled
         if (renderMode == RenderMode.TILED || renderMode == RenderMode.GAME) map.renderForeground();
+
+        // render lights using Box2d
+        if (renderMode == RenderMode.GAME) {
+            batch.disableBlending();
+            rayHandler.setCombinedMatrix(box2dCamera.combined);
+            rayHandler.updateAndRender();
+        }
 
         //TODO: properly pause the game
         if (!isPaused()) {
