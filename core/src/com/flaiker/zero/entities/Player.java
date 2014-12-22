@@ -6,32 +6,60 @@ import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
+import com.flaiker.zero.abilities.AbstractAbility;
 import com.flaiker.zero.helper.AnimationManager;
 import com.flaiker.zero.helper.ContactCallback;
 import com.flaiker.zero.screens.GameScreen;
+import com.flaiker.zero.services.ConsoleManager;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 /**
  * Created by Flaiker on 22.11.2014.
  */
-public class Player extends AbstractEntity implements InputProcessor {
+public class Player extends AbstractEntity implements InputProcessor, ConsoleManager.CommandableInstance {
+    public static final String LOG = Player.class.getSimpleName();
+
     private static final float MAX_SPEED_X       = 7f;
     private static final float ACCELERATION_X    = 150;
     private static final float MAX_SPEED_Y       = 100f;
     private static final float ACCELERATION_JUMP = 2000f;
+    private static final int   MAX_HEALTH        = 5;
 
     private int              numFootContacts;
     private AnimationManager animationManager;
+    private int              currentHealth;
+    private int              maxHealth;
+    private AbstractAbility  selectedAbility;
 
     public Player(World world, float xPos, float yPos) {
         super(world, "player", xPos, yPos);
         animationManager = new AnimationManager(sprite);
         animationManager.setMaximumAddedIdleTime(2f);
         animationManager.setMinimumIdleTime(5f);
-        animationManager.registerAnimation("player", "walk" , AbstractEntity.getEntityTextureAtlas(), 1 / 8f);
+        animationManager.registerAnimation("player", "walk", AbstractEntity.getEntityTextureAtlas(), 1 / 8f);
         animationManager.registerIdleAnimation("player", "idle", AbstractEntity.getEntityTextureAtlas(), 1 / 4f);
+        currentHealth = MAX_HEALTH;
+        maxHealth = MAX_HEALTH;
+        selectedAbility = null;
+    }
+
+    public int getCurrentHealth() {
+        return currentHealth;
+    }
+
+    public int getMaxHealth() {
+        return maxHealth;
     }
 
     public boolean isPlayerOnGround() { return numFootContacts > 0; }
+
+    public void switchSelectedAbility(AbstractAbility ability) {
+        selectedAbility = ability;
+        Gdx.app.log(LOG, "Selected ability changed to: " + selectedAbility.getName());
+    }
 
     @Override
     protected Body createBody(World world) {
@@ -180,5 +208,42 @@ public class Player extends AbstractEntity implements InputProcessor {
     @Override
     public boolean scrolled(int amount) {
         return false;
+    }
+
+    @Override
+    public List<ConsoleManager.ConsoleCommand> getConsoleCommands() {
+        List<ConsoleManager.ConsoleCommand> outList = new ArrayList<>();
+        outList.add(new ConsoleManager.ConsoleCommand("sethealth", new ConsoleManager.CommandExecutor() {
+            @Override
+            public void OnCommandFired(HashMap<String, String> parValuePairs) {
+                if (parValuePairs.containsKey("val")) {
+                    int newCurrentHealth;
+                    try {
+                        newCurrentHealth = Integer.parseInt(parValuePairs.get("val"));
+                    } catch (NumberFormatException e) {
+                        Gdx.app.log(LOG, "val is not an int");
+                        return;
+                    }
+                    currentHealth = newCurrentHealth;
+                }
+            }
+        }));
+        outList.add(new ConsoleManager.ConsoleCommand("setmaxhealth", new ConsoleManager.CommandExecutor() {
+            @Override
+            public void OnCommandFired(HashMap<String, String> parValuePairs) {
+                if (parValuePairs.containsKey("val")) {
+                    int newMaxHealth;
+                    try {
+                        newMaxHealth = Integer.parseInt(parValuePairs.get("val"));
+                    } catch (NumberFormatException e) {
+                        Gdx.app.log(LOG, "val is not an int");
+                        return;
+                    }
+                    maxHealth = newMaxHealth;
+                }
+            }
+        }));
+
+        return outList;
     }
 }

@@ -2,7 +2,6 @@ package com.flaiker.zero.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
-import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.Vector2;
@@ -11,6 +10,7 @@ import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Array;
 import com.flaiker.zero.Zero;
+import com.flaiker.zero.abilities.FireballAbility;
 import com.flaiker.zero.blocks.AbstractBlock;
 import com.flaiker.zero.entities.AbstractEntity;
 import com.flaiker.zero.entities.BallMob;
@@ -19,11 +19,19 @@ import com.flaiker.zero.entities.RobotMob;
 import com.flaiker.zero.helper.Map;
 import com.flaiker.zero.helper.SpawnArgs;
 import com.flaiker.zero.helper.WorldContactListener;
+import com.flaiker.zero.services.ConsoleManager;
+import com.flaiker.zero.ui.EscapeMenu;
+import com.flaiker.zero.ui.GameTimer;
+import com.flaiker.zero.ui.Healthbar;
+import com.flaiker.zero.ui.AbilityList;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Screen where the game is played on
  */
-public class GameScreen extends AbstractScreen implements InputProcessor {
+public class GameScreen extends AbstractScreen implements InputProcessor, ConsoleManager.CommandableInstance {
     private static final float TIME_STEP           = 1 / 300f;
     private static final int   VELOCITY_ITERATIONS = 6;
     private static final int   POSITION_ITERATIONS = 2;
@@ -33,12 +41,15 @@ public class GameScreen extends AbstractScreen implements InputProcessor {
     private final Box2DDebugRenderer debugRenderer;
     private final OrthographicCamera box2dCamera;
 
-    private Map              map;
-    private Player           player;
-    private RenderMode       renderMode;
-    private InputMultiplexer inputMultiplexer;
-    private float            accumulator;
-    private Array<Body>      bodies;
+    private Map         map;
+    private Player      player;
+    private RenderMode  renderMode;
+    private float       accumulator;
+    private Array<Body> bodies;
+    private Healthbar   healthbar;
+    private AbilityList abilityList;
+    private EscapeMenu  escapeMenu;
+    private GameTimer   gameTimer;
 
     public GameScreen(Zero zero) {
         super(zero);
@@ -48,9 +59,10 @@ public class GameScreen extends AbstractScreen implements InputProcessor {
         debugRenderer = new Box2DDebugRenderer();
         renderMode = RenderMode.GAME;
         world.setContactListener(new WorldContactListener());
-        inputMultiplexer = new InputMultiplexer(this);
-        Gdx.input.setInputProcessor(inputMultiplexer);
+        addInputProcessor(this);
         bodies = new Array<>();
+        escapeMenu = new EscapeMenu(zero, skin);
+        gameTimer = new GameTimer(skin);
     }
 
     private void doPhysicsStep(float deltaTime) {
@@ -78,6 +90,13 @@ public class GameScreen extends AbstractScreen implements InputProcessor {
             }
             //else camera.position.x = getMap().getMapWidthAsScreenUnits() - (SCREEN_WIDTH / 2f);
         }
+
+        // update healthbar
+        healthbar.setMaxHealth(player.getMaxHealth());
+        healthbar.setCurrentHealth(player.getCurrentHealth());
+
+        // update timer
+        gameTimer.updateTime(delta);
     }
 
     @Override
@@ -96,7 +115,7 @@ public class GameScreen extends AbstractScreen implements InputProcessor {
         // create the player
         Vector2 playerSpawnPos = map.getPlayerSpawnPosition();
         player = new Player(world, playerSpawnPos.x, playerSpawnPos.y);
-        inputMultiplexer.addProcessor(player);
+        addInputProcessor(player);
 
         // create the mobs
         for (SpawnArgs mobSpawn : map.getMobSpawnPositions()) {
@@ -109,6 +128,21 @@ public class GameScreen extends AbstractScreen implements InputProcessor {
                     break;
             }
         }
+
+        healthbar = new Healthbar();
+        healthbar.setPosition(0, SCREEN_HEIGHT - 55);
+        healthbar.setSize(224, 55);
+        uiStage.addActor(healthbar);
+
+        abilityList = new AbilityList(player, skin);
+        uiStage.addActor(abilityList.getActor());
+        // testabilities to make the list not empty
+        abilityList.addAbility(new FireballAbility(skin));
+        abilityList.addAbility(new FireballAbility(skin));
+
+        uiStage.addActor(escapeMenu.getEscapeMenuTable());
+
+        uiStage.addActor(gameTimer.getTimerButton());
     }
 
     @Override
@@ -141,8 +175,11 @@ public class GameScreen extends AbstractScreen implements InputProcessor {
         // render foregroundlayer using tiled
         if (renderMode == RenderMode.TILED || renderMode == RenderMode.GAME) map.renderForeground();
 
-        doPhysicsStep(delta);
-        updateLogic(delta);
+        //TODO: properly pause the game
+        if (!isPaused()) {
+            doPhysicsStep(delta);
+            updateLogic(delta);
+        }
     }
 
     @Override
@@ -173,6 +210,13 @@ public class GameScreen extends AbstractScreen implements InputProcessor {
                 renderMode = RenderMode.TILED;
                 Gdx.app.log(LOG, "Set rendermode to TILED");
                 keyProcessed = true;
+                break;
+            case Input.Keys.TAB:
+                abilityList.switchState();
+                keyProcessed = true;
+                break;
+            case Input.Keys.ESCAPE:
+                escapeMenu.switchVisibility();
                 break;
         }
 
@@ -207,6 +251,14 @@ public class GameScreen extends AbstractScreen implements InputProcessor {
     @Override
     public boolean scrolled(int amount) {
         return false;
+    }
+
+    @Override
+    public List<ConsoleManager.ConsoleCommand> getConsoleCommands() {
+        List<ConsoleManager.ConsoleCommand> outList = new ArrayList<>();
+        outList.addAll(player.getConsoleCommands());
+
+        return outList;
     }
 
     private enum RenderMode {
