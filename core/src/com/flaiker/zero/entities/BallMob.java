@@ -1,5 +1,8 @@
 package com.flaiker.zero.entities;
 
+import box2dLight.PointLight;
+import box2dLight.RayHandler;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.physics.box2d.joints.RevoluteJointDef;
@@ -17,13 +20,16 @@ public class BallMob extends AbstractMob {
     private AnimationManager animationManager;
     private boolean wallRight = false;
     private boolean wallLeft  = false;
+    private PointLight pointLight;
 
-    public BallMob(World world, float xPosMeter, float yPosMeter) {
+    public BallMob(World world, float xPosMeter, float yPosMeter, RayHandler rayHandler) {
         super(world, "ballMob", xPosMeter, yPosMeter, 5);
         animationManager = new AnimationManager(sprite);
         animationManager.setMaximumAddedIdleTime(4f);
         animationManager.setMinimumIdleTime(5f);
         animationManager.registerIdleAnimation("ballMob", "idle", AbstractEntity.getEntityTextureAtlas(), 1 / 16f);
+
+        pointLight = new PointLight(rayHandler, 25, new Color(1, 1, 1, 0.5f), 2, xPosMeter, yPosMeter);
     }
 
     @Override
@@ -104,6 +110,8 @@ public class BallMob extends AbstractMob {
         if (getRequestedDirection() == Direction.NONE) setRequestedDirection(Direction.RIGHT);
         aiWalk();
         animationManager.updateSprite();
+
+        pointLight.setPosition(body.getPosition().x, body.getPosition().y);
     }
 
     private void aiWalk() {

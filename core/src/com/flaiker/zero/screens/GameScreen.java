@@ -132,7 +132,7 @@ public class GameScreen extends AbstractScreen implements InputProcessor, Consol
                     RobotMob testMob = new RobotMob(world, mobSpawn.getX(), mobSpawn.getY());
                     break;
                 case MOB_BALL:
-                    BallMob testBall = new BallMob(world, mobSpawn.getX(), mobSpawn.getY());
+                    BallMob testBall = new BallMob(world, mobSpawn.getX(), mobSpawn.getY(), rayHandler);
                     break;
             }
         }
