@@ -2,8 +2,6 @@ package com.flaiker.zero.entities;
 
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.MathUtils;
-import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.World;
 import com.flaiker.zero.helper.AbstractBox2dObject;
 import com.flaiker.zero.screens.GameScreen;
 
@@ -13,15 +11,8 @@ import com.flaiker.zero.screens.GameScreen;
 public abstract class AbstractEntity extends AbstractBox2dObject {
     public static final TextureAtlas ENTITY_TEXTURE_ATLAS = new TextureAtlas("atlases/entities.atlas");
 
-    private Vector2 spawnVector;
-
-    public AbstractEntity(World world, String atlasPath, float xPosMeter, float yPosMeter) {
-        super(world, atlasPath, ENTITY_TEXTURE_ATLAS, xPosMeter, yPosMeter);
-        spawnVector = new Vector2(xPosMeter, yPosMeter);
-    }
-
-    public Vector2 getSpawnVector() {
-        return spawnVector;
+    public AbstractEntity(String atlasPath, float xPosMeter, float yPosMeter) {
+        super(atlasPath, ENTITY_TEXTURE_ATLAS, xPosMeter, yPosMeter);
     }
 
     @Override

@@ -22,8 +22,8 @@ public class BallMob extends AbstractMob {
     private boolean wallLeft  = false;
     private PointLight pointLight;
 
-    public BallMob(World world, float xPosMeter, float yPosMeter, RayHandler rayHandler) {
-        super(world, "ballMob", xPosMeter, yPosMeter, 5);
+    public BallMob(float xPosMeter, float yPosMeter, RayHandler rayHandler) {
+        super("ballMob", xPosMeter, yPosMeter, 5);
         animationManager = new AnimationManager(sprite);
         animationManager.setMaximumAddedIdleTime(4f);
         animationManager.setMinimumIdleTime(5f);

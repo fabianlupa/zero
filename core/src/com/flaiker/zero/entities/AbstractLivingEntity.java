@@ -1,7 +1,5 @@
 package com.flaiker.zero.entities;
 
-import com.badlogic.gdx.physics.box2d.World;
-
 /**
  * Created by Flaiker on 22.12.2014.
  */
@@ -9,8 +7,8 @@ public abstract class AbstractLivingEntity extends AbstractEntity {
     private Direction requestedDirection;
     private float     lastLinearVelocityX;
 
-    public AbstractLivingEntity(World world, String atlasPath, float xPosMeter, float yPosMeter) {
-        super(world, atlasPath, xPosMeter, yPosMeter);
+    public AbstractLivingEntity(String atlasPath, float xPosMeter, float yPosMeter) {
+        super(atlasPath, xPosMeter, yPosMeter);
         this.requestedDirection = Direction.NONE;
     }
 

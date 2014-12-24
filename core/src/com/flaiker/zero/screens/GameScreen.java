@@ -1,10 +1,9 @@
 package com.flaiker.zero.screens;
 
-import box2dLight.*;
+import box2dLight.RayHandler;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
@@ -22,10 +21,10 @@ import com.flaiker.zero.helper.Map;
 import com.flaiker.zero.helper.SpawnArgs;
 import com.flaiker.zero.helper.WorldContactListener;
 import com.flaiker.zero.services.ConsoleManager;
+import com.flaiker.zero.ui.AbilityList;
 import com.flaiker.zero.ui.EscapeMenu;
 import com.flaiker.zero.ui.GameTimer;
 import com.flaiker.zero.ui.Healthbar;
-import com.flaiker.zero.ui.AbilityList;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -122,17 +121,20 @@ public class GameScreen extends AbstractScreen implements InputProcessor, Consol
 
         // create the player
         Vector2 playerSpawnPos = map.getPlayerSpawnPosition();
-        player = new Player(world, playerSpawnPos.x, playerSpawnPos.y);
+        player = new Player(playerSpawnPos.x, playerSpawnPos.y);
+        player.addBodyToWorld(world);
         addInputProcessor(player);
 
         // create the mobs
         for (SpawnArgs mobSpawn : map.getMobSpawnPositions()) {
             switch (mobSpawn.getSpawnType()) {
                 case MOB_ROBOT:
-                    RobotMob testMob = new RobotMob(world, mobSpawn.getX(), mobSpawn.getY());
+                    RobotMob testMob = new RobotMob(mobSpawn.getX(), mobSpawn.getY());
+                    testMob.addBodyToWorld(world);
                     break;
                 case MOB_BALL:
-                    BallMob testBall = new BallMob(world, mobSpawn.getX(), mobSpawn.getY(), rayHandler);
+                    BallMob testBall = new BallMob(mobSpawn.getX(), mobSpawn.getY(), rayHandler);
+                    testBall.addBodyToWorld(world);
                     break;
             }
         }

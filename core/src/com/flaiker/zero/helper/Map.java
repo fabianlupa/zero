@@ -184,7 +184,10 @@ public class Map {
                                 String direction = tile.getProperties().get("direction", String.class);
                                 AbstractEdgedBlock.EdgeDirection edgeDirection =
                                         AbstractEdgedBlock.EdgeDirection.getEdgeDirectionFromString(direction);
-                                if (edgeDirection != null) new MetalBlock(world, col, row, edgeDirection);
+                                if (edgeDirection != null) {
+                                    MetalBlock metalBlock = new MetalBlock(col, row, edgeDirection);
+                                    metalBlock.addBodyToWorld(world);
+                                }
                                 break;
                             default:
                                 break;

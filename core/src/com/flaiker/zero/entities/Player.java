@@ -34,8 +34,8 @@ public class Player extends AbstractLivingEntity implements InputProcessor, Cons
     private int              maxHealth;
     private AbstractAbility  selectedAbility;
 
-    public Player(World world, float xPos, float yPos) {
-        super(world, "player", xPos, yPos);
+    public Player(float xPos, float yPos) {
+        super("player", xPos, yPos);
         animationManager = new AnimationManager(sprite);
         animationManager.setMaximumAddedIdleTime(2f);
         animationManager.setMinimumIdleTime(5f);

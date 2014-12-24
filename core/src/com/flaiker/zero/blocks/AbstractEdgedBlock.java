@@ -1,13 +1,11 @@
 package com.flaiker.zero.blocks;
 
-import com.badlogic.gdx.physics.box2d.World;
-
 /**
  * Created by Flaiker on 30.11.2014.
  */
 public abstract class AbstractEdgedBlock extends AbstractBlock {
-    public AbstractEdgedBlock(World world, String material, float xPosMeter, float yPosMeter, EdgeDirection edgeDirection) {
-        super(world, getAtlasPathName(material, edgeDirection), xPosMeter, yPosMeter);
+    public AbstractEdgedBlock(String material, float xPosMeter, float yPosMeter, EdgeDirection edgeDirection) {
+        super(getAtlasPathName(material, edgeDirection), xPosMeter, yPosMeter);
     }
 
     private static String getAtlasPathName(String material, EdgeDirection edgeDirection) {
