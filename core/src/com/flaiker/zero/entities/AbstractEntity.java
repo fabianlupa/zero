@@ -13,7 +13,38 @@ import com.flaiker.zero.screens.GameScreen;
 public abstract class AbstractEntity extends AbstractBox2dObject {
     public static final TextureAtlas ENTITY_TEXTURE_ATLAS = new TextureAtlas("atlases/entities.atlas");
 
+    private Vector2 spawnVector;
+
     public AbstractEntity(World world, String atlasPath, float xPosMeter, float yPosMeter) {
         super(world, atlasPath, ENTITY_TEXTURE_ATLAS, xPosMeter, yPosMeter);
+        spawnVector = new Vector2(xPosMeter, yPosMeter);
+    }
+
+    public Vector2 getSpawnVector() {
+        return spawnVector;
+    }
+
+    @Override
+    public void update() {
+        super.update();
+        // update the sprite's position and rotation to the box2d body properties
+        setSpritePosition(body.getPosition().x - getEntityWidth() / 2f, body.getPosition().y - getEntityHeight() / 2f);
+        setSpriteRotation(MathUtils.radiansToDegrees * body.getAngle());
+    }
+
+    protected void setSpritePosition(float xMeter, float yMeter) {
+        sprite.setPosition(xMeter * GameScreen.PIXEL_PER_METER, yMeter * GameScreen.PIXEL_PER_METER);
+    }
+
+    protected void setSpriteX(float xMeter) {
+        sprite.setX(xMeter * GameScreen.PIXEL_PER_METER);
+    }
+
+    protected void setSpriteY(float yMeter) {
+        sprite.setY(yMeter * GameScreen.PIXEL_PER_METER);
+    }
+
+    protected void setSpriteRotation(float degrees) {
+        sprite.setRotation(degrees);
     }
 }
