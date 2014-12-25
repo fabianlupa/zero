@@ -13,10 +13,7 @@ import com.badlogic.gdx.utils.Array;
 import com.flaiker.zero.Zero;
 import com.flaiker.zero.abilities.FireballAbility;
 import com.flaiker.zero.blocks.AbstractBlock;
-import com.flaiker.zero.entities.AbstractEntity;
-import com.flaiker.zero.entities.BallMob;
-import com.flaiker.zero.entities.Player;
-import com.flaiker.zero.entities.RobotMob;
+import com.flaiker.zero.entities.*;
 import com.flaiker.zero.helper.Map;
 import com.flaiker.zero.helper.SpawnArgs;
 import com.flaiker.zero.helper.WorldContactListener;
@@ -135,6 +132,19 @@ public class GameScreen extends AbstractScreen implements InputProcessor, Consol
                 case MOB_BALL:
                     BallMob testBall = new BallMob(mobSpawn.getX(), mobSpawn.getY(), rayHandler);
                     testBall.addBodyToWorld(world);
+                    break;
+            }
+        }
+
+        // create static objects
+        for (SpawnArgs objectSpawn : map.getObjectSpawnPositions()) {
+            switch (objectSpawn.getSpawnType()) {
+                case STATIC_LAMPROPE:
+                    float height = (float) objectSpawn.getAdArgs().getOrDefault(LampRope.AD_ARGS_HEIGHT_KEY,
+                                                                                LampRope.AD_ARGS_HEIGHT_DEFAULT);
+                    float pan = (float) objectSpawn.getAdArgs().getOrDefault(LampRope.AD_ARGS_PAN_KEY, LampRope.AD_ARGS_PAN_DEFAULT);
+                    LampRope lampRope = new LampRope(rayHandler, objectSpawn.getX(), objectSpawn.getY(), height, pan);
+                    lampRope.addBodyToWorld(world);
                     break;
             }
         }

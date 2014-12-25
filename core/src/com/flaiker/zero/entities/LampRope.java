@@ -15,6 +15,11 @@ import com.flaiker.zero.screens.GameScreen;
  * Created by Flaiker on 22.12.2014.
  */
 public class LampRope extends AbstractEntity {
+    public static final String AD_ARGS_HEIGHT_KEY     = "height";
+    public static final String AD_ARGS_PAN_KEY        = "pan";
+    public static final float  AD_ARGS_HEIGHT_DEFAULT = 1f;
+    public static final float  AD_ARGS_PAN_DEFAULT    = 0.2f;
+
     private ConeLight coneLight;
     private Sprite    ropeSprite;
     private float     height;
