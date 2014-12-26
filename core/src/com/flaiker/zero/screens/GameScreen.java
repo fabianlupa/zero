@@ -146,6 +146,9 @@ public class GameScreen extends AbstractScreen implements InputProcessor, Consol
                     LampRope lampRope = new LampRope(rayHandler, objectSpawn.getX(), objectSpawn.getY(), height, pan);
                     lampRope.addBodyToWorld(world);
                     break;
+                case STATIC_LAMPHORIZONTAL:
+                    LampHorizontal lampHorizontal = new LampHorizontal(rayHandler, objectSpawn.getX(), objectSpawn.getY());
+                    lampHorizontal.addBodyToWorld(world);
             }
         }
 

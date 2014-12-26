@@ -47,20 +47,21 @@ import java.util.List;
 public class Map {
     public static final String LOG = Map.class.getSimpleName();
 
-    private static final String COLLISION_LAYER_NAME                      = "mgLayer";
-    private static final String FOREGROUND_LAYER_NAME                     = "fgLayer";
-    private static final String BACKGROUND_LAYER_NAME                     = "bgLayer";
-    private static final String SPAWN_LAYER_NAME                          = "ojLayer";
-    private static final String SPAWN_LAYER_OBJECT_TYPE_NAME              = "type";
-    private static final String SPAWN_LAYER_OBJECT_TYPE_PLAYER_NAME       = "player";
-    private static final String SPAWN_LAYER_OBJECT_TYPE_MOB_NAME          = "mob";
-    private static final String SPAWN_LAYER_OBJECT_TYPE_STATIC_NAME       = "static";
-    private static final String SPAWN_LAYER_OBJECT_MOB_SUBTYPE_NAME       = "mobname";
-    private static final String SPAWN_LAYER_OBJECT_MOB_SUBTYPE_ROBOT_NAME = "robot";
-    private static final String SPAWN_LAYER_OBJECT_MOB_SUBTYPE_BALL_NAME  = "ball";
-    private static final String SPAWN_LAYER_OBJECT_STATIC_SUBTYPE_NAME    = "ojname";
-    private static final String SPAWN_LAYER_OBJECT_STATIC_LAMPROPE_NAME   = "lampRope";
-    private static final String GID                                       = "gid";
+    private static final String COLLISION_LAYER_NAME                          = "mgLayer";
+    private static final String FOREGROUND_LAYER_NAME                         = "fgLayer";
+    private static final String BACKGROUND_LAYER_NAME                         = "bgLayer";
+    private static final String SPAWN_LAYER_NAME                              = "ojLayer";
+    private static final String SPAWN_LAYER_OBJECT_TYPE_NAME                  = "type";
+    private static final String SPAWN_LAYER_OBJECT_TYPE_PLAYER_NAME           = "player";
+    private static final String SPAWN_LAYER_OBJECT_TYPE_MOB_NAME              = "mob";
+    private static final String SPAWN_LAYER_OBJECT_TYPE_STATIC_NAME           = "static";
+    private static final String SPAWN_LAYER_OBJECT_MOB_SUBTYPE_NAME           = "mobname";
+    private static final String SPAWN_LAYER_OBJECT_MOB_SUBTYPE_ROBOT_NAME     = "robot";
+    private static final String SPAWN_LAYER_OBJECT_MOB_SUBTYPE_BALL_NAME      = "ball";
+    private static final String SPAWN_LAYER_OBJECT_STATIC_SUBTYPE_NAME        = "ojname";
+    private static final String SPAWN_LAYER_OBJECT_STATIC_LAMPROPE_NAME       = "lampRope";
+    private static final String SPAWN_LAYER_OBJECT_STATIC_LAMPHORIZONTAL_NAME = "lampHorizontal";
+    private static final String GID                                           = "gid";
 
     private static String lastError;
 
@@ -149,12 +150,15 @@ public class Map {
                                         mobSpawnPositions.add(new SpawnArgs(centerObjectPos.x / mapTileSize,
                                                                             centerObjectPos.y / mapTileSize,
                                                                             SpawnArgs.SpawnType.MOB_ROBOT));
+                                        break;
                                     case SPAWN_LAYER_OBJECT_MOB_SUBTYPE_BALL_NAME:
                                         mobSpawnPositions.add(new SpawnArgs(centerObjectPos.x / mapTileSize,
                                                                             centerObjectPos.y / mapTileSize,
                                                                             SpawnArgs.SpawnType.MOB_BALL));
+                                        break;
                                 }
                             }
+                            break;
                         case SPAWN_LAYER_OBJECT_TYPE_STATIC_NAME:
                             if (tileProperties.containsKey(SPAWN_LAYER_OBJECT_STATIC_SUBTYPE_NAME)) {
                                 String subtypeName = tileProperties.get(SPAWN_LAYER_OBJECT_STATIC_SUBTYPE_NAME, String.class);
@@ -177,8 +181,15 @@ public class Map {
                                         }
 
                                         objectSpawnPositions.add(spawnArgs);
+                                        break;
+                                    case SPAWN_LAYER_OBJECT_STATIC_LAMPHORIZONTAL_NAME:
+                                        objectSpawnPositions.add(new SpawnArgs(centerObjectPos.x / mapTileSize,
+                                                                               centerObjectPos.y / mapTileSize,
+                                                                               SpawnArgs.SpawnType.STATIC_LAMPHORIZONTAL));
+                                        break;
                                 }
                             }
+                            break;
                         default:
                             Gdx.app.log(LOG, "Could not interpret spawn position of type " + typeName);
                             break;
