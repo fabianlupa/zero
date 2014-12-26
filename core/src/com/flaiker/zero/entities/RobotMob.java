@@ -17,10 +17,10 @@ public class RobotMob extends AbstractMob {
     private boolean wallLeft  = false;
     private AnimationManager animationManager;
 
-    public RobotMob(World world, float xPosMeter, float yPosMeter) {
-        super(world, "robotMob", xPosMeter, yPosMeter, 5);
+    public RobotMob(float xPosMeter, float yPosMeter) {
+        super("robotMob", xPosMeter, yPosMeter, 5);
         animationManager = new AnimationManager(sprite);
-        animationManager.registerAnimation("robotMob", "walk" , AbstractEntity.getEntityTextureAtlas(), 1 / 16f);
+        animationManager.registerAnimation("robotMob", "walk" , AbstractEntity.ENTITY_TEXTURE_ATLAS, 1 / 16f);
     }
 
     @Override

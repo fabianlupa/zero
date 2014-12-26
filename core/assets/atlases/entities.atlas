@@ -102,6 +102,27 @@ ballMob_idle-06
   orig: 54, 54
   offset: 0, 0
   index: -1
+lampHorizontal
+  rotate: false
+  xy: 944, 85
+  size: 64, 20
+  orig: 64, 20
+  offset: 0, 0
+  index: -1
+lampRope
+  rotate: false
+  xy: 394, 49
+  size: 42, 18
+  orig: 42, 18
+  offset: 0, 0
+  index: -1
+lampRope-rope
+  rotate: false
+  xy: 1010, 228
+  size: 4, 16
+  orig: 4, 16
+  offset: 0, 0
+  index: -1
 player
   rotate: false
   xy: 332, 69
@@ -207,7 +228,7 @@ player_idle-13
   orig: 49, 81
   offset: 0, 0
   index: -1
-player_idle-19
+player_idle-17
   rotate: false
   xy: 434, 80
   size: 49, 81
@@ -221,13 +242,6 @@ player_idle-14
   orig: 49, 81
   offset: 0, 0
   index: -1
-player_idle-17
-  rotate: false
-  xy: 434, 80
-  size: 49, 81
-  orig: 49, 81
-  offset: 0, 0
-  index: -1
 player_idle-18
   rotate: false
   xy: 434, 80
@@ -235,7 +249,7 @@ player_idle-18
   orig: 49, 81
   offset: 0, 0
   index: -1
-player_idle-16
+player_idle-19
   rotate: false
   xy: 434, 80
   size: 49, 81
@@ -243,6 +257,13 @@ player_idle-16
   offset: 0, 0
   index: -1
 player_idle-15
+  rotate: false
+  xy: 434, 80
+  size: 49, 81
+  orig: 49, 81
+  offset: 0, 0
+  index: -1
+player_idle-16
   rotate: false
   xy: 434, 80
   size: 49, 81
@@ -375,7 +396,7 @@ robotMob
   orig: 64, 92
   offset: 0, 0
   index: -1
-robotMob_walk-20
+robotMob_walk-10
   rotate: false
   xy: 2, 152
   size: 64, 92
@@ -389,7 +410,7 @@ robotMob_walk-00
   orig: 64, 92
   offset: 0, 0
   index: -1
-robotMob_walk-10
+robotMob_walk-20
   rotate: false
   xy: 2, 152
   size: 64, 92

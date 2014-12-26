@@ -1,8 +1,10 @@
 package com.flaiker.zero.screens;
 
+import box2dLight.RayHandler;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
@@ -12,18 +14,15 @@ import com.badlogic.gdx.utils.Array;
 import com.flaiker.zero.Zero;
 import com.flaiker.zero.abilities.FireballAbility;
 import com.flaiker.zero.blocks.AbstractBlock;
-import com.flaiker.zero.entities.AbstractEntity;
-import com.flaiker.zero.entities.BallMob;
-import com.flaiker.zero.entities.Player;
-import com.flaiker.zero.entities.RobotMob;
+import com.flaiker.zero.entities.*;
 import com.flaiker.zero.helper.Map;
 import com.flaiker.zero.helper.SpawnArgs;
 import com.flaiker.zero.helper.WorldContactListener;
 import com.flaiker.zero.services.ConsoleManager;
+import com.flaiker.zero.ui.AbilityList;
 import com.flaiker.zero.ui.EscapeMenu;
 import com.flaiker.zero.ui.GameTimer;
 import com.flaiker.zero.ui.Healthbar;
-import com.flaiker.zero.ui.AbilityList;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -40,6 +39,7 @@ public class GameScreen extends AbstractScreen implements InputProcessor, Consol
     private final World              world;
     private final Box2DDebugRenderer debugRenderer;
     private final OrthographicCamera box2dCamera;
+    private final RayHandler         rayHandler;
 
     private Map         map;
     private Player      player;
@@ -57,6 +57,11 @@ public class GameScreen extends AbstractScreen implements InputProcessor, Consol
         box2dCamera.position.set(SCREEN_WIDTH / PIXEL_PER_METER / 2f, SCREEN_HEIGHT / PIXEL_PER_METER / 2f, 0);
         world = new World(new Vector2(0, -10), true);
         debugRenderer = new Box2DDebugRenderer();
+        RayHandler.setGammaCorrection(true);
+        RayHandler.useDiffuseLight(true);
+        rayHandler = new RayHandler(world);
+        rayHandler.setAmbientLight(0.3f, 0.3f, 0.3f, 1f);
+        rayHandler.setBlurNum(3);
         renderMode = RenderMode.GAME;
         world.setContactListener(new WorldContactListener());
         addInputProcessor(this);
@@ -114,17 +119,39 @@ public class GameScreen extends AbstractScreen implements InputProcessor, Consol
 
         // create the player
         Vector2 playerSpawnPos = map.getPlayerSpawnPosition();
-        player = new Player(world, playerSpawnPos.x, playerSpawnPos.y);
+        player = new Player(playerSpawnPos.x, playerSpawnPos.y);
+        player.addBodyToWorld(world);
         addInputProcessor(player);
 
         // create the mobs
         for (SpawnArgs mobSpawn : map.getMobSpawnPositions()) {
             switch (mobSpawn.getSpawnType()) {
                 case MOB_ROBOT:
-                    RobotMob testMob = new RobotMob(world, mobSpawn.getX(), mobSpawn.getY());
+                    RobotMob testMob = new RobotMob(mobSpawn.getX(), mobSpawn.getY());
+                    testMob.addBodyToWorld(world);
                     break;
                 case MOB_BALL:
-                    BallMob testBall = new BallMob(world, mobSpawn.getX(), mobSpawn.getY());
+                    BallMob testBall = new BallMob(mobSpawn.getX(), mobSpawn.getY(), rayHandler);
+                    testBall.addBodyToWorld(world);
+                    break;
+            }
+        }
+
+        // create static objects
+        for (SpawnArgs objectSpawn : map.getObjectSpawnPositions()) {
+            switch (objectSpawn.getSpawnType()) {
+                case STATIC_LAMPROPE:
+                    float height = (float) objectSpawn.getAdArgs().getOrDefault(LampRope.AD_ARGS_HEIGHT_KEY,
+                                                                                LampRope.AD_ARGS_HEIGHT_DEFAULT);
+                    float pan = (float) objectSpawn.getAdArgs().getOrDefault(LampRope.AD_ARGS_PAN_KEY, LampRope.AD_ARGS_PAN_DEFAULT);
+                    LampRope lampRope = new LampRope(rayHandler, objectSpawn.getX(), objectSpawn.getY(), height, pan);
+                    lampRope.addBodyToWorld(world);
+                    break;
+                case STATIC_LAMPHORIZONTAL:
+                    Color color = (Color) objectSpawn.getAdArgs().getOrDefault(LampHorizontal.AD_ARGS_COLOR_KEY,
+                                                                               Color.valueOf(LampHorizontal.AD_ARGS_COLOR_DEFAULT));
+                    LampHorizontal lampHorizontal = new LampHorizontal(rayHandler, objectSpawn.getX(), objectSpawn.getY(), color);
+                    lampHorizontal.addBodyToWorld(world);
                     break;
             }
         }
@@ -150,6 +177,8 @@ public class GameScreen extends AbstractScreen implements InputProcessor, Consol
         // start tiledmaprenderer for this frame
         map.updateCamera();
 
+        batch.enableBlending();
+
         // render background using tiled
         if (renderMode == RenderMode.TILED || renderMode == RenderMode.GAME) map.renderBackground();
 
@@ -174,6 +203,13 @@ public class GameScreen extends AbstractScreen implements InputProcessor, Consol
 
         // render foregroundlayer using tiled
         if (renderMode == RenderMode.TILED || renderMode == RenderMode.GAME) map.renderForeground();
+
+        // render lights using Box2d
+        if (renderMode == RenderMode.GAME) {
+            batch.disableBlending();
+            rayHandler.setCombinedMatrix(box2dCamera.combined);
+            rayHandler.updateAndRender();
+        }
 
         //TODO: properly pause the game
         if (!isPaused()) {

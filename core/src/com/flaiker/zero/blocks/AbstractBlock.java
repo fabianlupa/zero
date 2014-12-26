@@ -11,8 +11,8 @@ import com.flaiker.zero.helper.AbstractBox2dObject;
 public abstract class AbstractBlock extends AbstractBox2dObject {
     private static TextureAtlas blockTextureAtlas = new TextureAtlas("atlases/blocks.atlas");
 
-    public AbstractBlock(World world, String atlasPath, float xPosMeter, float yPosMeter) {
-        super(world, atlasPath, blockTextureAtlas, xPosMeter, yPosMeter);
+    public AbstractBlock(String atlasPath, float xPosMeter, float yPosMeter) {
+        super(atlasPath, blockTextureAtlas, xPosMeter, yPosMeter);
     }
 
     @Override
