@@ -166,5 +166,8 @@
   <object gid="20" x="1562" y="758"/>
   <object gid="20" x="2328" y="770"/>
   <object gid="20" x="1980" y="710"/>
+  <object gid="17" x="512" y="512"/>
+  <object gid="17" x="640" y="512"/>
+  <object gid="17" x="704" y="512"/>
  </objectgroup>
 </map>
