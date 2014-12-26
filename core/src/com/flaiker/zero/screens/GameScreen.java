@@ -4,6 +4,7 @@ import box2dLight.RayHandler;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
@@ -147,8 +148,11 @@ public class GameScreen extends AbstractScreen implements InputProcessor, Consol
                     lampRope.addBodyToWorld(world);
                     break;
                 case STATIC_LAMPHORIZONTAL:
-                    LampHorizontal lampHorizontal = new LampHorizontal(rayHandler, objectSpawn.getX(), objectSpawn.getY());
+                    Color color = (Color) objectSpawn.getAdArgs().getOrDefault(LampHorizontal.AD_ARGS_COLOR_KEY,
+                                                                               Color.valueOf(LampHorizontal.AD_ARGS_COLOR_DEFAULT));
+                    LampHorizontal lampHorizontal = new LampHorizontal(rayHandler, objectSpawn.getX(), objectSpawn.getY(), color);
                     lampHorizontal.addBodyToWorld(world);
+                    break;
             }
         }
 

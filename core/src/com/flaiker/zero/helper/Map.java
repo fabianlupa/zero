@@ -18,6 +18,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
 import com.flaiker.zero.blocks.AbstractEdgedBlock;
 import com.flaiker.zero.blocks.MetalBlock;
+import com.flaiker.zero.entities.LampHorizontal;
 import com.flaiker.zero.entities.LampRope;
 
 import java.util.ArrayList;
@@ -162,11 +163,11 @@ public class Map {
                         case SPAWN_LAYER_OBJECT_TYPE_STATIC_NAME:
                             if (tileProperties.containsKey(SPAWN_LAYER_OBJECT_STATIC_SUBTYPE_NAME)) {
                                 String subtypeName = tileProperties.get(SPAWN_LAYER_OBJECT_STATIC_SUBTYPE_NAME, String.class);
+                                SpawnArgs spawnArgs;
                                 switch (subtypeName) {
                                     case SPAWN_LAYER_OBJECT_STATIC_LAMPROPE_NAME:
-                                        SpawnArgs spawnArgs = new SpawnArgs(centerObjectPos.x / mapTileSize,
-                                                                            centerObjectPos.y / mapTileSize,
-                                                                            SpawnArgs.SpawnType.STATIC_LAMPROPE);
+                                        spawnArgs = new SpawnArgs(centerObjectPos.x / mapTileSize, centerObjectPos.y / mapTileSize,
+                                                                  SpawnArgs.SpawnType.STATIC_LAMPROPE);
 
                                         if (object.getProperties().containsKey(LampRope.AD_ARGS_HEIGHT_KEY)) {
                                             float height = Float.parseFloat(object.getProperties().get(LampRope.AD_ARGS_HEIGHT_KEY,
@@ -183,9 +184,16 @@ public class Map {
                                         objectSpawnPositions.add(spawnArgs);
                                         break;
                                     case SPAWN_LAYER_OBJECT_STATIC_LAMPHORIZONTAL_NAME:
-                                        objectSpawnPositions.add(new SpawnArgs(centerObjectPos.x / mapTileSize,
-                                                                               centerObjectPos.y / mapTileSize,
-                                                                               SpawnArgs.SpawnType.STATIC_LAMPHORIZONTAL));
+                                        spawnArgs =  new SpawnArgs(centerObjectPos.x / mapTileSize, centerObjectPos.y / mapTileSize,
+                                                                   SpawnArgs.SpawnType.STATIC_LAMPHORIZONTAL);
+
+                                        if (object.getProperties().containsKey(LampHorizontal.AD_ARGS_COLOR_KEY)) {
+                                            Color color = Color.valueOf(object.getProperties().get(LampHorizontal.AD_ARGS_COLOR_KEY,
+                                                                                                   String.class));
+                                            spawnArgs.addAdditionalArgs(LampHorizontal.AD_ARGS_COLOR_KEY, color);
+                                        }
+
+                                        objectSpawnPositions.add(spawnArgs);
                                         break;
                                 }
                             }

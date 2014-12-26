@@ -11,13 +11,20 @@ import com.badlogic.gdx.physics.box2d.*;
  * Created by Flaiker on 25.12.2014.
  */
 public class LampHorizontal extends AbstractLightSource {
-    public LampHorizontal(RayHandler rayHandler, float xPosMeter, float yPosMeter) {
+    public static final String AD_ARGS_COLOR_KEY     = "color";
+    public static final String AD_ARGS_COLOR_DEFAULT = "FFFF00FF";
+
+    private Color tintColor;
+
+    public LampHorizontal(RayHandler rayHandler, float xPosMeter, float yPosMeter, Color color) {
         super(rayHandler, "lampHorizontal", xPosMeter, yPosMeter);
+        tintColor = color;
+        sprite.setColor(color);
     }
 
     @Override
     protected Light createLight(RayHandler rayHandler) {
-        return new ChainLight(rayHandler, 25, new Color(1, 1, 0, 1f), 4, -1, new float[]{-0.5f, 0, 0, 0, 0.5f, 0});
+        return new ChainLight(rayHandler, 25, tintColor, 4, -1, new float[]{-0.5f, 0, 0, 0, 0.5f, 0});
     }
 
     @Override
