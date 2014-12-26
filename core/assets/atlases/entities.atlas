@@ -102,14 +102,14 @@ ballMob_idle-06
   orig: 54, 54
   offset: 0, 0
   index: -1
-lamprope
+lampRope
   rotate: false
   xy: 944, 87
   size: 42, 18
   orig: 42, 18
   offset: 0, 0
   index: -1
-lamprope-rope
+lampRope-rope
   rotate: false
   xy: 1010, 228
   size: 4, 16

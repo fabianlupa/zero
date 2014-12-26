@@ -26,12 +26,12 @@ public class LampRope extends AbstractEntity {
     private float     initialPanMargin;
 
     public LampRope(RayHandler rayHandler, float xPosMeter, float yPosMeter, float height, float initialPanMargin) {
-        super("lamprope", xPosMeter, yPosMeter);
+        super("lampRope", xPosMeter, yPosMeter);
         if (height < 1) throw new IllegalArgumentException("Height needs to be >=1");
         this.height = height;
         this.initialPanMargin = initialPanMargin;
         createLight(rayHandler);
-        ropeSprite = new Sprite(AbstractEntity.ENTITY_TEXTURE_ATLAS.findRegion("lamprope-rope"));
+        ropeSprite = new Sprite(AbstractEntity.ENTITY_TEXTURE_ATLAS.findRegion("lampRope-rope"));
         ropeSprite.setSize(ropeSprite.getWidth(), height * GameScreen.PIXEL_PER_METER - sprite.getHeight());
         ropeSprite.setOrigin(ropeSprite.getWidth() / 2f, ropeSprite.getHeight());
         ropeSprite.setPosition(xPosMeter * GameScreen.PIXEL_PER_METER - ropeSprite.getWidth() / 2f,
