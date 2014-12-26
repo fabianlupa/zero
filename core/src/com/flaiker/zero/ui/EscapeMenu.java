@@ -11,18 +11,21 @@ import com.badlogic.gdx.scenes.scene2d.utils.NinePatchDrawable;
 import com.flaiker.zero.Zero;
 import com.flaiker.zero.helper.DefaultActorListener;
 import com.flaiker.zero.screens.AbstractScreen;
+import com.flaiker.zero.screens.GameScreen;
 import com.flaiker.zero.screens.MenuScreen;
 
 /**
  * Created by Flaiker on 22.12.2014.
  */
 public class EscapeMenu {
-    private final Zero    zero;
-    private       Table   menuTable;
-    private       boolean isVisible;
+    private final Zero       zero;
+    private final GameScreen gameScreen;
+    private       Table      menuTable;
+    private       boolean    isVisible;
 
-    public EscapeMenu(final Zero zero, Skin skin) {
+    public EscapeMenu(final Zero zero, final GameScreen gameScreen, Skin skin) {
         this.zero = zero;
+        this.gameScreen = gameScreen;
         isVisible = false;
         menuTable = new Table(skin);
         menuTable.setVisible(false);
@@ -45,7 +48,8 @@ public class EscapeMenu {
             @Override
             public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
                 super.touchUp(event, x, y, pointer, button);
-                hideMenu();
+                unpauseGame();
+
             }
         });
         menuTable.add(resumeButton).expand().fill().spaceBottom(20);
@@ -82,20 +86,28 @@ public class EscapeMenu {
         return menuTable;
     }
 
-    public void showMenu() {
+    public void pauseGame() {
+        showMenu();
+        gameScreen.pauseGame();
+    }
+
+    public void unpauseGame() {
+        hideMenu();
+        gameScreen.unpauseGame();
+    }
+
+    private void showMenu() {
         menuTable.setVisible(true);
         isVisible = true;
-        zero.pause();
     }
 
-    public void hideMenu() {
+    private void hideMenu() {
         menuTable.setVisible(false);
         isVisible = false;
-        zero.resume();
     }
 
-    public void switchVisibility() {
-        if (isVisible) hideMenu();
-        else showMenu();
+    public void switchPauseState() {
+        if (isVisible) unpauseGame();
+        else pauseGame();
     }
 }

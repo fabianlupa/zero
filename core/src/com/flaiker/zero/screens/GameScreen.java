@@ -51,8 +51,11 @@ public class GameScreen extends AbstractScreen implements InputProcessor, Consol
     private EscapeMenu  escapeMenu;
     private GameTimer   gameTimer;
 
+    private boolean paused;
+
     public GameScreen(Zero zero) {
         super(zero);
+        paused = false;
         box2dCamera = new OrthographicCamera(SCREEN_WIDTH / PIXEL_PER_METER, SCREEN_HEIGHT / PIXEL_PER_METER);
         box2dCamera.position.set(SCREEN_WIDTH / PIXEL_PER_METER / 2f, SCREEN_HEIGHT / PIXEL_PER_METER / 2f, 0);
         world = new World(new Vector2(0, -10), true);
@@ -66,7 +69,7 @@ public class GameScreen extends AbstractScreen implements InputProcessor, Consol
         world.setContactListener(new WorldContactListener());
         addInputProcessor(this);
         bodies = new Array<>();
-        escapeMenu = new EscapeMenu(zero, skin);
+        escapeMenu = new EscapeMenu(zero, this,  skin);
         gameTimer = new GameTimer(skin);
     }
 
@@ -102,6 +105,14 @@ public class GameScreen extends AbstractScreen implements InputProcessor, Consol
 
         // update timer
         gameTimer.updateTime(delta);
+    }
+
+    public void pauseGame() {
+        paused = true;
+    }
+
+    public void unpauseGame() {
+        paused = false;
     }
 
     @Override
@@ -191,7 +202,7 @@ public class GameScreen extends AbstractScreen implements InputProcessor, Consol
             Object userData = b.getUserData();
             if (userData instanceof AbstractEntity) {
                 AbstractEntity entity = (AbstractEntity) userData;
-                entity.update();
+                if (!isPaused()) entity.update();
                 if (renderMode == RenderMode.GAME || renderMode == RenderMode.TILED) entity.render(batch);
             } else if (userData instanceof AbstractBlock) {
                 if (renderMode == RenderMode.GAME) ((AbstractBlock) userData).render(batch);
@@ -211,11 +222,25 @@ public class GameScreen extends AbstractScreen implements InputProcessor, Consol
             rayHandler.updateAndRender();
         }
 
-        //TODO: properly pause the game
         if (!isPaused()) {
             doPhysicsStep(delta);
             updateLogic(delta);
         }
+    }
+
+    public boolean isPaused() {
+        return paused;
+    }
+
+    @Override
+    public void resume() {
+        super.resume();
+    }
+
+    @Override
+    public void pause() {
+        super.pause();
+        escapeMenu.pauseGame();
     }
 
     @Override
@@ -252,7 +277,7 @@ public class GameScreen extends AbstractScreen implements InputProcessor, Consol
                 keyProcessed = true;
                 break;
             case Input.Keys.ESCAPE:
-                escapeMenu.switchVisibility();
+                escapeMenu.switchPauseState();
                 break;
         }
 

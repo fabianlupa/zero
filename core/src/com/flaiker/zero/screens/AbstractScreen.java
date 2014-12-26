@@ -36,11 +36,9 @@ public abstract class AbstractScreen implements Screen {
     private Label                 fpsLabel;
     private InputMultiplexer      inputMultiplexer;
     private Array<InputProcessor> tempProcessorList;
-    private boolean               isPaused;
 
     public AbstractScreen(Zero zero) {
         this.zero = zero;
-        isPaused = false;
         camera = new OrthographicCamera();
         viewport = new FitViewport(SCREEN_WIDTH, SCREEN_HEIGHT, camera);
         uiStage = new Stage(new FitViewport(SCREEN_WIDTH, SCREEN_HEIGHT));
@@ -86,10 +84,6 @@ public abstract class AbstractScreen implements Screen {
      * Name of the inheriting screen
      */
     protected abstract String getName();
-
-    public boolean isPaused() {
-        return isPaused;
-    }
 
     @Override
     public void show() {
@@ -137,13 +131,11 @@ public abstract class AbstractScreen implements Screen {
     @Override
     public void pause() {
         Gdx.app.log(LOG, "Pausing screen: " + getName());
-        isPaused = true;
     }
 
     @Override
     public void resume() {
         Gdx.app.log(LOG, "Resuming screen: " + getName());
-        isPaused = false;
     }
 
     @Override
