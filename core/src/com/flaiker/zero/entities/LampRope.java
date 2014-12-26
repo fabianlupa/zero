@@ -1,11 +1,11 @@
 package com.flaiker.zero.entities;
 
 import box2dLight.ConeLight;
+import box2dLight.Light;
 import box2dLight.RayHandler;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.physics.box2d.joints.RevoluteJointDef;
@@ -14,23 +14,21 @@ import com.flaiker.zero.screens.GameScreen;
 /**
  * Created by Flaiker on 22.12.2014.
  */
-public class LampRope extends AbstractEntity {
+public class LampRope extends AbstractLightSource {
     public static final String AD_ARGS_HEIGHT_KEY     = "height";
     public static final String AD_ARGS_PAN_KEY        = "pan";
     public static final float  AD_ARGS_HEIGHT_DEFAULT = 1f;
     public static final float  AD_ARGS_PAN_DEFAULT    = 0.2f;
 
-    private ConeLight coneLight;
-    private Sprite    ropeSprite;
-    private float     height;
-    private float     initialPanMargin;
+    private Sprite ropeSprite;
+    private float  height;
+    private float  initialPanMargin;
 
     public LampRope(RayHandler rayHandler, float xPosMeter, float yPosMeter, float height, float initialPanMargin) {
-        super("lampRope", xPosMeter, yPosMeter);
+        super(rayHandler, "lampRope", xPosMeter, yPosMeter);
         if (height < 1) throw new IllegalArgumentException("Height needs to be >=1");
         this.height = height;
         this.initialPanMargin = initialPanMargin;
-        createLight(rayHandler);
         ropeSprite = new Sprite(AbstractEntity.ENTITY_TEXTURE_ATLAS.findRegion("lampRope-rope"));
         ropeSprite.setSize(ropeSprite.getWidth(), height * GameScreen.PIXEL_PER_METER - sprite.getHeight());
         ropeSprite.setOrigin(ropeSprite.getWidth() / 2f, ropeSprite.getHeight());
@@ -38,15 +36,15 @@ public class LampRope extends AbstractEntity {
                                yPosMeter * GameScreen.PIXEL_PER_METER - ropeSprite.getHeight());
     }
 
-    private void createLight(RayHandler rayHandler) {
-        coneLight = new ConeLight(rayHandler, 25, new Color(1, 1, 1, 0.9f), 7, 5, 7.5f, -90, 40);
+    @Override
+    protected Light createLight(RayHandler rayHandler) {
+        setPositionalLightOffsets(0f, 0f, -90f);
+        return new ConeLight(rayHandler, 25, new Color(1, 1, 1, 0.9f), 7, 5, 7.5f, 0, 40);
     }
 
     @Override
     public void update() {
         super.update();
-        coneLight.setPosition(body.getPosition().x, body.getPosition().y);
-        coneLight.setDirection(body.getAngle() * MathUtils.radiansToDegrees - 90);
         ropeSprite.setRotation(sprite.getRotation());
     }
 
