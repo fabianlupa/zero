@@ -91,16 +91,22 @@
   </tile>
   <tile id="1">
    <properties>
-    <property name="ojname" value="lampRope"/>
+    <property name="ojname" value="lampHorizontal"/>
     <property name="type" value="static"/>
    </properties>
   </tile>
   <tile id="2">
    <properties>
-    <property name="type" value="player"/>
+    <property name="ojname" value="lampRope"/>
+    <property name="type" value="static"/>
    </properties>
   </tile>
   <tile id="3">
+   <properties>
+    <property name="type" value="player"/>
+   </properties>
+  </tile>
+  <tile id="4">
    <properties>
     <property name="mobname" value="robot"/>
     <property name="type" value="mob"/>
@@ -124,12 +130,6 @@
  </layer>
  <objectgroup name="ojLayer">
   <object gid="16" x="172" y="604"/>
-  <object gid="17" x="159.998" y="480">
-   <properties>
-    <property name="pan" value="-0.2"/>
-   </properties>
-  </object>
-  <object gid="18" x="33.3337" y="570.667"/>
   <object gid="16" x="1430.67" y="781.333"/>
   <object gid="16" x="1734.67" y="844"/>
   <object gid="16" x="2144" y="852"/>
@@ -138,15 +138,33 @@
   <object gid="16" x="2434.67" y="633.333"/>
   <object gid="16" x="2328" y="610.667"/>
   <object gid="16" x="2228" y="630.667"/>
-  <object gid="18" x="1900" y="745.333"/>
-  <object gid="19" x="730.667" y="709.333"/>
-  <object gid="17" x="544" y="480">
+  <object gid="18" x="1760" y="608">
    <properties>
-    <property name="height" value="1"/>
-    <property name="pan" value="-1"/>
+    <property name="height" value="2.5"/>
+    <property name="pan" value="2"/>
    </properties>
   </object>
-  <object gid="17" x="352" y="480"/>
-  <object gid="17" x="1760" y="608"/>
+  <object gid="19" x="37.3337" y="576"/>
+  <object gid="18" x="160" y="480">
+   <properties>
+    <property name="height" value="1.5"/>
+   </properties>
+  </object>
+  <object gid="18" x="290" y="480">
+   <properties>
+    <property name="height" value="2"/>
+   </properties>
+  </object>
+  <object gid="18" x="416" y="480">
+   <properties>
+    <property name="height" value="1"/>
+    <property name="pan" value="-0.2"/>
+   </properties>
+  </object>
+  <object gid="20" x="645.333" y="728"/>
+  <object gid="16" x="628" y="609.333"/>
+  <object gid="20" x="1562" y="758"/>
+  <object gid="20" x="2328" y="770"/>
+  <object gid="20" x="1980" y="710"/>
  </objectgroup>
 </map>
