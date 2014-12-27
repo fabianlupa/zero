@@ -11,6 +11,7 @@ import com.flaiker.zero.screens.AbstractScreen;
 import com.flaiker.zero.screens.MenuScreen;
 import com.flaiker.zero.services.ConsoleManager;
 import com.flaiker.zero.services.PreferencesManager;
+import com.flaiker.zero.services.ResourceManager;
 
 import java.util.HashMap;
 
@@ -20,6 +21,7 @@ public class Zero extends Game {
     // Services
     private PreferencesManager preferencesManager;
     private ConsoleManager     consoleManager;
+    private ResourceManager    resourceManager;
 
     private void initializeConsoleCommands() {
         consoleManager.clearCommands();
@@ -51,6 +53,7 @@ public class Zero extends Game {
         Gdx.app.log(LOG, "Creating game on " + Gdx.app.getType());
         preferencesManager = new PreferencesManager();
         consoleManager = new ConsoleManager();
+        resourceManager = new ResourceManager();
         initializeConsoleCommands();
     }
 
@@ -99,5 +102,9 @@ public class Zero extends Game {
 
     public ConsoleManager getConsoleManager() {
         return consoleManager;
+    }
+
+    public ResourceManager getResourceManager() {
+        return resourceManager;
     }
 }
