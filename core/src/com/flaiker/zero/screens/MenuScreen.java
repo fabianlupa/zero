@@ -54,7 +54,7 @@ public class MenuScreen extends AbstractScreen {
                 zero.setScreen(new LoadingScreen(zero, new LoadingScreen.LoadingCalls() {
                     @Override
                     public void doLoad() {
-                        zero.getResourceManager().addTaskToQueue(new RefreshAtlasesTask());
+                        if (zero.isDebugMode()) zero.getResourceManager().addTaskToQueue(new RefreshAtlasesTask());
                         zero.getResourceManager().addTaskToQueue(new LoadIngameAssetsTask(zero.getResourceManager().getAssetManager()));
                         zero.getResourceManager().runThroughTaskQueue();
                     }

@@ -18,10 +18,15 @@ import java.util.HashMap;
 public class Zero extends Game {
     public static final String LOG = Zero.class.getSimpleName();
 
+    private boolean debugMode;
     // Services
     private PreferencesManager preferencesManager;
     private ConsoleManager     consoleManager;
     private ResourceManager    resourceManager;
+
+    public Zero(boolean debug) {
+        debugMode = debug;
+    }
 
     private void initializeConsoleCommands() {
         consoleManager.clearCommands();
@@ -46,6 +51,10 @@ public class Zero extends Game {
                 Gdx.app.exit();
             }
         }));
+    }
+
+    public boolean isDebugMode() {
+        return debugMode;
     }
 
     @Override
