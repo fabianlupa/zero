@@ -1,52 +1,106 @@
 package com.flaiker.zero.services;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.badlogic.gdx.tools.texturepacker.TexturePacker;
+import com.flaiker.zero.services.rmtasks.AbstractTask;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 /**
  * Created by Flaiker on 26.12.2014.
  */
 public class ResourceManager {
-    private static final String ATLAS_INPUT_ENTITIES_PATH = "entities";
-    private static final String ATLAS_INPUT_BLOCKS_PATH   = "blocks";
-    private static final String ATLAS_INPUT_SPAWNS_PATH   = "spawns";
-    private static final String ATLAS_OUTPUT_PATH         = "atlases";
+    public static final String LOG = ResourceManager.class.getSimpleName();
 
-    private static final String[] INGAME_ATLAS_PATHS = {"atlases/blocks.png", "atlases/entities.png"};
+    private AssetManager    assetManager;
+    private ExecutorService singleThreadExecutor;
 
-    private AssetManager assetManager;
+    private List<AbstractTask> taskQueue;
+    private AbstractTask       currentTask;
+    private float              calculatedTime;
 
     public ResourceManager() {
+        taskQueue = new ArrayList<>();
+
         assetManager = new AssetManager();
+        singleThreadExecutor = Executors.newSingleThreadExecutor();
     }
 
-    public void refreshAtlases() {
-        // entities
-        TexturePacker.process(ATLAS_INPUT_ENTITIES_PATH, ATLAS_OUTPUT_PATH, ATLAS_INPUT_ENTITIES_PATH);
-        // blocks
-        TexturePacker.process(ATLAS_INPUT_BLOCKS_PATH, ATLAS_OUTPUT_PATH, ATLAS_INPUT_BLOCKS_PATH);
-        // spawns
-        TexturePacker.process(ATLAS_INPUT_SPAWNS_PATH, ATLAS_OUTPUT_PATH, ATLAS_INPUT_SPAWNS_PATH);
-    }
-
-    public void loadIngameAssets() {
-        for (String atlasPath : INGAME_ATLAS_PATHS) {
-            assetManager.load(atlasPath, TextureAtlas.class);
+    private void runTask(final AbstractTask task) {
+        if (task.isExecutedInOwnThread()) {
+            Thread taskThread = new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    currentTask = task;
+                    task.run();
+                    currentTask = null;
+                }
+            });
+            singleThreadExecutor.submit(taskThread);
+        } else {
+            singleThreadExecutor.shutdown();
+            Thread waitingThread = new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    try {
+                        while (!singleThreadExecutor.isTerminated()) {
+                            Thread.sleep(100);
+                        }
+                        currentTask = task;
+                        task.run();
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+            });
+            waitingThread.start();
         }
     }
 
-    public void unloadIngameAssets() {
-        for (String atlasPath : INGAME_ATLAS_PATHS) {
-            assetManager.unload(atlasPath);
+    public void addTaskToQueue(AbstractTask task) {
+        taskQueue.add(task);
+    }
+
+    public void runThroughTaskQueue() {
+        for (AbstractTask task : taskQueue) {
+            calculatedTime += task.getPropableTime();
+        }
+
+        for (AbstractTask task : taskQueue) {
+            runTask(task);
         }
     }
 
     public float getLoadingPercent() {
-        return assetManager.getProgress();
+        float done = 0f;
+        for (AbstractTask task : taskQueue) {
+            if (task == currentTask) {
+                done += task.getPercentageCompleted() * task.getPropableTime();
+                break;
+            } else {
+                done += task.getPropableTime();
+            }
+        }
+        Gdx.app.log(LOG, "Done: " + done / calculatedTime);
+        return done / calculatedTime;
     }
 
     public boolean isDoneLoading() {
-        return assetManager.update();
+        if (taskQueue.size() == 0 || taskQueue.get(taskQueue.size() - 1).isDone()) {
+            taskQueue.clear();
+            singleThreadExecutor = Executors.newSingleThreadExecutor();
+            return true;
+        } else return false;
+    }
+
+    public String getCurrentTaskDescription() {
+        return currentTask == null ? "Doing nothing" : currentTask.getTaskDescription();
+    }
+
+    public AssetManager getAssetManager() {
+        return assetManager;
     }
 }
