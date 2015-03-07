@@ -1,4 +1,4 @@
-Zero [![Build Status](https://magnum.travis-ci.com/Flaiker/Zero.svg?token=dqh3yJEMxtgMhb4syMRh)](https://magnum.travis-ci.com/Flaiker/Zero)
+Zero [![Build Status](https://travis-ci.org/Flaiker/Zero.svg)](https://travis-ci.org/Flaiker/Zero)
 ====
 
 LibGDX Platformer using Box2D
