@@ -1,3 +1,7 @@
+/******************************************************************************
+ * Copyright 2015 Fabian Lupa                                                 *
+ ******************************************************************************/
+
 package com.flaiker.zero.desktop;
 
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
