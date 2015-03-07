@@ -1,3 +1,7 @@
+/******************************************************************************
+ * Copyright 2015 Fabian Lupa                                                 *
+ ******************************************************************************/
+
 package com.flaiker.zero.abilities;
 
 import com.badlogic.gdx.graphics.Texture;
