@@ -1,0 +1,18 @@
+language: java
+jdk:
+- oraclejdk8
+before_install:
+- chmod +x gradlew
+before_deploy:
+- ./gradlew desktop:dist
+- mv desktop/build/libs/desktop-1.0.jar desktop/build/libs/Zero-$TRAVIS_TAG.jar
+- git checkout gradlew
+deploy:
+  provider: releases
+  api_key:
+    secure: DRM0TBuWadSirsnekkmBuQUvykvBuR1jC1Loux6xaRPXRCPZffbxQK+jpHUT9RrQDVV6hAOF/WQR1fLdcAdFHn8LWFzqCYs1uMayP0fe6C7HCcuh9P6DiqCc1mRH96qwbEoAxamEgEpLn1WE8Lpkt9qpxpOjdVT1YQdchl1xJdo=
+  file: desktop/build/libs/Zero-$TRAVIS_TAG.jar
+  on:
+    tags: true
+    repo: Flaiker/Zero
+    all_branches: true
