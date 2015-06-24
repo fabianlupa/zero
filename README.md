@@ -1,4 +1,4 @@
-Zero [![Build Status](https://travis-ci.org/flaiker/zero.svg)](https://travis-ci.org/flaiker/zero)
+Zero [![Build Status](https://travis-ci.org/flaiker/zero.svg?branch=master)](https://travis-ci.org/flaiker/zero)
 ====
 
 LibGDX Platformer using Box2D

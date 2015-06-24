@@ -3,6 +3,8 @@ jdk:
 - oraclejdk8
 before_install:
 - chmod +x gradlew
+branches:
+  except: metadata
 before_deploy:
 - ./gradlew desktop:dist
 - mv desktop/build/libs/desktop-1.0.jar desktop/build/libs/Zero-$TRAVIS_TAG.jar
