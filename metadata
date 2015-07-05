@@ -1,7 +1,7 @@
 {
 	"iconpath": "icon.png",
 	"imagepath": "image.png",
-	"licence": "No Licence",
+	"license": "No Licence",
 	"displayname": "Zero",
 	"language": "Java"
 }
