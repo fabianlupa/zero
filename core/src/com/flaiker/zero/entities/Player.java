@@ -109,7 +109,7 @@ public class Player extends AbstractLivingEntity implements InputProcessor, Cons
     public void update() {
         super.update();
         animationManager.updateSprite();
-        animationManager.updateAnimationFrameDuration("walk", 1f / Math.abs(body.getLinearVelocity().x));
+        animationManager.updateAnimationFrameDuration("walk", 0.3f / Math.abs(body.getLinearVelocity().x));
     }
 
     @Override
