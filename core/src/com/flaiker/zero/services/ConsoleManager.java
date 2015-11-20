@@ -68,10 +68,10 @@ public class ConsoleManager {
     }
 
     public interface CommandExecutor {
-        public void OnCommandFired(HashMap<String, String> parValuePairs);
+        void OnCommandFired(HashMap<String, String> parValuePairs);
     }
 
     public interface CommandableInstance {
-        public List<ConsoleCommand> getConsoleCommands();
+        List<ConsoleCommand> getConsoleCommands();
     }
 }

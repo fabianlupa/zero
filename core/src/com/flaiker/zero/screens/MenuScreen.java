@@ -55,13 +55,15 @@ public class MenuScreen extends AbstractScreen {
                     @Override
                     public void doLoad() {
                         if (zero.isDebugMode()) zero.getResourceManager().addTaskToQueue(new RefreshAtlasesTask());
-                        zero.getResourceManager().addTaskToQueue(new LoadIngameAssetsTask(zero.getResourceManager().getAssetManager()));
+                        zero.getResourceManager().addTaskToQueue(new LoadIngameAssetsTask(zero.getResourceManager()
+                                                                                              .getAssetManager()));
                         zero.getResourceManager().runThroughTaskQueue();
                     }
 
                     @Override
                     public float reportProgress() {
-                        if (!zero.getResourceManager().isDoneLoading()) return zero.getResourceManager().getLoadingPercent();
+                        if (!zero.getResourceManager().isDoneLoading())
+                            return zero.getResourceManager().getLoadingPercent();
                         else return 1f;
                     }
 

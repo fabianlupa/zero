@@ -75,14 +75,16 @@ public class LampRope extends AbstractLightSource {
         anchorBody.createFixture(fdef);
         fdef.isSensor = false;
 
-        bdef.position.set(spawnVector.x + initialPanMargin, spawnVector.y - height - sprite.getHeight() / GameScreen.PIXEL_PER_METER / 2f);
+        bdef.position.set(spawnVector.x + initialPanMargin,
+                          spawnVector.y - height - sprite.getHeight() / GameScreen.PIXEL_PER_METER / 2f);
         bdef.type = BodyDef.BodyType.DynamicBody;
         Body lampBody = world.createBody(bdef);
         lampBody.setUserData(this);
-        shape.set(new Vector2[]{
-                new Vector2(-sprite.getWidth() / 2f / GameScreen.PIXEL_PER_METER, -sprite.getHeight() / 2 / GameScreen.PIXEL_PER_METER),
-                new Vector2(sprite.getWidth() / 2f / GameScreen.PIXEL_PER_METER, -sprite.getHeight() / 2 / GameScreen.PIXEL_PER_METER),
-                new Vector2(0, sprite.getHeight() / 2 / GameScreen.PIXEL_PER_METER)});
+        shape.set(new Vector2[]{new Vector2(-sprite.getWidth() / 2f / GameScreen.PIXEL_PER_METER,
+                                            -sprite.getHeight() / 2 / GameScreen.PIXEL_PER_METER),
+                                new Vector2(sprite.getWidth() / 2f / GameScreen.PIXEL_PER_METER,
+                                            -sprite.getHeight() / 2 / GameScreen.PIXEL_PER_METER),
+                                new Vector2(0, sprite.getHeight() / 2 / GameScreen.PIXEL_PER_METER)});
         fdef.shape = shape;
         fdef.density = 100;
         lampBody.createFixture(fdef);

@@ -166,7 +166,8 @@ public abstract class AbstractScreen implements Screen {
 
         // Update FPS-Counter
         fpsLabel.setText("FPS: " + String.valueOf(Gdx.graphics.getFramesPerSecond()));
-        fpsLabel.setPosition(uiStage.getWidth() - fpsLabel.getPrefWidth(), uiStage.getHeight() - fpsLabel.getPrefHeight() / 2);
+        fpsLabel.setPosition(uiStage.getWidth() - fpsLabel.getPrefWidth(),
+                             uiStage.getHeight() - fpsLabel.getPrefHeight() / 2);
         uiStage.act(delta);
         uiStage.draw();
     }
@@ -174,5 +175,6 @@ public abstract class AbstractScreen implements Screen {
     /**
      * Render method that is called before the UI gets drawn
      */
-    protected void preUIrender(float delta) {}
+    protected void preUIrender(float delta) {
+    }
 }

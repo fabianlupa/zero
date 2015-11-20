@@ -20,11 +20,13 @@ public abstract class AbstractLivingEntity extends AbstractEntity {
         switch (requestedDirection) {
             case RIGHT:
                 body.applyForceToCenter(getAccelerationX(), 0f, true);
-                if (body.getLinearVelocity().x > getMaxSpeedX()) body.setLinearVelocity(getMaxSpeedX(), body.getLinearVelocity().y);
+                if (body.getLinearVelocity().x > getMaxSpeedX())
+                    body.setLinearVelocity(getMaxSpeedX(), body.getLinearVelocity().y);
                 break;
             case LEFT:
                 body.applyForceToCenter(-getAccelerationX(), 0f, true);
-                if (body.getLinearVelocity().x < -getMaxSpeedX()) body.setLinearVelocity(-getMaxSpeedX(), body.getLinearVelocity().y);
+                if (body.getLinearVelocity().x < -getMaxSpeedX())
+                    body.setLinearVelocity(-getMaxSpeedX(), body.getLinearVelocity().y);
                 break;
             case NONE:
                 if (body.getLinearVelocity().x > 0) {
@@ -65,7 +67,7 @@ public abstract class AbstractLivingEntity extends AbstractEntity {
         return requestedDirection;
     }
 
-    public static enum Direction {
+    public enum Direction {
         LEFT, RIGHT, NONE
     }
 }

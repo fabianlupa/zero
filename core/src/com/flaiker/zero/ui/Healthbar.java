@@ -49,14 +49,16 @@ public class Healthbar extends Actor {
     @Override
     public void draw(Batch batch, float parentAlpha) {
         super.draw(batch, parentAlpha);
-        batch.setColor(1, 1, 1, 1); // reset the alpha value of the batch after the abilityscrollpanel somehow messed it up -_-
+        // reset the alpha value of the batch after the abilityscrollpanel somehow messed it up -_-
+        batch.setColor(1, 1, 1, 1);
+
         backgroundSprite.setPosition(getX(), getY());
         backgroundSprite.setSize(getWidth(), getHeight());
         backgroundSprite.draw(batch);
 
         for (int i = 0; i < currentHealth; i++) {
-            blockNinePatch.draw(batch, getX() + 4 + i * BAR_INNER_WIDTH / maxHealth, getY() + 1, BAR_INNER_WIDTH / maxHealth,
-                                blockNinePatch.getTexture().getHeight());
+            blockNinePatch.draw(batch, getX() + 4 + i * BAR_INNER_WIDTH / maxHealth, getY() + 1,
+                                BAR_INNER_WIDTH / maxHealth, blockNinePatch.getTexture().getHeight());
         }
 
         foregroundSprite.setPosition(getX(), getY());

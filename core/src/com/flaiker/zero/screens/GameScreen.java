@@ -73,7 +73,7 @@ public class GameScreen extends AbstractScreen implements InputProcessor, Consol
         world.setContactListener(new WorldContactListener());
         addInputProcessor(this);
         bodies = new Array<>();
-        escapeMenu = new EscapeMenu(zero, this,  skin);
+        escapeMenu = new EscapeMenu(zero, this, skin);
         gameTimer = new GameTimer(skin);
     }
 
@@ -158,14 +158,17 @@ public class GameScreen extends AbstractScreen implements InputProcessor, Consol
                 case STATIC_LAMPROPE:
                     float height = (float) objectSpawn.getAdArgs().getOrDefault(LampRope.AD_ARGS_HEIGHT_KEY,
                                                                                 LampRope.AD_ARGS_HEIGHT_DEFAULT);
-                    float pan = (float) objectSpawn.getAdArgs().getOrDefault(LampRope.AD_ARGS_PAN_KEY, LampRope.AD_ARGS_PAN_DEFAULT);
+                    float pan = (float) objectSpawn.getAdArgs().getOrDefault(LampRope.AD_ARGS_PAN_KEY,
+                                                                             LampRope.AD_ARGS_PAN_DEFAULT);
                     LampRope lampRope = new LampRope(rayHandler, objectSpawn.getX(), objectSpawn.getY(), height, pan);
                     lampRope.addBodyToWorld(world);
                     break;
                 case STATIC_LAMPHORIZONTAL:
-                    Color color = (Color) objectSpawn.getAdArgs().getOrDefault(LampHorizontal.AD_ARGS_COLOR_KEY,
-                                                                               Color.valueOf(LampHorizontal.AD_ARGS_COLOR_DEFAULT));
-                    LampHorizontal lampHorizontal = new LampHorizontal(rayHandler, objectSpawn.getX(), objectSpawn.getY(), color);
+                    Color color = (Color) objectSpawn.getAdArgs()
+                                                     .getOrDefault(LampHorizontal.AD_ARGS_COLOR_KEY,
+                                                                   Color.valueOf(LampHorizontal.AD_ARGS_COLOR_DEFAULT));
+                    LampHorizontal lampHorizontal = new LampHorizontal(rayHandler, objectSpawn.getX(),
+                                                                       objectSpawn.getY(), color);
                     lampHorizontal.addBodyToWorld(world);
                     break;
             }
