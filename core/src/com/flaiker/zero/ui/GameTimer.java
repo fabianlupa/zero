@@ -18,7 +18,7 @@ public class GameTimer {
     private long       gameTimeMillis;
 
     public GameTimer(Skin skin) {
-        gameTimeMillis = 0l;
+        gameTimeMillis = 0L;
         timerButton = new TextButton("TIME", skin);
         timerButton.setWidth(200f);
         timerButton.setPosition(AbstractScreen.SCREEN_WIDTH / 2 - timerButton.getWidth() / 2,
@@ -34,7 +34,8 @@ public class GameTimer {
         gameTimeMillis += delta * 1000f;
         String formattedTime = String.format("%02d:%02d", TimeUnit.MILLISECONDS.toMinutes(gameTimeMillis),
                                              TimeUnit.MILLISECONDS.toSeconds(gameTimeMillis) -
-                                             TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(gameTimeMillis)));
+                                             TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS
+                                                                                .toMinutes(gameTimeMillis)));
         timerButton.setText(formattedTime);
     }
 }

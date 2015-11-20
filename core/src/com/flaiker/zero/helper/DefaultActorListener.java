@@ -9,7 +9,7 @@ import com.badlogic.gdx.scenes.scene2d.InputListener;
 
 /**
  * An utility {@link com.badlogic.gdx.scenes.scene2d.InputListener} class.
- * <p/>
+ * <p>
  * Defines the {@link #touchDown(com.badlogic.gdx.scenes.scene2d.InputEvent, float, float, int, int)} method
  * returning <code>true</code> by default, so the
  * {@link #touchDown(com.badlogic.gdx.scenes.scene2d.InputEvent, float, float, int, int)} method gets invoked.

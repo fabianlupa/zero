@@ -10,9 +10,9 @@ import java.util.HashMap;
  * Created by Flaiker on 12.12.2014.
  */
 public class SpawnArgs {
-    private float     x;
-    private float     y;
-    private SpawnType spawnType;
+    private float                   x;
+    private float                   y;
+    private SpawnType               spawnType;
     private HashMap<String, Object> adArgs;
 
     public SpawnArgs(float xPos, float yPos, SpawnType spawnType) {

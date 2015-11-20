@@ -34,17 +34,15 @@ import java.util.List;
 
 /**
  * Holder-Class for a map made in Tiled (.tmx).
- *
  * <p>
  * Needs to have the following layers:
  * <ul>
- *     <li>fgLayer - rendered by {@link com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer}</li>
- *     <li>mgLayer - rendered using Box2d, provides collision with entities</li>
- *     <li>bgLayer - rendered by {@link com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer}</li>
- *     <li>ojLayer - not rendered, defines spawnpositions of entities</li>
+ * <li>fgLayer - rendered by {@link com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer}</li>
+ * <li>mgLayer - rendered using Box2d, provides collision with entities</li>
+ * <li>bgLayer - rendered by {@link com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer}</li>
+ * <li>ojLayer - not rendered, defines spawnpositions of entities</li>
  * </ul>
  * </p>
- *
  * <p>
  * The width of a tile is taken from the mgLayer-tileset. Tiles must be squares.
  * </p>
@@ -134,7 +132,8 @@ public class Map {
         MapObjects objects = spawnLayer.getObjects();
         for (MapObject object : objects) {
             if (object instanceof RectangleMapObject) {
-                MapProperties tileProperties = tiledMap.getTileSets().getTile((Integer) object.getProperties().get(GID)).getProperties();
+                MapProperties tileProperties = tiledMap.getTileSets().getTile((Integer) object.getProperties().get(GID))
+                                                       .getProperties();
                 Vector2 centerObjectPos = new Vector2();
                 ((RectangleMapObject) object).getRectangle().getPosition(centerObjectPos);
                 centerObjectPos.add(mapTileSize / 2f, mapTileSize / 2f);
@@ -143,13 +142,16 @@ public class Map {
                     switch (typeName) {
                         case SPAWN_LAYER_OBJECT_TYPE_PLAYER_NAME:
                             if (playerSpawnPosition == null) {
-                                playerSpawnPosition = new Vector2(centerObjectPos.x / mapTileSize, centerObjectPos.y / mapTileSize);
-                                Gdx.app.log(LOG, "Set player spawn to " + playerSpawnPosition.x + "|" + playerSpawnPosition.y);
+                                playerSpawnPosition =
+                                        new Vector2(centerObjectPos.x / mapTileSize, centerObjectPos.y / mapTileSize);
+                                Gdx.app.log(LOG, "Set player spawn to " + playerSpawnPosition.x + "|" +
+                                                 playerSpawnPosition.y);
                             }
                             break;
                         case SPAWN_LAYER_OBJECT_TYPE_MOB_NAME:
                             if (tileProperties.containsKey(SPAWN_LAYER_OBJECT_MOB_SUBTYPE_NAME)) {
-                                String subtypeName = tileProperties.get(SPAWN_LAYER_OBJECT_MOB_SUBTYPE_NAME, String.class);
+                                String subtypeName = tileProperties.get(SPAWN_LAYER_OBJECT_MOB_SUBTYPE_NAME,
+                                                                        String.class);
                                 switch (subtypeName) {
                                     case SPAWN_LAYER_OBJECT_MOB_SUBTYPE_ROBOT_NAME:
                                         mobSpawnPositions.add(new SpawnArgs(centerObjectPos.x / mapTileSize,
@@ -166,34 +168,40 @@ public class Map {
                             break;
                         case SPAWN_LAYER_OBJECT_TYPE_STATIC_NAME:
                             if (tileProperties.containsKey(SPAWN_LAYER_OBJECT_STATIC_SUBTYPE_NAME)) {
-                                String subtypeName = tileProperties.get(SPAWN_LAYER_OBJECT_STATIC_SUBTYPE_NAME, String.class);
+                                String subtypeName = tileProperties.get(SPAWN_LAYER_OBJECT_STATIC_SUBTYPE_NAME,
+                                                                        String.class);
                                 SpawnArgs spawnArgs;
                                 switch (subtypeName) {
                                     case SPAWN_LAYER_OBJECT_STATIC_LAMPROPE_NAME:
-                                        spawnArgs = new SpawnArgs(centerObjectPos.x / mapTileSize, centerObjectPos.y / mapTileSize,
+                                        spawnArgs = new SpawnArgs(centerObjectPos.x / mapTileSize,
+                                                                  centerObjectPos.y / mapTileSize,
                                                                   SpawnArgs.SpawnType.STATIC_LAMPROPE);
 
                                         if (object.getProperties().containsKey(LampRope.AD_ARGS_HEIGHT_KEY)) {
-                                            float height = Float.parseFloat(object.getProperties().get(LampRope.AD_ARGS_HEIGHT_KEY,
-                                                                                                       String.class));
+                                            float height = Float.parseFloat(object.getProperties()
+                                                                                  .get(LampRope.AD_ARGS_HEIGHT_KEY,
+                                                                                       String.class));
                                             spawnArgs.addAdditionalArgs(LampRope.AD_ARGS_HEIGHT_KEY, height);
                                         }
 
                                         if (object.getProperties().containsKey(LampRope.AD_ARGS_PAN_KEY)) {
-                                            float pan = Float.parseFloat(object.getProperties().get(LampRope.AD_ARGS_PAN_KEY,
-                                                                                                    String.class));
+                                            float pan = Float.parseFloat(object.getProperties()
+                                                                               .get(LampRope.AD_ARGS_PAN_KEY,
+                                                                                    String.class));
                                             spawnArgs.addAdditionalArgs(LampRope.AD_ARGS_PAN_KEY, pan);
                                         }
 
                                         objectSpawnPositions.add(spawnArgs);
                                         break;
                                     case SPAWN_LAYER_OBJECT_STATIC_LAMPHORIZONTAL_NAME:
-                                        spawnArgs =  new SpawnArgs(centerObjectPos.x / mapTileSize, centerObjectPos.y / mapTileSize,
-                                                                   SpawnArgs.SpawnType.STATIC_LAMPHORIZONTAL);
+                                        spawnArgs = new SpawnArgs(centerObjectPos.x / mapTileSize,
+                                                                  centerObjectPos.y / mapTileSize,
+                                                                  SpawnArgs.SpawnType.STATIC_LAMPHORIZONTAL);
 
                                         if (object.getProperties().containsKey(LampHorizontal.AD_ARGS_COLOR_KEY)) {
-                                            Color color = Color.valueOf(object.getProperties().get(LampHorizontal.AD_ARGS_COLOR_KEY,
-                                                                                                   String.class));
+                                            Color color = Color.valueOf(object.getProperties()
+                                                                              .get(LampHorizontal.AD_ARGS_COLOR_KEY,
+                                                                                   String.class));
                                             spawnArgs.addAdditionalArgs(LampHorizontal.AD_ARGS_COLOR_KEY, color);
                                         }
 

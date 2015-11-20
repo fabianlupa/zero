@@ -50,11 +50,11 @@ public class LoadingScreen extends AbstractScreen {
     }
 
     public interface LoadingCalls {
-        public void doLoad();
-        public float reportProgress();
-        public boolean isFinished();
-        public void finishLoading();
-        public String getCurrentLoadingMessage();
+        void doLoad();
+        float reportProgress();
+        boolean isFinished();
+        void finishLoading();
+        String getCurrentLoadingMessage();
     }
 
     @Override

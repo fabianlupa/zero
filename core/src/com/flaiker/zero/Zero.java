@@ -13,12 +13,10 @@ import com.flaiker.zero.services.ConsoleManager;
 import com.flaiker.zero.services.PreferencesManager;
 import com.flaiker.zero.services.ResourceManager;
 
-import java.util.HashMap;
-
 public class Zero extends Game {
     public static final String LOG = Zero.class.getSimpleName();
 
-    private boolean debugMode;
+    private boolean            debugMode;
     // Services
     private PreferencesManager preferencesManager;
     private ConsoleManager     consoleManager;
@@ -31,26 +29,19 @@ public class Zero extends Game {
     private void initializeConsoleCommands() {
         consoleManager.clearCommands();
 
-        consoleManager.addCommand(new ConsoleManager.ConsoleCommand("fullscreen", new ConsoleManager.CommandExecutor() {
-            @Override
-            public void OnCommandFired(HashMap<String, String> parValuePairs) {
-                if (parValuePairs.containsKey("true")) {
-                    Gdx.graphics
-                            .setDisplayMode(Gdx.graphics.getDesktopDisplayMode().width, Gdx.graphics.getDesktopDisplayMode().height, true);
-                    Gdx.app.log(LOG, "Enabled fullscreen");
-                } else if (parValuePairs.containsKey("false")) {
-                    Gdx.graphics.setDisplayMode((int) AbstractScreen.SCREEN_WIDTH, (int) AbstractScreen.SCREEN_HEIGHT, false);
-                    Gdx.app.log(LOG, "Disabled fullscreen");
-                }
+        consoleManager.addCommand(new ConsoleManager.ConsoleCommand("fullscreen", parValuePairs -> {
+            if (parValuePairs.containsKey("true")) {
+                Gdx.graphics.setDisplayMode(Gdx.graphics.getDesktopDisplayMode().width,
+                                            Gdx.graphics.getDesktopDisplayMode().height, true);
+                Gdx.app.log(LOG, "Enabled fullscreen");
+            } else if (parValuePairs.containsKey("false")) {
+                Gdx.graphics.setDisplayMode((int) AbstractScreen.SCREEN_WIDTH, (int) AbstractScreen.SCREEN_HEIGHT,
+                                            false);
+                Gdx.app.log(LOG, "Disabled fullscreen");
             }
         }));
 
-        consoleManager.addCommand(new ConsoleManager.ConsoleCommand("exit", new ConsoleManager.CommandExecutor() {
-            @Override
-            public void OnCommandFired(HashMap<String, String> parValuePairs) {
-                Gdx.app.exit();
-            }
-        }));
+        consoleManager.addCommand(new ConsoleManager.ConsoleCommand("exit", parValuePairs -> Gdx.app.exit()));
     }
 
     public boolean isDebugMode() {

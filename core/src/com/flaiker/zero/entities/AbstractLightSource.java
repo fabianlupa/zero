@@ -26,7 +26,8 @@ public abstract class AbstractLightSource extends AbstractEntity {
         this.rayHandler = rayHandler;
     }
 
-    protected void setPositionalLightOffsets(float bodyLightOffsetX, float bodyLightOffsetY, float bodyLightAngleOffset) {
+    protected void setPositionalLightOffsets(float bodyLightOffsetX, float bodyLightOffsetY,
+                                             float bodyLightAngleOffset) {
         this.bodyLightOffsetX = bodyLightOffsetX;
         this.bodyLightOffsetY = bodyLightOffsetY;
         this.bodyLightAngleOffset = bodyLightAngleOffset;
@@ -46,6 +47,7 @@ public abstract class AbstractLightSource extends AbstractEntity {
             if (light instanceof PositionalLight) {
                 ((PositionalLight) light).attachToBody(body, bodyLightOffsetX, bodyLightOffsetY, bodyLightAngleOffset);
             } else light.attachToBody(body);
-        } else throw new IllegalStateException("light or body have not been initialized, light could not be attached to body");
+        } else throw new IllegalStateException("light or body have not been initialized, " +
+                                               "light could not be attached to body");
     }
 }

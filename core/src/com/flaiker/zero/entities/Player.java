@@ -17,7 +17,6 @@ import com.flaiker.zero.screens.GameScreen;
 import com.flaiker.zero.services.ConsoleManager;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -58,7 +57,9 @@ public class Player extends AbstractLivingEntity implements InputProcessor, Cons
         return maxHealth;
     }
 
-    public boolean isPlayerOnGround() { return numFootContacts > 0; }
+    public boolean isPlayerOnGround() {
+        return numFootContacts > 0;
+    }
 
     public void switchSelectedAbility(AbstractAbility ability) {
         selectedAbility = ability;
@@ -176,8 +177,10 @@ public class Player extends AbstractLivingEntity implements InputProcessor, Cons
                 if (!(Gdx.input.isKeyPressed(Input.Keys.LEFT) || Gdx.input.isKeyPressed(Input.Keys.RIGHT)))
                     setRequestedDirection(Direction.NONE);
                 // Move in other direction if two keys were pressed
-                if ((keycode == Input.Keys.LEFT) && Gdx.input.isKeyPressed(Input.Keys.RIGHT)) setRequestedDirection(Direction.RIGHT);
-                if ((keycode == Input.Keys.RIGHT) && Gdx.input.isKeyPressed(Input.Keys.LEFT)) setRequestedDirection(Direction.LEFT);
+                if ((keycode == Input.Keys.LEFT) && Gdx.input.isKeyPressed(Input.Keys.RIGHT))
+                    setRequestedDirection(Direction.RIGHT);
+                if ((keycode == Input.Keys.RIGHT) && Gdx.input.isKeyPressed(Input.Keys.LEFT))
+                    setRequestedDirection(Direction.LEFT);
                 keyProcessed = true;
                 break;
         }
@@ -217,34 +220,28 @@ public class Player extends AbstractLivingEntity implements InputProcessor, Cons
     @Override
     public List<ConsoleManager.ConsoleCommand> getConsoleCommands() {
         List<ConsoleManager.ConsoleCommand> outList = new ArrayList<>();
-        outList.add(new ConsoleManager.ConsoleCommand("sethealth", new ConsoleManager.CommandExecutor() {
-            @Override
-            public void OnCommandFired(HashMap<String, String> parValuePairs) {
-                if (parValuePairs.containsKey("val")) {
-                    int newCurrentHealth;
-                    try {
-                        newCurrentHealth = Integer.parseInt(parValuePairs.get("val"));
-                    } catch (NumberFormatException e) {
-                        Gdx.app.log(LOG, "val is not an int");
-                        return;
-                    }
-                    currentHealth = newCurrentHealth;
+        outList.add(new ConsoleManager.ConsoleCommand("sethealth", parValuePairs -> {
+            if (parValuePairs.containsKey("val")) {
+                int newCurrentHealth;
+                try {
+                    newCurrentHealth = Integer.parseInt(parValuePairs.get("val"));
+                } catch (NumberFormatException e) {
+                    Gdx.app.log(LOG, "val is not an int");
+                    return;
                 }
+                currentHealth = newCurrentHealth;
             }
         }));
-        outList.add(new ConsoleManager.ConsoleCommand("setmaxhealth", new ConsoleManager.CommandExecutor() {
-            @Override
-            public void OnCommandFired(HashMap<String, String> parValuePairs) {
-                if (parValuePairs.containsKey("val")) {
-                    int newMaxHealth;
-                    try {
-                        newMaxHealth = Integer.parseInt(parValuePairs.get("val"));
-                    } catch (NumberFormatException e) {
-                        Gdx.app.log(LOG, "val is not an int");
-                        return;
-                    }
-                    maxHealth = newMaxHealth;
+        outList.add(new ConsoleManager.ConsoleCommand("setmaxhealth", parValuePairs -> {
+            if (parValuePairs.containsKey("val")) {
+                int newMaxHealth;
+                try {
+                    newMaxHealth = Integer.parseInt(parValuePairs.get("val"));
+                } catch (NumberFormatException e) {
+                    Gdx.app.log(LOG, "val is not an int");
+                    return;
                 }
+                maxHealth = newMaxHealth;
             }
         }));
 

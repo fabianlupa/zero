@@ -40,7 +40,8 @@ public class AnimationManager {
         idleAnimationList = new HashMap<>();
         this.sprite = sprite;
         this.currentAnimation = null;
-        this.unanimatedRegion = new TextureRegion(sprite.getTexture(), sprite.getU(), sprite.getV(), sprite.getU2(), sprite.getV2());
+        this.unanimatedRegion = new TextureRegion(sprite.getTexture(), sprite.getU(), sprite.getV(), sprite.getU2(),
+                                                  sprite.getV2());
         this.animationDirection = AnimationDirection.RIGHT;
         this.elapsedTime = 0;
     }
@@ -115,7 +116,8 @@ public class AnimationManager {
             currentAddedIdleTime = 0;
             elapsedTime += Gdx.graphics.getDeltaTime();
             sprite.setRegion(currentAnimation.getKeyFrame(elapsedTime, true));
-            if (idleAnimationList.containsValue(currentAnimation) && currentAnimation.isAnimationFinished(elapsedTime)) {
+            if (idleAnimationList.containsValue(currentAnimation) &&
+                currentAnimation.isAnimationFinished(elapsedTime)) {
                 stopAnimation();
             }
         } else {

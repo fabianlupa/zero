@@ -59,7 +59,8 @@ public class AbilityList {
                 @Override
                 public void changed(ChangeEvent event, Actor actor) {
                     if (actor instanceof ImageTextButton) {
-                        if (((ImageTextButton) actor).isChecked()) selectAbility((AbstractAbility) actor.getUserObject());
+                        if (((ImageTextButton) actor).isChecked())
+                            selectAbility((AbstractAbility) actor.getUserObject());
                     }
                 }
             });

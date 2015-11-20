@@ -31,29 +31,23 @@ public class ResourceManager {
 
     private void runTask(final AbstractTask task) {
         if (task.isExecutedInOwnThread()) {
-            Thread taskThread = new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    currentTask = task;
-                    task.run();
-                    currentTask = null;
-                }
+            Thread taskThread = new Thread(() -> {
+                currentTask = task;
+                task.run();
+                currentTask = null;
             });
             singleThreadExecutor.submit(taskThread);
         } else {
             singleThreadExecutor.shutdown();
-            Thread waitingThread = new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    try {
-                        while (!singleThreadExecutor.isTerminated()) {
-                            Thread.sleep(100);
-                        }
-                        currentTask = task;
-                        task.run();
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
+            Thread waitingThread = new Thread(() -> {
+                try {
+                    while (!singleThreadExecutor.isTerminated()) {
+                        Thread.sleep(100);
                     }
+                    currentTask = task;
+                    task.run();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
                 }
             });
             waitingThread.start();
@@ -69,9 +63,7 @@ public class ResourceManager {
             calculatedTime += task.getPropableTime();
         }
 
-        for (AbstractTask task : taskQueue) {
-            runTask(task);
-        }
+        taskQueue.forEach(this::runTask);
     }
 
     public float getLoadingPercent() {
