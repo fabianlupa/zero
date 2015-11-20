@@ -26,7 +26,7 @@ import java.util.List;
 public class Player extends AbstractLivingEntity implements InputProcessor, ConsoleManager.CommandableInstance {
     public static final String LOG = Player.class.getSimpleName();
 
-    private static final float MAX_SPEED_X       = 7f;
+    private static final float MAX_SPEED_X       = 4f;
     private static final float ACCELERATION_X    = 150;
     private static final float MAX_SPEED_Y       = 100f;
     private static final float ACCELERATION_JUMP = 2000f;
@@ -109,7 +109,7 @@ public class Player extends AbstractLivingEntity implements InputProcessor, Cons
     public void update() {
         super.update();
         animationManager.updateSprite();
-        animationManager.updateAnimationFrameDuration("walk", 1f / Math.abs(body.getLinearVelocity().x));
+        animationManager.updateAnimationFrameDuration("walk", 0.3f / Math.abs(body.getLinearVelocity().x));
     }
 
     @Override
