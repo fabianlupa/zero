@@ -37,6 +37,7 @@ public class Player extends AbstractLivingEntity implements InputProcessor, Cons
     private int              currentHealth;
     private int              maxHealth;
     private AbstractAbility  selectedAbility;
+    private boolean          noGravOn;
 
     public Player(float xPos, float yPos) {
         super("player", xPos, yPos);
@@ -252,6 +253,15 @@ public class Player extends AbstractLivingEntity implements InputProcessor, Cons
                     return;
                 }
                 maxHealth = newMaxHealth;
+            }
+        }));
+        outList.add(new ConsoleManager.ConsoleCommand("nograv", parValuePairs1 -> {
+            if (noGravOn) {
+                noGravOn = false;
+                body.setGravityScale(1);
+            } else {
+                noGravOn = true;
+                body.setGravityScale(0);
             }
         }));
 
