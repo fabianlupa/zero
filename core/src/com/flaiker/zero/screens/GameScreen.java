@@ -8,6 +8,7 @@ import box2dLight.RayHandler;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
+import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.Vector2;
@@ -45,6 +46,7 @@ public class GameScreen extends AbstractScreen implements InputProcessor, Consol
     private final OrthographicCamera box2dCamera;
     private final RayHandler         rayHandler;
 
+    private FileHandle  mapHandle;
     private Map         map;
     private Player      player;
     private RenderMode  renderMode;
@@ -57,7 +59,7 @@ public class GameScreen extends AbstractScreen implements InputProcessor, Consol
 
     private boolean paused;
 
-    public GameScreen(Zero zero) {
+    public GameScreen(Zero zero, FileHandle mapHandle) {
         super(zero);
         paused = false;
         box2dCamera = new OrthographicCamera(SCREEN_WIDTH / PIXEL_PER_METER, SCREEN_HEIGHT / PIXEL_PER_METER);
@@ -75,6 +77,7 @@ public class GameScreen extends AbstractScreen implements InputProcessor, Consol
         bodies = new Array<>();
         escapeMenu = new EscapeMenu(zero, this, skin);
         gameTimer = new GameTimer(skin);
+        this.mapHandle = mapHandle;
     }
 
     private void doPhysicsStep(float deltaTime) {
@@ -123,7 +126,7 @@ public class GameScreen extends AbstractScreen implements InputProcessor, Consol
     public void show() {
         super.show();
         // load the map
-        map = Map.create("map1.tmx", camera, batch);
+        map = Map.create(mapHandle.name(), camera, batch);
         if (map == null) {
             Gdx.app.log(LOG, "Map could not be loaded:\n" + Map.getLastError());
             zero.setScreen(new MenuScreen(zero));

@@ -51,37 +51,7 @@ public class MenuScreen extends AbstractScreen {
             @Override
             public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
                 super.touchUp(event, x, y, pointer, button);
-                zero.setScreen(new LoadingScreen(zero, new LoadingScreen.LoadingCalls() {
-                    @Override
-                    public void doLoad() {
-                        if (zero.isDebugMode()) zero.getResourceManager().addTaskToQueue(new RefreshAtlasesTask());
-                        zero.getResourceManager().addTaskToQueue(new LoadIngameAssetsTask(zero.getResourceManager()
-                                                                                              .getAssetManager()));
-                        zero.getResourceManager().runThroughTaskQueue();
-                    }
-
-                    @Override
-                    public float reportProgress() {
-                        if (!zero.getResourceManager().isDoneLoading())
-                            return zero.getResourceManager().getLoadingPercent();
-                        else return 1f;
-                    }
-
-                    @Override
-                    public boolean isFinished() {
-                        return zero.getResourceManager().isDoneLoading();
-                    }
-
-                    @Override
-                    public void finishLoading() {
-                        zero.setScreen(new GameScreen(zero));
-                    }
-
-                    @Override
-                    public String getCurrentLoadingMessage() {
-                        return zero.getResourceManager().getCurrentTaskDescription();
-                    }
-                }));
+                zero.setScreen(new LevelSelectionScreen(zero));
             }
         });
         table.add(startGameButton).expand().fill().pad(0, 150, 25, 150);
