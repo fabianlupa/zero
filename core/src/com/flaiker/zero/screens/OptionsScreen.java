@@ -17,7 +17,7 @@ import com.flaiker.zero.Zero;
 import com.flaiker.zero.helper.DefaultActorListener;
 
 /**
- * Screen für das Optionsmenü
+ * Options screen
  */
 public class OptionsScreen extends AbstractScreen {
     public static final String LOG = OptionsScreen.class.getSimpleName();
