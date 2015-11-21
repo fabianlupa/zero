@@ -38,6 +38,7 @@ public class Player extends AbstractLivingEntity implements InputProcessor, Cons
     private int              maxHealth;
     private AbstractAbility  selectedAbility;
     private boolean          noGravOn;
+    private boolean          noClipOn;
 
     public Player(float xPos, float yPos) {
         super("player", xPos, yPos);
@@ -262,6 +263,15 @@ public class Player extends AbstractLivingEntity implements InputProcessor, Cons
             } else {
                 noGravOn = true;
                 body.setGravityScale(0);
+            }
+        }));
+        outList.add(new ConsoleManager.ConsoleCommand("noclip", parValuePairs -> {
+            if (noClipOn) {
+                noClipOn = false;
+                body.getFixtureList().forEach(f -> f.setSensor(false));
+            } else {
+                noClipOn = true;
+                body.getFixtureList().forEach(f -> f.setSensor(true));
             }
         }));
 
