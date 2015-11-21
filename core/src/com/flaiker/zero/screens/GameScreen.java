@@ -225,7 +225,7 @@ public class GameScreen extends AbstractScreen implements InputProcessor, Consol
         // render lights using Box2d
         if (renderMode == RenderMode.GAME) {
             batch.disableBlending();
-            rayHandler.setCombinedMatrix(box2dCamera.combined);
+            rayHandler.setCombinedMatrix(box2dCamera);
             rayHandler.updateAndRender();
         }
 
