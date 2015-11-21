@@ -280,6 +280,7 @@ public class Player extends AbstractLivingEntity implements InputProcessor, Cons
             } else {
                 noGravOn = true;
                 body.setGravityScale(0);
+                body.setLinearVelocity(0f, 0f);
             }
         }));
         outList.add(new ConsoleManager.ConsoleCommand("noclip", parValuePairs -> {
