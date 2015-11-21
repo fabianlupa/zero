@@ -285,6 +285,7 @@ public class GameScreen extends AbstractScreen implements InputProcessor, Consol
                 break;
             case Input.Keys.ESCAPE:
                 escapeMenu.switchPauseState();
+                keyProcessed = true;
                 break;
         }
 

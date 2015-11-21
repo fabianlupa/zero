@@ -48,12 +48,13 @@ public abstract class AbstractScreen implements Screen {
         uiStage = new Stage(new FitViewport(SCREEN_WIDTH, SCREEN_HEIGHT));
         uiStage.addListener(new InputListener() {
             @Override
-            public boolean keyDown(InputEvent event, int keycode) {
+            public boolean keyUp(InputEvent event, int keycode) {
                 if (keycode == Input.Keys.ESCAPE && Gdx.app.getInput().isKeyPressed(Input.Keys.SHIFT_LEFT)) {
                     setDebugConsoleVisibility(true);
                     event.cancel();
+                    return true;
                 }
-                return super.keyDown(event, keycode);
+                return super.keyUp(event, keycode);
             }
         });
         skin = new Skin(Gdx.files.internal("skin/uiskin.json"));
@@ -106,14 +107,17 @@ public abstract class AbstractScreen implements Screen {
         debugConsole.setVisible(false);
         debugConsole.addListener(new InputListener() {
             @Override
-            public boolean keyDown(InputEvent event, int keycode) {
+            public boolean keyUp(InputEvent event, int keycode) {
                 if (keycode == Input.Keys.ESCAPE && Gdx.app.getInput().isKeyPressed(Input.Keys.SHIFT_LEFT)) {
                     setDebugConsoleVisibility(false);
                     event.cancel();
+                    return true;
                 } else if (keycode == Input.Keys.ENTER) {
                     zero.getConsoleManager().submitConsoleString(debugConsole.getText());
+                    debugConsole.setText("");
+                    setDebugConsoleVisibility(false);
                 }
-                return super.keyDown(event, keycode);
+                return super.keyUp(event, keycode);
             }
         });
         uiStage.addActor(debugConsole);
