@@ -28,10 +28,11 @@ public class Player extends AbstractLivingEntity implements InputProcessor, Cons
     private static final float MAX_SPEED_X       = 4f;
     private static final float ACCELERATION_X    = 150;
     private static final float MAX_SPEED_Y       = 100f;
-    private static final float ACCELERATION_JUMP = 2000f;
+    private static final float ACCELERATION_JUMP = 3000f;
     private static final int   MAX_HEALTH        = 5;
 
     private int              numFootContacts;
+    private boolean          canJump;
     private AnimationManager animationManager;
     private int              currentHealth;
     private int              maxHealth;
@@ -61,6 +62,10 @@ public class Player extends AbstractLivingEntity implements InputProcessor, Cons
         return numFootContacts > 0;
     }
 
+    public boolean getCanJump() {
+        return canJump;
+    }
+
     public void switchSelectedAbility(AbstractAbility ability) {
         selectedAbility = ability;
         Gdx.app.log(LOG, "Selected ability changed to: " + selectedAbility.getName());
@@ -83,13 +88,14 @@ public class Player extends AbstractLivingEntity implements InputProcessor, Cons
         //fdef.friction = 0.5f;
         fdef.density = 0f;
         playerBody.createFixture(fdef).setUserData("player");
-        shape.setAsBox(0.2f, 0.1f, new Vector2(0, -sprite.getHeight() / GameScreen.PIXEL_PER_METER / 2f + 0.1f), 0);
+        shape.setAsBox(0.35f, 0.1f, new Vector2(0, -sprite.getHeight() / GameScreen.PIXEL_PER_METER / 2f + 0.1f), 0);
         fdef.shape = shape;
         fdef.isSensor = true;
         playerBody.createFixture(fdef).setUserData(new ContactCallback() {
             @Override
             public void onContactStart() {
                 numFootContacts++;
+                canJump = true;
             }
 
             @Override
@@ -154,7 +160,11 @@ public class Player extends AbstractLivingEntity implements InputProcessor, Cons
                 keyProcessed = true;
                 break;
             case Input.Keys.SPACE:
-                if (isPlayerOnGround()) body.applyForceToCenter(0f, ACCELERATION_JUMP, true);
+                if (getCanJump()) {
+                    body.setLinearVelocity(body.getLinearVelocity().x, 0);
+                    body.applyForceToCenter(0f, ACCELERATION_JUMP, true);
+                    canJump = false;
+                }
                 keyProcessed = true;
                 break;
             case Input.Keys.R:

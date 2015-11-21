@@ -62,7 +62,7 @@ public class GameScreen extends AbstractScreen implements InputProcessor, Consol
         paused = false;
         box2dCamera = new OrthographicCamera(SCREEN_WIDTH / PIXEL_PER_METER, SCREEN_HEIGHT / PIXEL_PER_METER);
         box2dCamera.position.set(SCREEN_WIDTH / PIXEL_PER_METER / 2f, SCREEN_HEIGHT / PIXEL_PER_METER / 2f, 0);
-        world = new World(new Vector2(0, -10), true);
+        world = new World(new Vector2(0, -20), true);
         debugRenderer = new Box2DDebugRenderer();
         RayHandler.setGammaCorrection(true);
         RayHandler.useDiffuseLight(true);
