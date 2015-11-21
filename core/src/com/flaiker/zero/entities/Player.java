@@ -39,6 +39,7 @@ public class Player extends AbstractLivingEntity implements InputProcessor, Cons
     private AbstractAbility  selectedAbility;
     private boolean          noGravOn;
     private boolean          noClipOn;
+    private boolean          flyOn;
 
     public Player(float xPos, float yPos) {
         super("player", xPos, yPos);
@@ -136,6 +137,22 @@ public class Player extends AbstractLivingEntity implements InputProcessor, Cons
                 break;
         }
 
+    }
+
+    @Override
+    protected void move() {
+        // Override all move logic if fly cheat is enabled
+        if (!flyOn) super.move();
+        else {
+            Vector2 newPosition = body.getPosition();
+
+            if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)) newPosition.x += 10f / GameScreen.PIXEL_PER_METER;
+            if (Gdx.input.isKeyPressed(Input.Keys.LEFT)) newPosition.x -= 10f / GameScreen.PIXEL_PER_METER;
+            if (Gdx.input.isKeyPressed(Input.Keys.UP)) newPosition.y += 10f / GameScreen.PIXEL_PER_METER;
+            if (Gdx.input.isKeyPressed(Input.Keys.DOWN)) newPosition.y -= 10f / GameScreen.PIXEL_PER_METER;
+
+            body.setTransform(newPosition, 0f);
+        }
     }
 
     @Override
@@ -273,6 +290,9 @@ public class Player extends AbstractLivingEntity implements InputProcessor, Cons
                 noClipOn = true;
                 body.getFixtureList().forEach(f -> f.setSensor(true));
             }
+        }));
+        outList.add(new ConsoleManager.ConsoleCommand("fly", parValuePairs -> {
+            flyOn = !flyOn;
         }));
 
         return outList;
