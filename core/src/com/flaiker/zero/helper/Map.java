@@ -12,11 +12,11 @@ import com.badlogic.gdx.maps.MapLayer;
 import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.MapObjects;
 import com.badlogic.gdx.maps.MapProperties;
-import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTile;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
+import com.badlogic.gdx.maps.tiled.objects.TiledMapTileMapObject;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
@@ -131,11 +131,12 @@ public class Map {
 
         MapObjects objects = spawnLayer.getObjects();
         for (MapObject object : objects) {
-            if (object instanceof RectangleMapObject) {
+            if (object instanceof TiledMapTileMapObject) {
                 MapProperties tileProperties = tiledMap.getTileSets().getTile((Integer) object.getProperties().get(GID))
                                                        .getProperties();
                 Vector2 centerObjectPos = new Vector2();
-                ((RectangleMapObject) object).getRectangle().getPosition(centerObjectPos);
+                centerObjectPos.x = ((TiledMapTileMapObject) object).getX();
+                centerObjectPos.y = ((TiledMapTileMapObject) object).getY();
                 centerObjectPos.add(mapTileSize / 2f, mapTileSize / 2f);
                 if (tileProperties.containsKey(SPAWN_LAYER_OBJECT_TYPE_NAME)) {
                     String typeName = tileProperties.get(SPAWN_LAYER_OBJECT_TYPE_NAME, String.class);
@@ -262,15 +263,15 @@ public class Map {
     }
 
     public void renderBackground() {
-        mapRenderer.getSpriteBatch().setColor(Color.GRAY);
+        mapRenderer.getBatch().setColor(Color.GRAY);
         mapRenderer.renderTileLayer(backgroundLayer);
-        mapRenderer.getSpriteBatch().setColor(Color.WHITE);
+        mapRenderer.getBatch().setColor(Color.WHITE);
     }
 
     public void renderForeground() {
-        mapRenderer.getSpriteBatch().setColor(Color.LIGHT_GRAY);
+        mapRenderer.getBatch().setColor(Color.LIGHT_GRAY);
         mapRenderer.renderTileLayer(foregroundLayer);
-        mapRenderer.getSpriteBatch().setColor(Color.WHITE);
+        mapRenderer.getBatch().setColor(Color.WHITE);
     }
 
     public void renderCollisionLayer() {
