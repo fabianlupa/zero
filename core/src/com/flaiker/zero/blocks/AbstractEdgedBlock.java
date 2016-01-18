@@ -4,32 +4,90 @@
 
 package com.flaiker.zero.blocks;
 
+import com.flaiker.zero.tiles.RegistrableBlock;
+
+import java.util.Optional;
+
 /**
- * Created by Flaiker on 30.11.2014.
+ * A block that has different directions / edges.
+ * <p>
+ * Additional assets will be generated from the {@link com.flaiker.zero.assetpipeline.AssetBuilder} if {@link
+ * RegistrableBlock} is present. Direction is expressed using {@link EdgeDirection}.
  */
 public abstract class AbstractEdgedBlock extends AbstractBlock {
-    public AbstractEdgedBlock(String material, float xPosMeter, float yPosMeter, EdgeDirection edgeDirection) {
-        super(getAtlasPathName(material, edgeDirection), xPosMeter, yPosMeter);
+    private EdgeDirection direction;
+
+    public AbstractEdgedBlock() {
+        super();
     }
 
-    private static String getAtlasPathName(String material, EdgeDirection edgeDirection) {
-        return material + "-" + edgeDirection.toString();
+    @Override
+    protected void customInit() throws IllegalStateException {
+        if (this.direction == null) throw new IllegalStateException("Direction not initialized");
+    }
+
+    @Override
+    protected String getAtlasPath() {
+        return getAtlasPathName(getAnnotationMetadata().id(), getAnnotationMetadata().name(), direction);
+    }
+
+    /**
+     * Initialize the direction of the block
+     * @param direction Direction of the block
+     */
+    public void initDirection(EdgeDirection direction) {
+        if (this.direction != null) throw new IllegalStateException("Direction already initialized");
+        this.direction = direction;
+    }
+
+    /**
+     * Internal helper method to retrieve the annotation information to get the correct atlas name
+     * @return Block metadata
+     */
+    private RegistrableBlock getAnnotationMetadata() {
+        // TODO: make this unnecessary
+        return getClass().getAnnotation(RegistrableBlock.class);
+    }
+
+    private static String getAtlasPathName(int id, String material, EdgeDirection direction) {
+        return String.format("%02d", id) + "-" + material + "-" + direction;
     }
 
     public enum EdgeDirection {
-        LEFT, TOP, RIGHT, BOTTOM, TOP_LEFT, TOP_RIGHT, BOTTOM_LEFT, BOTTOM_RIGHT, INNER_TOP_LEFT, INNER_TOP_RIGHT,
-        INNER_BOTTOM_LEFT, INNER_BOTTOM_RIGHT, CENTER;
+        /** Inner Bottom Left */
+        IBL,
+        /** Inner Bottom Right */
+        IBR,
+        /** Inner Top Left */
+        ITL,
+        /** Inner Top Right */
+        ITR,
+        /** Outer Bottom Left */
+        OBL,
+        /** Outer Bottom Right */
+        OBR,
+        /** Outer Top Left */
+        OTL,
+        /** Outer Bottom Right */
+        OTR,
+        /** None **/
+        B,
+        /** Outer Left **/
+        OL,
+        /** Outer Right **/
+        OR,
+        /** Outer Top **/
+        OT,
+        /** Outer Bottom **/
+        OB;
 
         @Override
         public String toString() {
             return super.toString().toLowerCase();
         }
 
-        public static EdgeDirection getEdgeDirectionFromString(String directionString) {
-            for (EdgeDirection edgeDirection : EdgeDirection.values()) {
-                if (edgeDirection.toString().equals(directionString)) return edgeDirection;
-            }
-            return null;
+        public static Optional<EdgeDirection> getEdgeDirectionFromString(String directionString) {
+            return Optional.ofNullable(EdgeDirection.valueOf(directionString.toUpperCase()));
         }
     }
 }

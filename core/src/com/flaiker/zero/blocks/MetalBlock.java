@@ -4,11 +4,14 @@
 
 package com.flaiker.zero.blocks;
 
+import com.flaiker.zero.tiles.RegistrableBlock;
+
 /**
- * Created by Flaiker on 23.11.2014.
+ * Metal block
  */
+@RegistrableBlock(id = 1, name = "metal")
 public class MetalBlock extends AbstractEdgedBlock {
-    public MetalBlock(float xPosMeter, float yPosMeter, EdgeDirection edgeDirection) {
-        super("metal", xPosMeter, yPosMeter, edgeDirection);
+    public MetalBlock() {
+        super();
     }
 }
