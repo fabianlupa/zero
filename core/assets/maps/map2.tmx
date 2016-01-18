@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="50" height="15" tilewidth="64" tileheight="64" nextobjectid="13">
+ <tileset firstgid="1" source="../tilesets/spawns.xml"/>
+ <tileset firstgid="8" source="../tilesets/blocks.xml"/>
+ <layer name="bgLayer" width="50" height="15">
+  <data encoding="base64" compression="zlib">
+   eJxjYBgFo2AUjIJRMFiBMBCLDLQjqAAEgFhwoB1BBTDqj8EHhos/RsEoIAYAAOjCAJw=
+  </data>
+ </layer>
+ <layer name="mgLayer" width="50" height="15">
+  <data encoding="base64" compression="zlib">
+   eJxjYBgFQwmIQzEyUB0IhxAJeAlgfqg6YSAWGQgHUgDEGTDjQwCIeRiGnl9AANkvfAyo8TMKRsEoGDpAkAK9AlRzBXUAqG4QIhEPxvIXFK4cJGJK4pFWAFY3kIJH6xHqAgAPbwQZ
+  </data>
+ </layer>
+ <layer name="fgLayer" width="50" height="15">
+  <data encoding="base64" compression="zlib">
+   eJztwTEBAAAAwqD1T20ND6AAAIB3Awu4AAE=
+  </data>
+ </layer>
+ <objectgroup name="ojLayer">
+  <object id="2" gid="1" x="303" y="678.333" width="64" height="64"/>
+  <object id="3" gid="4" x="976.667" y="678" width="64" height="64"/>
+  <object id="4" gid="2" x="768" y="448" width="64" height="64">
+   <properties>
+    <property name="color" value="FF0000FF"/>
+   </properties>
+  </object>
+  <object id="5" gid="2" x="832" y="448" width="64" height="64"/>
+  <object id="6" gid="2" x="896" y="448" width="64" height="64">
+   <properties>
+    <property name="color" value="0000FFFF"/>
+   </properties>
+  </object>
+  <object id="8" gid="3" x="320.667" y="289" width="64" height="64">
+   <properties>
+    <property name="height" value="5"/>
+    <property name="pan" value="1"/>
+   </properties>
+  </object>
+  <object id="11" gid="5" x="730.667" y="668" width="64" height="64"/>
+ </objectgroup>
+</map>
