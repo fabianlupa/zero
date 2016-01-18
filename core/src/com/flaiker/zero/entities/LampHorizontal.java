@@ -10,20 +10,33 @@ import box2dLight.RayHandler;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
+import com.flaiker.zero.tiles.RegistrableSpawn;
+
+import java.util.Map;
 
 /**
- * Created by Flaiker on 25.12.2014.
+ * Static lamp that casts a chainlight in the specified color downwards
  */
+@RegistrableSpawn(type = "lampHorizontal", adArgs = {LampHorizontal.AD_ARGS_COLOR_KEY})
 public class LampHorizontal extends AbstractLightSource {
     public static final String AD_ARGS_COLOR_KEY     = "color";
     public static final String AD_ARGS_COLOR_DEFAULT = "FFFF00FF";
+    public static final String ATLAS_PATH            = "lampHorizontal";
 
     private Color tintColor;
 
-    public LampHorizontal(RayHandler rayHandler, float xPosMeter, float yPosMeter, Color color) {
-        super(rayHandler, "lampHorizontal", xPosMeter, yPosMeter);
-        tintColor = color;
-        sprite.setColor(color);
+    public LampHorizontal() {
+        super();
+    }
+
+    @Override
+    public void applyAdArgs(Map<String, String> adArgPairs) {
+        tintColor = Color.valueOf(getAdArgsValueOrDefault(adArgPairs, AD_ARGS_COLOR_KEY, AD_ARGS_COLOR_DEFAULT));
+    }
+
+    @Override
+    protected void customInit() throws IllegalStateException {
+        sprite.setColor(tintColor);
     }
 
     @Override
@@ -32,8 +45,13 @@ public class LampHorizontal extends AbstractLightSource {
     }
 
     @Override
+    protected String getAtlasPath() {
+        return ATLAS_PATH;
+    }
+
+    @Override
     protected Body createBody(World world) {
-        Vector2 spawnVector = getSpawnVector();
+        Vector2 spawnVector = this.spawnVector;
 
         BodyDef bdef = new BodyDef();
         FixtureDef fdef = new FixtureDef();

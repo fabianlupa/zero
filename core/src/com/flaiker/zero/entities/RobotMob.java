@@ -9,22 +9,35 @@ import com.badlogic.gdx.physics.box2d.*;
 import com.flaiker.zero.helper.AnimationManager;
 import com.flaiker.zero.helper.ContactCallback;
 import com.flaiker.zero.screens.GameScreen;
+import com.flaiker.zero.tiles.RegistrableSpawn;
 
 /**
- * Created by Flaiker on 10.12.2014.
+ * Robot like mob with simple ai
  */
+@RegistrableSpawn(type = "robotMob")
 public class RobotMob extends AbstractMob {
-    private static final float MAX_SPEED_X    = 1f;
-    private static final float ACCELERATION_X = 500f;
+    private static final float  MAX_SPEED_X    = 1f;
+    private static final float  ACCELERATION_X = 500f;
+    private static final String ATLAS_PATH     = "robotMob";
+    private static final int    HEALTH         = 5;
 
     private boolean wallRight = false;
     private boolean wallLeft  = false;
     private AnimationManager animationManager;
 
-    public RobotMob(float xPosMeter, float yPosMeter) {
-        super("robotMob", xPosMeter, yPosMeter, 5);
+    public RobotMob() {
+        super(HEALTH);
+    }
+
+    @Override
+    protected void customInit() throws IllegalStateException {
         animationManager = new AnimationManager(sprite);
         animationManager.registerAnimation("robotMob", "walk", AbstractEntity.ENTITY_TEXTURE_ATLAS, 1 / 16f);
+    }
+
+    @Override
+    protected String getAtlasPath() {
+        return ATLAS_PATH;
     }
 
     @Override

@@ -14,30 +14,50 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.physics.box2d.joints.RevoluteJointDef;
 import com.flaiker.zero.screens.GameScreen;
+import com.flaiker.zero.tiles.RegistrableSpawn;
+
+import java.util.Map;
 
 /**
- * Created by Flaiker on 22.12.2014.
+ * Swinging lamp on a rope, length of the rope and default pan can be specified
  */
+@RegistrableSpawn(type = "lampRope", adArgs = {LampRope.AD_ARGS_HEIGHT_KEY, LampRope.AD_ARGS_PAN_KEY})
 public class LampRope extends AbstractLightSource {
     public static final String AD_ARGS_HEIGHT_KEY     = "height";
     public static final String AD_ARGS_PAN_KEY        = "pan";
-    public static final float  AD_ARGS_HEIGHT_DEFAULT = 1f;
-    public static final float  AD_ARGS_PAN_DEFAULT    = 0.2f;
+    public static final String AD_ARGS_HEIGHT_DEFAULT = "1";
+    public static final String AD_ARGS_PAN_DEFAULT    = "0.2";
+    public static final String ATLAS_PATH             = "lampRope";
+    public static final String ATLAS_ROPE_PATH        = "lampRope-rope";
 
     private Sprite ropeSprite;
     private float  height;
     private float  initialPanMargin;
 
-    public LampRope(RayHandler rayHandler, float xPosMeter, float yPosMeter, float height, float initialPanMargin) {
-        super(rayHandler, "lampRope", xPosMeter, yPosMeter);
-        if (height < 1) throw new IllegalArgumentException("Height needs to be >=1");
-        this.height = height;
-        this.initialPanMargin = initialPanMargin;
-        ropeSprite = new Sprite(AbstractEntity.ENTITY_TEXTURE_ATLAS.findRegion("lampRope-rope"));
+    public LampRope() {
+        super();
+    }
+
+    @Override
+    protected void customInit() throws IllegalStateException {
+        super.customInit();
+
+        ropeSprite = new Sprite(ENTITY_TEXTURE_ATLAS.findRegion(ATLAS_ROPE_PATH));
         ropeSprite.setSize(ropeSprite.getWidth(), height * GameScreen.PIXEL_PER_METER - sprite.getHeight());
         ropeSprite.setOrigin(ropeSprite.getWidth() / 2f, ropeSprite.getHeight());
-        ropeSprite.setPosition(xPosMeter * GameScreen.PIXEL_PER_METER - ropeSprite.getWidth() / 2f,
-                               yPosMeter * GameScreen.PIXEL_PER_METER - ropeSprite.getHeight());
+        ropeSprite.setPosition(spawnVector.x * GameScreen.PIXEL_PER_METER - ropeSprite.getWidth() / 2f,
+                               spawnVector.y * GameScreen.PIXEL_PER_METER - ropeSprite.getHeight());
+    }
+
+    @Override
+    protected String getAtlasPath() {
+        return ATLAS_PATH;
+    }
+
+    @Override
+    public void applyAdArgs(Map<String, String> adArgPairs) {
+        height = Float.parseFloat(getAdArgsValueOrDefault(adArgPairs, AD_ARGS_HEIGHT_KEY, AD_ARGS_HEIGHT_DEFAULT));
+        initialPanMargin = Float.parseFloat(getAdArgsValueOrDefault(adArgPairs, AD_ARGS_PAN_KEY, AD_ARGS_PAN_DEFAULT));
     }
 
     @Override
@@ -60,7 +80,7 @@ public class LampRope extends AbstractLightSource {
 
     @Override
     protected Body createBody(World world) {
-        Vector2 spawnVector = getSpawnVector();
+        Vector2 spawnVector = this.spawnVector;
 
         BodyDef bdef = new BodyDef();
         FixtureDef fdef = new FixtureDef();

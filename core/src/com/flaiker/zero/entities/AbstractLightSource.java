@@ -9,11 +9,12 @@ import box2dLight.PositionalLight;
 import box2dLight.RayHandler;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.World;
+import com.flaiker.zero.box2d.LightSourceInjectorInterface;
 
 /**
- * Created by Flaiker on 26.12.2014.
+ * Base class for entities that use Box2DLights
  */
-public abstract class AbstractLightSource extends AbstractEntity {
+public abstract class AbstractLightSource extends AbstractEntity implements LightSourceInjectorInterface {
     private RayHandler rayHandler;
     private Light      light;
 
@@ -21,9 +22,19 @@ public abstract class AbstractLightSource extends AbstractEntity {
     private float bodyLightOffsetY     = 0f;
     private float bodyLightAngleOffset = 0f;
 
-    public AbstractLightSource(RayHandler rayHandler, String atlasPath, float xPosMeter, float yPosMeter) {
-        super(atlasPath, xPosMeter, yPosMeter);
+    public AbstractLightSource() {
+        super();
+    }
+
+    @Override
+    public void initializeRayHandler(RayHandler rayHandler) {
+        if (this.rayHandler != null) throw new IllegalStateException("RayHandler already initialized");
         this.rayHandler = rayHandler;
+    }
+
+    @Override
+    protected void customInit() throws IllegalStateException {
+        if (rayHandler == null) throw new IllegalStateException("RayHandler not initialized");
     }
 
     protected void setPositionalLightOffsets(float bodyLightOffsetX, float bodyLightOffsetY,

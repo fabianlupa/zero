@@ -5,17 +5,20 @@
 package com.flaiker.zero.entities;
 
 /**
- * Created by Flaiker on 22.12.2014.
+ * Base class for entities that "live", e. g. can move
  */
 public abstract class AbstractLivingEntity extends AbstractEntity {
     private Direction requestedDirection;
     private float     lastLinearVelocityX;
 
-    public AbstractLivingEntity(String atlasPath, float xPosMeter, float yPosMeter) {
-        super(atlasPath, xPosMeter, yPosMeter);
+    public AbstractLivingEntity() {
+        super();
         this.requestedDirection = Direction.NONE;
     }
 
+    /**
+     * Move the entity according to its {@link #requestedDirection} and {@link #lastLinearVelocityX}
+     */
     protected void move() {
         switch (requestedDirection) {
             case RIGHT:
@@ -50,7 +53,7 @@ public abstract class AbstractLivingEntity extends AbstractEntity {
             body.setLinearVelocity(0f, body.getLinearVelocity().y);
         } //TODO: right edge of the map
         if (getSpriteY() < 0) {
-            body.setTransform(getSpawnVector(), 0f);
+            body.setTransform(spawnVector, 0f);
             body.setLinearVelocity(0f, 0f);
         }
     }

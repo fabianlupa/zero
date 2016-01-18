@@ -5,14 +5,14 @@
 package com.flaiker.zero.entities;
 
 /**
- * Created by Flaiker on 10.12.2014.
+ * Base class for enemies / non player controlled {@link AbstractLivingEntity}s
  */
 public abstract class AbstractMob extends AbstractLivingEntity {
     protected       int healthPoints;
     protected final int maxHealthPoints;
 
-    public AbstractMob(String atlasPath, float xPosMeter, float yPosMeter, int maxHealthPoints) {
-        super(atlasPath, xPosMeter, yPosMeter);
+    public AbstractMob(int maxHealthPoints) {
+        super();
         this.maxHealthPoints = maxHealthPoints;
         this.healthPoints = maxHealthPoints;
     }
