@@ -61,3 +61,6 @@ build/
 
 ## OS Specific
 .DS_Store
+
+## Atlas generation
+core/assets/blocks/generated/*.png

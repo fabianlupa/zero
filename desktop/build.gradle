@@ -34,6 +34,14 @@ eclipse {
     }
 }
 
+task assets(dependsOn: classes, type: JavaExec) {
+    main = 'com.flaiker.zero.desktop.AssetProductionLauncher';
+    classpath = sourceSets.main.runtimeClasspath;
+    standardInput = System.in
+    workingDir = project.assetsDir
+    ignoreExitValue = true
+}
+
 task afterEclipseImport(description: "Post processing after project generation", group: "IDE") {
   doLast {
     def classpath = new XmlParser().parse(file(".classpath"))
