@@ -20,17 +20,12 @@ import com.badlogic.gdx.maps.tiled.objects.TiledMapTileMapObject;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
+import com.flaiker.zero.blocks.AbstractBlock;
 import com.flaiker.zero.blocks.AbstractEdgedBlock;
-import com.flaiker.zero.blocks.MetalBlock;
-import com.flaiker.zero.entities.LampHorizontal;
-import com.flaiker.zero.entities.LampRope;
+import com.flaiker.zero.tiles.TileRegistry;
 
 import java.util.ArrayList;
 import java.util.List;
-
-/**
- * Created by Flaiker on 22.11.2014.
- */
 
 /**
  * Holder-Class for a map made in Tiled (.tmx).
@@ -55,15 +50,6 @@ public class Map {
     private static final String BACKGROUND_LAYER_NAME                         = "bgLayer";
     private static final String SPAWN_LAYER_NAME                              = "ojLayer";
     private static final String SPAWN_LAYER_OBJECT_TYPE_NAME                  = "type";
-    private static final String SPAWN_LAYER_OBJECT_TYPE_PLAYER_NAME           = "player";
-    private static final String SPAWN_LAYER_OBJECT_TYPE_MOB_NAME              = "mob";
-    private static final String SPAWN_LAYER_OBJECT_TYPE_STATIC_NAME           = "static";
-    private static final String SPAWN_LAYER_OBJECT_MOB_SUBTYPE_NAME           = "mobname";
-    private static final String SPAWN_LAYER_OBJECT_MOB_SUBTYPE_ROBOT_NAME     = "robot";
-    private static final String SPAWN_LAYER_OBJECT_MOB_SUBTYPE_BALL_NAME      = "ball";
-    private static final String SPAWN_LAYER_OBJECT_STATIC_SUBTYPE_NAME        = "ojname";
-    private static final String SPAWN_LAYER_OBJECT_STATIC_LAMPROPE_NAME       = "lampRope";
-    private static final String SPAWN_LAYER_OBJECT_STATIC_LAMPHORIZONTAL_NAME = "lampHorizontal";
     private static final String GID                                           = "gid";
 
     private static String lastError;
@@ -77,9 +63,7 @@ public class Map {
     private TiledMap                   tiledMap;
     private OrthogonalTiledMapRenderer mapRenderer;
     private OrthographicCamera         camera;
-    private Vector2                    playerSpawnPosition;
-    private List<SpawnArgs>            mobSpawnPositions;
-    private List<SpawnArgs>            objectSpawnPositions;
+    private List<SpawnArgs>            spawns;
     private SpriteBatch                batch;
 
     public static Map create(String fileName, OrthographicCamera camera, SpriteBatch batch) {
@@ -110,8 +94,7 @@ public class Map {
     private Map(String fileName, OrthographicCamera camera, SpriteBatch batch) {
         this.camera = camera;
         this.batch = batch;
-        mobSpawnPositions = new ArrayList<>();
-        objectSpawnPositions = new ArrayList<>();
+        spawns = new ArrayList<>();
         loadMap(fileName);
         loadSpawns();
     }
@@ -140,81 +123,12 @@ public class Map {
                 centerObjectPos.add(mapTileSize / 2f, mapTileSize / 2f);
                 if (tileProperties.containsKey(SPAWN_LAYER_OBJECT_TYPE_NAME)) {
                     String typeName = tileProperties.get(SPAWN_LAYER_OBJECT_TYPE_NAME, String.class);
-                    switch (typeName) {
-                        case SPAWN_LAYER_OBJECT_TYPE_PLAYER_NAME:
-                            if (playerSpawnPosition == null) {
-                                playerSpawnPosition =
-                                        new Vector2(centerObjectPos.x / mapTileSize, centerObjectPos.y / mapTileSize);
-                                Gdx.app.log(LOG, "Set player spawn to " + playerSpawnPosition.x + "|" +
-                                                 playerSpawnPosition.y);
-                            }
-                            break;
-                        case SPAWN_LAYER_OBJECT_TYPE_MOB_NAME:
-                            if (tileProperties.containsKey(SPAWN_LAYER_OBJECT_MOB_SUBTYPE_NAME)) {
-                                String subtypeName = tileProperties.get(SPAWN_LAYER_OBJECT_MOB_SUBTYPE_NAME,
-                                                                        String.class);
-                                switch (subtypeName) {
-                                    case SPAWN_LAYER_OBJECT_MOB_SUBTYPE_ROBOT_NAME:
-                                        mobSpawnPositions.add(new SpawnArgs(centerObjectPos.x / mapTileSize,
-                                                                            centerObjectPos.y / mapTileSize,
-                                                                            SpawnArgs.SpawnType.MOB_ROBOT));
-                                        break;
-                                    case SPAWN_LAYER_OBJECT_MOB_SUBTYPE_BALL_NAME:
-                                        mobSpawnPositions.add(new SpawnArgs(centerObjectPos.x / mapTileSize,
-                                                                            centerObjectPos.y / mapTileSize,
-                                                                            SpawnArgs.SpawnType.MOB_BALL));
-                                        break;
-                                }
-                            }
-                            break;
-                        case SPAWN_LAYER_OBJECT_TYPE_STATIC_NAME:
-                            if (tileProperties.containsKey(SPAWN_LAYER_OBJECT_STATIC_SUBTYPE_NAME)) {
-                                String subtypeName = tileProperties.get(SPAWN_LAYER_OBJECT_STATIC_SUBTYPE_NAME,
-                                                                        String.class);
-                                SpawnArgs spawnArgs;
-                                switch (subtypeName) {
-                                    case SPAWN_LAYER_OBJECT_STATIC_LAMPROPE_NAME:
-                                        spawnArgs = new SpawnArgs(centerObjectPos.x / mapTileSize,
-                                                                  centerObjectPos.y / mapTileSize,
-                                                                  SpawnArgs.SpawnType.STATIC_LAMPROPE);
-
-                                        if (object.getProperties().containsKey(LampRope.AD_ARGS_HEIGHT_KEY)) {
-                                            float height = Float.parseFloat(object.getProperties()
-                                                                                  .get(LampRope.AD_ARGS_HEIGHT_KEY,
-                                                                                       String.class));
-                                            spawnArgs.addAdditionalArgs(LampRope.AD_ARGS_HEIGHT_KEY, height);
-                                        }
-
-                                        if (object.getProperties().containsKey(LampRope.AD_ARGS_PAN_KEY)) {
-                                            float pan = Float.parseFloat(object.getProperties()
-                                                                               .get(LampRope.AD_ARGS_PAN_KEY,
-                                                                                    String.class));
-                                            spawnArgs.addAdditionalArgs(LampRope.AD_ARGS_PAN_KEY, pan);
-                                        }
-
-                                        objectSpawnPositions.add(spawnArgs);
-                                        break;
-                                    case SPAWN_LAYER_OBJECT_STATIC_LAMPHORIZONTAL_NAME:
-                                        spawnArgs = new SpawnArgs(centerObjectPos.x / mapTileSize,
-                                                                  centerObjectPos.y / mapTileSize,
-                                                                  SpawnArgs.SpawnType.STATIC_LAMPHORIZONTAL);
-
-                                        if (object.getProperties().containsKey(LampHorizontal.AD_ARGS_COLOR_KEY)) {
-                                            Color color = Color.valueOf(object.getProperties()
-                                                                              .get(LampHorizontal.AD_ARGS_COLOR_KEY,
-                                                                                   String.class));
-                                            spawnArgs.addAdditionalArgs(LampHorizontal.AD_ARGS_COLOR_KEY, color);
-                                        }
-
-                                        objectSpawnPositions.add(spawnArgs);
-                                        break;
-                                }
-                            }
-                            break;
-                        default:
-                            Gdx.app.log(LOG, "Could not interpret spawn position of type " + typeName);
-                            break;
-                    }
+                    SpawnArgs args = new SpawnArgs(centerObjectPos.x / mapTileSize, centerObjectPos.y / mapTileSize,
+                                                   typeName);
+                    object.getProperties().getKeys()
+                          .forEachRemaining(k -> args.addAdditionalArgs(k, object.getProperties()
+                                                                                 .get(k).toString()));
+                    spawns.add(args);
                 }
             }
         }
@@ -224,7 +138,6 @@ public class Map {
         if (foregroundLayer == null || backgroundLayer == null || collisionLayer == null || spawnLayer == null)
             return "Not all layers could be loaded.";
         if (mapTileSize == 0f) return "Maptilesize could not be loaded.";
-        if (playerSpawnPosition == null) return "PlayerSpawnPosition could not be loaded.";
 
         return null;
     }
@@ -237,22 +150,25 @@ public class Map {
                 TiledMapTileLayer.Cell cell = collisionLayer.getCell(col, row);
                 if (cell != null && cell.getTile() != null) {
                     TiledMapTile tile = cell.getTile();
-                    String material = tile.getProperties().get("material", String.class);
-                    if (material != null) {
-                        switch (material) {
-                            case "metal":
+                    String id = tile.getProperties().get("id", String.class);
+                    final int finalCol = col;
+                    final int finalRow = row;
+                    TileRegistry.getInstance().getBlockClassById(Integer.parseInt(id)).ifPresent(c -> {
+                        try {
+                            AbstractBlock block = c.newInstance();
+                            block.initializeSpawnPosition(finalCol, finalRow);
+                            if (block instanceof AbstractEdgedBlock) {
                                 String direction = tile.getProperties().get("direction", String.class);
-                                AbstractEdgedBlock.EdgeDirection edgeDirection =
-                                        AbstractEdgedBlock.EdgeDirection.getEdgeDirectionFromString(direction);
-                                if (edgeDirection != null) {
-                                    MetalBlock metalBlock = new MetalBlock(col, row, edgeDirection);
-                                    metalBlock.addBodyToWorld(world);
-                                }
-                                break;
-                            default:
-                                break;
+                                ((AbstractEdgedBlock) block).initDirection(
+                                        AbstractEdgedBlock.EdgeDirection.getEdgeDirectionFromString(direction).get());
+                            }
+                            block.init();
+                            block.addBodyToWorld(world);
+
+                        } catch (InstantiationException | IllegalAccessException e) {
+                            Gdx.app.log(LOG, "Could not load block/tile with id=" + id);
                         }
-                    }
+                    });
                 }
             }
         }
@@ -278,15 +194,7 @@ public class Map {
         mapRenderer.renderTileLayer(collisionLayer);
     }
 
-    public Vector2 getPlayerSpawnPosition() {
-        return playerSpawnPosition;
-    }
-
-    public List<SpawnArgs> getMobSpawnPositions() {
-        return mobSpawnPositions;
-    }
-
-    public List<SpawnArgs> getObjectSpawnPositions() {
-        return objectSpawnPositions;
+    public List<SpawnArgs> getSpawns() {
+        return spawns;
     }
 }

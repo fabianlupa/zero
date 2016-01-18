@@ -5,28 +5,26 @@
 package com.flaiker.zero.helper;
 
 import java.util.HashMap;
+import java.util.Map;
 
-/**
- * Created by Flaiker on 12.12.2014.
- */
 public class SpawnArgs {
-    private float                   x;
-    private float                   y;
-    private SpawnType               spawnType;
-    private HashMap<String, Object> adArgs;
+    private float               x;
+    private float               y;
+    private String              type;
+    private Map<String, String> adArgs;
 
-    public SpawnArgs(float xPos, float yPos, SpawnType spawnType) {
+    public SpawnArgs(float xPos, float yPos, String type) {
         this.x = xPos;
         this.y = yPos;
-        this.spawnType = spawnType;
+        this.type = type;
         adArgs = new HashMap<>();
     }
 
-    public void addAdditionalArgs(String key, Object value) {
+    public void addAdditionalArgs(String key, String value) {
         adArgs.put(key, value);
     }
 
-    public HashMap<String, Object> getAdArgs() {
+    public Map<String, String> getAdArgs() {
         return adArgs;
     }
 
@@ -38,11 +36,7 @@ public class SpawnArgs {
         return y;
     }
 
-    public SpawnType getSpawnType() {
-        return spawnType;
-    }
-
-    public enum SpawnType {
-        MOB_ROBOT, MOB_BALL, MOB_ZOMBIE, ITEM_HEALTH_BOOST, STATIC_LAMPROPE, STATIC_LAMPHORIZONTAL
+    public String getType() {
+        return type;
     }
 }
