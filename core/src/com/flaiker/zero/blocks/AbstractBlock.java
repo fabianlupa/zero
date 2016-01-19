@@ -7,16 +7,19 @@ package com.flaiker.zero.blocks;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
-import com.flaiker.zero.helper.AbstractBox2dObject;
+import com.flaiker.zero.box2d.AbstractBox2dObject;
 
 /**
- * Created by Flaiker on 22.11.2014.
+ * Base class for blocks
+ * <p>
+ * Blocks are static game object oriented in tiles. To be loaded from a map and accounted for in asset generation they
+ * may be annotated with {@link com.flaiker.zero.tiles.RegistrableBlock}.
  */
 public abstract class AbstractBlock extends AbstractBox2dObject {
     private static TextureAtlas blockTextureAtlas = new TextureAtlas("atlases/blocks.atlas");
 
-    public AbstractBlock(String atlasPath, float xPosMeter, float yPosMeter) {
-        super(atlasPath, blockTextureAtlas, xPosMeter, yPosMeter);
+    public AbstractBlock() {
+        super(blockTextureAtlas);
     }
 
     @Override

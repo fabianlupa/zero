@@ -12,28 +12,51 @@ import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.physics.box2d.joints.RevoluteJointDef;
 import com.flaiker.zero.helper.AnimationManager;
 import com.flaiker.zero.helper.ContactCallback;
+import com.flaiker.zero.box2d.LightSourceInjectorInterface;
 import com.flaiker.zero.screens.GameScreen;
+import com.flaiker.zero.tiles.RegistrableSpawn;
 
 /**
- * Created by Flaiker on 13.12.2014.
+ * Concrete class for a rolling eye-like-looking mob that also acts as a lightsource with simple ai
  */
-public class BallMob extends AbstractMob {
-    private static final float MAX_SPEED_X    = 2f;
-    private static final float ACCELERATION_X = 100f;
+@RegistrableSpawn(type = "ballMob")
+public class BallMob extends AbstractMob implements LightSourceInjectorInterface {
+    private static final float  MAX_SPEED_X    = 2f;
+    private static final float  ACCELERATION_X = 100f;
+    private static final String ATLAS_PATH     = "ballMob";
+    private static final int    HEALTH         = 5;
 
     private AnimationManager animationManager;
     private boolean wallRight = false;
     private boolean wallLeft  = false;
     private PointLight pointLight;
+    private RayHandler rayHandler;
 
-    public BallMob(float xPosMeter, float yPosMeter, RayHandler rayHandler) {
-        super("ballMob", xPosMeter, yPosMeter, 5);
+    public BallMob() {
+        super(HEALTH);
+    }
+
+    @Override
+    public void initializeRayHandler(RayHandler rayHandler) {
+        if (this.rayHandler != null) throw new IllegalStateException("RayHandler already initialized");
+        this.rayHandler = rayHandler;
+    }
+
+    @Override
+    protected String getAtlasPath() {
+        return ATLAS_PATH;
+    }
+
+    @Override
+    protected void customInit() throws IllegalStateException {
         animationManager = new AnimationManager(sprite);
         animationManager.setMaximumAddedIdleTime(4f);
         animationManager.setMinimumIdleTime(5f);
         animationManager.registerIdleAnimation("ballMob", "idle", AbstractEntity.ENTITY_TEXTURE_ATLAS, 1 / 16f);
 
-        pointLight = new PointLight(rayHandler, 25, new Color(1, 1, 1, 0.5f), 2, xPosMeter, yPosMeter);
+        if (rayHandler == null) throw new IllegalStateException("RayHandler not initialized");
+
+        pointLight = new PointLight(rayHandler, 25, new Color(1, 1, 1, 0.5f), 2, spawnVector.x, spawnVector.y);
     }
 
     @Override

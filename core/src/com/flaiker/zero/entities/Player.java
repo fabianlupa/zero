@@ -15,21 +15,24 @@ import com.flaiker.zero.helper.AnimationManager;
 import com.flaiker.zero.helper.ContactCallback;
 import com.flaiker.zero.screens.GameScreen;
 import com.flaiker.zero.services.ConsoleManager;
+import com.flaiker.zero.tiles.RegistrableSpawn;
 
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by Flaiker on 22.11.2014.
+ * The player of the game
  */
+@RegistrableSpawn(type = "player")
 public class Player extends AbstractLivingEntity implements InputProcessor, ConsoleManager.CommandableInstance {
     public static final String LOG = Player.class.getSimpleName();
 
-    private static final float MAX_SPEED_X       = 4f;
-    private static final float ACCELERATION_X    = 150;
-    private static final float MAX_SPEED_Y       = 100f;
-    private static final float ACCELERATION_JUMP = 3000f;
-    private static final int   MAX_HEALTH        = 5;
+    private static final float  MAX_SPEED_X       = 4f;
+    private static final float  ACCELERATION_X    = 150;
+    private static final float  MAX_SPEED_Y       = 100f;
+    private static final float  ACCELERATION_JUMP = 3000f;
+    private static final int    MAX_HEALTH        = 5;
+    private static final String ATLAS_PATH        = "player";
 
     private int              numFootContacts;
     private boolean          canJump;
@@ -41,16 +44,25 @@ public class Player extends AbstractLivingEntity implements InputProcessor, Cons
     private boolean          noClipOn;
     private boolean          flyOn;
 
-    public Player(float xPos, float yPos) {
-        super("player", xPos, yPos);
+    public Player() {
+        super();
+        currentHealth = MAX_HEALTH;
+        maxHealth = MAX_HEALTH;
+        selectedAbility = null;
+    }
+
+    @Override
+    protected String getAtlasPath() {
+        return ATLAS_PATH;
+    }
+
+    @Override
+    protected void customInit() throws IllegalStateException {
         animationManager = new AnimationManager(sprite);
         animationManager.setMaximumAddedIdleTime(2f);
         animationManager.setMinimumIdleTime(5f);
         animationManager.registerAnimation("player", "walk", AbstractEntity.ENTITY_TEXTURE_ATLAS, 1 / 8f);
         animationManager.registerIdleAnimation("player", "idle", AbstractEntity.ENTITY_TEXTURE_ATLAS, 1 / 4f);
-        currentHealth = MAX_HEALTH;
-        maxHealth = MAX_HEALTH;
-        selectedAbility = null;
     }
 
     public int getCurrentHealth() {

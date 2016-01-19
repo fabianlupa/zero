@@ -228,28 +228,7 @@ player_idle-13
   orig: 49, 81
   offset: 0, 0
   index: -1
-player_idle-17
-  rotate: false
-  xy: 434, 80
-  size: 49, 81
-  orig: 49, 81
-  offset: 0, 0
-  index: -1
 player_idle-14
-  rotate: false
-  xy: 434, 80
-  size: 49, 81
-  orig: 49, 81
-  offset: 0, 0
-  index: -1
-player_idle-18
-  rotate: false
-  xy: 434, 80
-  size: 49, 81
-  orig: 49, 81
-  offset: 0, 0
-  index: -1
-player_idle-19
   rotate: false
   xy: 434, 80
   size: 49, 81
@@ -264,6 +243,27 @@ player_idle-15
   offset: 0, 0
   index: -1
 player_idle-16
+  rotate: false
+  xy: 434, 80
+  size: 49, 81
+  orig: 49, 81
+  offset: 0, 0
+  index: -1
+player_idle-17
+  rotate: false
+  xy: 434, 80
+  size: 49, 81
+  orig: 49, 81
+  offset: 0, 0
+  index: -1
+player_idle-18
+  rotate: false
+  xy: 434, 80
+  size: 49, 81
+  orig: 49, 81
+  offset: 0, 0
+  index: -1
+player_idle-19
   rotate: false
   xy: 434, 80
   size: 49, 81
@@ -396,14 +396,14 @@ robotMob
   orig: 64, 92
   offset: 0, 0
   index: -1
-robotMob_walk-10
+robotMob_walk-00
   rotate: false
   xy: 2, 152
   size: 64, 92
   orig: 64, 92
   offset: 0, 0
   index: -1
-robotMob_walk-00
+robotMob_walk-10
   rotate: false
   xy: 2, 152
   size: 64, 92

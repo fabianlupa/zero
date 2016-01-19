@@ -9,7 +9,6 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.files.FileHandle;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
@@ -19,11 +18,14 @@ import com.badlogic.gdx.utils.Array;
 import com.flaiker.zero.Zero;
 import com.flaiker.zero.abilities.FireballAbility;
 import com.flaiker.zero.blocks.AbstractBlock;
-import com.flaiker.zero.entities.*;
+import com.flaiker.zero.entities.AbstractEntity;
+import com.flaiker.zero.entities.Player;
+import com.flaiker.zero.box2d.LightSourceInjectorInterface;
 import com.flaiker.zero.helper.Map;
 import com.flaiker.zero.helper.SpawnArgs;
 import com.flaiker.zero.helper.WorldContactListener;
 import com.flaiker.zero.services.ConsoleManager;
+import com.flaiker.zero.tiles.TileRegistry;
 import com.flaiker.zero.ui.AbilityList;
 import com.flaiker.zero.ui.EscapeMenu;
 import com.flaiker.zero.ui.GameTimer;
@@ -31,6 +33,7 @@ import com.flaiker.zero.ui.Healthbar;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Screen where the game is played on
@@ -125,6 +128,7 @@ public class GameScreen extends AbstractScreen implements InputProcessor, Consol
     @Override
     public void show() {
         super.show();
+
         // load the map
         map = Map.create(mapHandle.name(), camera, batch);
         if (map == null) {
@@ -135,45 +139,36 @@ public class GameScreen extends AbstractScreen implements InputProcessor, Consol
             map.addTilesAsBodiesToWorld(world);
         }
 
-        // create the player
-        Vector2 playerSpawnPos = map.getPlayerSpawnPosition();
-        player = new Player(playerSpawnPos.x, playerSpawnPos.y);
-        player.addBodyToWorld(world);
-        addInputProcessor(player);
 
-        // create the mobs
-        for (SpawnArgs mobSpawn : map.getMobSpawnPositions()) {
-            switch (mobSpawn.getSpawnType()) {
-                case MOB_ROBOT:
-                    RobotMob testMob = new RobotMob(mobSpawn.getX(), mobSpawn.getY());
-                    testMob.addBodyToWorld(world);
-                    break;
-                case MOB_BALL:
-                    BallMob testBall = new BallMob(mobSpawn.getX(), mobSpawn.getY(), rayHandler);
-                    testBall.addBodyToWorld(world);
-                    break;
-            }
-        }
+        // Spawn entities at loaded spawn positions
+        for (SpawnArgs spawnArgs : map.getSpawns()) {
+            Optional<Class<? extends AbstractEntity>> entityType =
+                    TileRegistry.getInstance().getEntityClassByType(spawnArgs.getType());
 
-        // create static objects
-        for (SpawnArgs objectSpawn : map.getObjectSpawnPositions()) {
-            switch (objectSpawn.getSpawnType()) {
-                case STATIC_LAMPROPE:
-                    float height = (float) objectSpawn.getAdArgs().getOrDefault(LampRope.AD_ARGS_HEIGHT_KEY,
-                                                                                LampRope.AD_ARGS_HEIGHT_DEFAULT);
-                    float pan = (float) objectSpawn.getAdArgs().getOrDefault(LampRope.AD_ARGS_PAN_KEY,
-                                                                             LampRope.AD_ARGS_PAN_DEFAULT);
-                    LampRope lampRope = new LampRope(rayHandler, objectSpawn.getX(), objectSpawn.getY(), height, pan);
-                    lampRope.addBodyToWorld(world);
-                    break;
-                case STATIC_LAMPHORIZONTAL:
-                    Color color = (Color) objectSpawn.getAdArgs()
-                                                     .getOrDefault(LampHorizontal.AD_ARGS_COLOR_KEY,
-                                                                   Color.valueOf(LampHorizontal.AD_ARGS_COLOR_DEFAULT));
-                    LampHorizontal lampHorizontal = new LampHorizontal(rayHandler, objectSpawn.getX(),
-                                                                       objectSpawn.getY(), color);
-                    lampHorizontal.addBodyToWorld(world);
-                    break;
+            if (entityType.isPresent()) {
+                AbstractEntity newEntity;
+                try {
+                    newEntity = entityType.get().newInstance();
+                    newEntity.initializeSpawnPosition(spawnArgs.getX(), spawnArgs.getY());
+                    newEntity.applyAdArgs(spawnArgs.getAdArgs());
+
+                    if (newEntity instanceof LightSourceInjectorInterface) {
+                        ((LightSourceInjectorInterface) newEntity).initializeRayHandler(rayHandler);
+                    }
+
+                    newEntity.init();
+                    newEntity.addBodyToWorld(world);
+
+                    if (newEntity instanceof Player) {
+                        addInputProcessor((Player) newEntity);
+                        player = (Player) newEntity;
+                    }
+                } catch (InstantiationException | IllegalAccessException e) {
+                    Gdx.app.log(LOG, "Could not spawn entity of");
+                }
+            } else {
+                Gdx.app.log(LOG, "Entity spawn of type " + spawnArgs.getType() +
+                                 " was found in map but not in TileRegistry");
             }
         }
 
