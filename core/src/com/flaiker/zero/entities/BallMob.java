@@ -11,7 +11,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.physics.box2d.joints.RevoluteJointDef;
 import com.flaiker.zero.helper.AnimationManager;
-import com.flaiker.zero.helper.ContactCallback;
+import com.flaiker.zero.box2d.ContactCallback;
 import com.flaiker.zero.box2d.LightSourceInjectorInterface;
 import com.flaiker.zero.screens.GameScreen;
 import com.flaiker.zero.tiles.RegistrableSpawn;

@@ -2,7 +2,7 @@
  * Copyright 2016 Fabian Lupa                                                 *
  ******************************************************************************/
 
-package com.flaiker.zero.helper;
+package com.flaiker.zero.box2d;
 
 /**
  * Base class used by {@link WorldContactListener} to direct contact events to Box2D objects, should mainly be extended

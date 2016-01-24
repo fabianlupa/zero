@@ -23,7 +23,7 @@ import com.flaiker.zero.entities.Player;
 import com.flaiker.zero.box2d.LightSourceInjectorInterface;
 import com.flaiker.zero.helper.Map;
 import com.flaiker.zero.helper.SpawnArgs;
-import com.flaiker.zero.helper.WorldContactListener;
+import com.flaiker.zero.box2d.WorldContactListener;
 import com.flaiker.zero.services.ConsoleManager;
 import com.flaiker.zero.tiles.TileRegistry;
 import com.flaiker.zero.ui.AbilityList;
