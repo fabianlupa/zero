@@ -1,3 +1,7 @@
+/******************************************************************************
+ * Copyright 2016 Fabian Lupa                                                 *
+ ******************************************************************************/
+
 package com.flaiker.zero.desktop;
 
 import com.badlogic.gdx.ApplicationAdapter;
