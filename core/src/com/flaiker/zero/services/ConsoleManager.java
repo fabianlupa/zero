@@ -8,9 +8,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-/**
- * Created by Flaiker on 29.11.2014.
- */
 public class ConsoleManager {
     private List<ConsoleCommand> commandList = new ArrayList<>();
 

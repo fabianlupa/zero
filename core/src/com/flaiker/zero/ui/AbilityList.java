@@ -14,9 +14,6 @@ import com.flaiker.zero.entities.Player;
 
 import java.util.ArrayList;
 
-/**
- * Created by Flaiker on 21.12.2014.
- */
 public class AbilityList {
     private ScrollPane    scrollPane;
     private VerticalGroup verticalGroup;

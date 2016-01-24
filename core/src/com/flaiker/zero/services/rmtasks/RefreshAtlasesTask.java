@@ -6,9 +6,6 @@ package com.flaiker.zero.services.rmtasks;
 
 import com.badlogic.gdx.tools.texturepacker.TexturePacker;
 
-/**
- * Created by Flaiker on 27.12.2014.
- */
 public class RefreshAtlasesTask extends AbstractTask {
     private static final String ATLAS_INPUT_ENTITIES_PATH = "entities";
     private static final String ATLAS_INPUT_BLOCKS_PATH   = "blocks";

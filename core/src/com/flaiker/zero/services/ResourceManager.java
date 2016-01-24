@@ -13,9 +13,6 @@ import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-/**
- * Created by Flaiker on 26.12.2014.
- */
 public class ResourceManager {
     public static final String LOG = ResourceManager.class.getSimpleName();
 

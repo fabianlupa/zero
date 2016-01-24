@@ -18,9 +18,6 @@ import com.flaiker.zero.screens.AbstractScreen;
 import com.flaiker.zero.screens.GameScreen;
 import com.flaiker.zero.screens.MenuScreen;
 
-/**
- * Created by Flaiker on 22.12.2014.
- */
 public class EscapeMenu {
     private final Zero       zero;
     private final GameScreen gameScreen;

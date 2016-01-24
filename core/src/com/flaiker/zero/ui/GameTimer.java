@@ -10,9 +10,6 @@ import com.flaiker.zero.screens.AbstractScreen;
 
 import java.util.concurrent.TimeUnit;
 
-/**
- * Created by Flaiker on 22.12.2014.
- */
 public class GameTimer {
     private TextButton timerButton;
     private long       gameTimeMillis;

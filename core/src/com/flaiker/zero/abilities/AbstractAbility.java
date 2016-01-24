@@ -9,9 +9,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageTextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 
-/**
- * Created by Flaiker on 22.12.2014.
- */
 public abstract class AbstractAbility {
     //protected static final TextureAtlas ABILITY_TEXTURE_ATLAS = new TextureAtlas("atlases/entities.atlas");
 

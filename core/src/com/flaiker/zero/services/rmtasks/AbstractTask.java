@@ -4,9 +4,6 @@
 
 package com.flaiker.zero.services.rmtasks;
 
-/**
- * Created by Flaiker on 27.12.2014.
- */
 public abstract class AbstractTask {
     private boolean executedInOwnThread;
     private float   propableTime;

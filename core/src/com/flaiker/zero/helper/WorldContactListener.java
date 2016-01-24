@@ -6,9 +6,6 @@ package com.flaiker.zero.helper;
 
 import com.badlogic.gdx.physics.box2d.*;
 
-/**
- * Created by Flaiker on 11.12.2014.
- */
 public class WorldContactListener implements ContactListener {
     @Override
     public void beginContact(Contact contact) {

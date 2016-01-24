@@ -9,9 +9,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.ProgressBar;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.flaiker.zero.Zero;
 
-/**
- * Created by Flaiker on 27.12.2014.
- */
 public class LoadingScreen extends AbstractScreen {
     public static final String LOG = LoadingScreen.class.getSimpleName();
 
