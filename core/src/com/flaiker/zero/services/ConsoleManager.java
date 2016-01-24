@@ -8,6 +8,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+/**
+ * Service for managing console commands
+ */
 public class ConsoleManager {
     private List<ConsoleCommand> commandList = new ArrayList<>();
 

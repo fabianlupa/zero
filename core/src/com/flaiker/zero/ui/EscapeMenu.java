@@ -18,6 +18,9 @@ import com.flaiker.zero.screens.AbstractScreen;
 import com.flaiker.zero.screens.GameScreen;
 import com.flaiker.zero.screens.MenuScreen;
 
+/**
+ * Escape / pause menu
+ */
 public class EscapeMenu {
     private final Zero       zero;
     private final GameScreen gameScreen;

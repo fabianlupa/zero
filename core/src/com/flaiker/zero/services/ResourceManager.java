@@ -13,6 +13,12 @@ import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+/**
+ * Service for managing resources like assets / texture atlases in order to avoid loading the same resource multiple
+ * times or having to load a resource as it is requested which may cause lag. {@link AbstractTask}s can be added to a
+ * queue. These contain the instructions which resources to load and will be executed asynchronously and report a status
+ * so the user can see a loading screen.
+ */
 public class ResourceManager {
     public static final String LOG = ResourceManager.class.getSimpleName();
 

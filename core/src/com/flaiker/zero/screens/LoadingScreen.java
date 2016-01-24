@@ -9,6 +9,9 @@ import com.badlogic.gdx.scenes.scene2d.ui.ProgressBar;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.flaiker.zero.Zero;
 
+/**
+ * Screen for loading a level
+ */
 public class LoadingScreen extends AbstractScreen {
     public static final String LOG = LoadingScreen.class.getSimpleName();
 

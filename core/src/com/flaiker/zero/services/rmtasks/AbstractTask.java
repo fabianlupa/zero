@@ -4,6 +4,9 @@
 
 package com.flaiker.zero.services.rmtasks;
 
+/**
+ * Base class for task definitions used in {@link com.flaiker.zero.services.ResourceManager}
+ */
 public abstract class AbstractTask {
     private boolean executedInOwnThread;
     private float   propableTime;

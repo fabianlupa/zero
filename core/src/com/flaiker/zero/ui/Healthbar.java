@@ -10,6 +10,9 @@ import com.badlogic.gdx.graphics.g2d.NinePatch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 
+/**
+ * Healthbar in the top left corner of the screen
+ */
 public class Healthbar extends Actor {
     private static final int BAR_INNER_WIDTH = 218;
 

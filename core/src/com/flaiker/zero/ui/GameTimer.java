@@ -10,6 +10,9 @@ import com.flaiker.zero.screens.AbstractScreen;
 
 import java.util.concurrent.TimeUnit;
 
+/**
+ * Timer element of the game, wraps a {@link TextButton} which can be added to the ingame ui
+ */
 public class GameTimer {
     private TextButton timerButton;
     private long       gameTimeMillis;

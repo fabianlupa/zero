@@ -7,6 +7,9 @@ package com.flaiker.zero.helper;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * Spawn arguments for entities when loading them from a map
+ */
 public class SpawnArgs {
     private float               x;
     private float               y;

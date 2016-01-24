@@ -14,6 +14,9 @@ import com.flaiker.zero.entities.Player;
 
 import java.util.ArrayList;
 
+/**
+ * List of abilities of the player
+ */
 public class AbilityList {
     private ScrollPane    scrollPane;
     private VerticalGroup verticalGroup;

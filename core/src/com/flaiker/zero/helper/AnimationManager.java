@@ -15,6 +15,9 @@ import java.util.Random;
 import java.util.SortedMap;
 import java.util.TreeMap;
 
+/**
+ * Manages animations of entities
+ */
 public class AnimationManager {
     public static final String LOG = AnimationManager.class.getSimpleName();
 

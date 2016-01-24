@@ -6,6 +6,10 @@ package com.flaiker.zero.helper;
 
 import com.badlogic.gdx.physics.box2d.*;
 
+/**
+ * Listener class for interaction between to Box2D objects. Add an instance of {@link ContactCallback} as the userdata
+ * of an Box2D object to receive an event on contact.
+ */
 public class WorldContactListener implements ContactListener {
     @Override
     public void beginContact(Contact contact) {
