@@ -1,10 +1,14 @@
+/******************************************************************************
+ * Copyright 2016 Fabian Lupa                                                 *
+ ******************************************************************************/
+
 package com.flaiker.zero.services.rmtasks;
 
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 
 /**
- * Created by Flaiker on 27.12.2014.
+ * Task for loading ingame assets using texture atlases
  */
 public class LoadIngameAssetsTask extends AbstractTask {
     private static final String[] INGAME_ATLAS_PATHS = {"atlases/blocks.atlas", "atlases/entities.atlas"};

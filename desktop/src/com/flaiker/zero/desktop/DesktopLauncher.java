@@ -1,5 +1,5 @@
 /******************************************************************************
- * Copyright 2015 Fabian Lupa                                                 *
+ * Copyright 2016 Fabian Lupa                                                 *
  ******************************************************************************/
 
 package com.flaiker.zero.desktop;
@@ -8,6 +8,9 @@ import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
 import com.flaiker.zero.Zero;
 
+/**
+ * Entry point for desktop launch of the game
+ */
 public class DesktopLauncher {
     public static void main(String[] args) {
         LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();

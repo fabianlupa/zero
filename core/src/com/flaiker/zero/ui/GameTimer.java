@@ -1,5 +1,5 @@
 /******************************************************************************
- * Copyright 2015 Fabian Lupa                                                 *
+ * Copyright 2016 Fabian Lupa                                                 *
  ******************************************************************************/
 
 package com.flaiker.zero.ui;
@@ -11,7 +11,7 @@ import com.flaiker.zero.screens.AbstractScreen;
 import java.util.concurrent.TimeUnit;
 
 /**
- * Created by Flaiker on 22.12.2014.
+ * Timer element of the game, wraps a {@link TextButton} which can be added to the ingame ui
  */
 public class GameTimer {
     private TextButton timerButton;

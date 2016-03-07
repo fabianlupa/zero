@@ -1,5 +1,5 @@
 /******************************************************************************
- * Copyright 2015 Fabian Lupa                                                 *
+ * Copyright 2016 Fabian Lupa                                                 *
  ******************************************************************************/
 
 package com.flaiker.zero.helper;
@@ -16,7 +16,7 @@ import java.util.SortedMap;
 import java.util.TreeMap;
 
 /**
- * Created by Flaiker on 14.12.2014.
+ * Manages animations of entities
  */
 public class AnimationManager {
     public static final String LOG = AnimationManager.class.getSimpleName();

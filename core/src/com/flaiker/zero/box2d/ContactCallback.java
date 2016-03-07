@@ -1,11 +1,12 @@
 /******************************************************************************
- * Copyright 2015 Fabian Lupa                                                 *
+ * Copyright 2016 Fabian Lupa                                                 *
  ******************************************************************************/
 
-package com.flaiker.zero.helper;
+package com.flaiker.zero.box2d;
 
 /**
- * Created by Flaiker on 11.12.2014.
+ * Base class used by {@link WorldContactListener} to direct contact events to Box2D objects, should mainly be extended
+ * anonymously
  */
 public abstract class ContactCallback {
     public abstract void onContactStart();

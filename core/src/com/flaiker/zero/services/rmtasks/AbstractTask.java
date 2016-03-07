@@ -1,7 +1,11 @@
+/******************************************************************************
+ * Copyright 2016 Fabian Lupa                                                 *
+ ******************************************************************************/
+
 package com.flaiker.zero.services.rmtasks;
 
 /**
- * Created by Flaiker on 27.12.2014.
+ * Base class for task definitions used in {@link com.flaiker.zero.services.ResourceManager}
  */
 public abstract class AbstractTask {
     private boolean executedInOwnThread;

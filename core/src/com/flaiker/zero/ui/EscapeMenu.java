@@ -1,5 +1,5 @@
 /******************************************************************************
- * Copyright 2015 Fabian Lupa                                                 *
+ * Copyright 2016 Fabian Lupa                                                 *
  ******************************************************************************/
 
 package com.flaiker.zero.ui;
@@ -19,7 +19,7 @@ import com.flaiker.zero.screens.GameScreen;
 import com.flaiker.zero.screens.MenuScreen;
 
 /**
- * Created by Flaiker on 22.12.2014.
+ * Escape / pause menu
  */
 public class EscapeMenu {
     private final Zero       zero;

@@ -1,5 +1,5 @@
 /******************************************************************************
- * Copyright 2015 Fabian Lupa                                                 *
+ * Copyright 2016 Fabian Lupa                                                 *
  ******************************************************************************/
 
 package com.flaiker.zero.screens;
@@ -12,8 +12,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.flaiker.zero.Zero;
 import com.flaiker.zero.helper.DefaultActorListener;
-import com.flaiker.zero.services.rmtasks.LoadIngameAssetsTask;
-import com.flaiker.zero.services.rmtasks.RefreshAtlasesTask;
 
 /**
  * Screen which holds the menu

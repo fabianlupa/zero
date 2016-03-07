@@ -1,5 +1,5 @@
 /******************************************************************************
- * Copyright 2015 Fabian Lupa                                                 *
+ * Copyright 2016 Fabian Lupa                                                 *
  ******************************************************************************/
 
 package com.flaiker.zero.ui;
@@ -11,7 +11,7 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 
 /**
- * Created by Flaiker on 21.12.2014.
+ * Healthbar in the top left corner of the screen
  */
 public class Healthbar extends Actor {
     private static final int BAR_INNER_WIDTH = 218;

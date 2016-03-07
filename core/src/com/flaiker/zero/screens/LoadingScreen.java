@@ -1,3 +1,7 @@
+/******************************************************************************
+ * Copyright 2016 Fabian Lupa                                                 *
+ ******************************************************************************/
+
 package com.flaiker.zero.screens;
 
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
@@ -6,7 +10,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.flaiker.zero.Zero;
 
 /**
- * Created by Flaiker on 27.12.2014.
+ * Screen for loading a level
  */
 public class LoadingScreen extends AbstractScreen {
     public static final String LOG = LoadingScreen.class.getSimpleName();

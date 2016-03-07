@@ -1,13 +1,14 @@
 /******************************************************************************
- * Copyright 2015 Fabian Lupa                                                 *
+ * Copyright 2016 Fabian Lupa                                                 *
  ******************************************************************************/
 
-package com.flaiker.zero.helper;
+package com.flaiker.zero.box2d;
 
 import com.badlogic.gdx.physics.box2d.*;
 
 /**
- * Created by Flaiker on 11.12.2014.
+ * Listener class for interaction between to Box2D objects. Add an instance of {@link ContactCallback} as the userdata
+ * of an Box2D object to receive an event on contact.
  */
 public class WorldContactListener implements ContactListener {
     @Override

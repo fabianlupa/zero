@@ -1,5 +1,5 @@
 /******************************************************************************
- * Copyright 2015 Fabian Lupa                                                 *
+ * Copyright 2016 Fabian Lupa                                                 *
  ******************************************************************************/
 
 package com.flaiker.zero.helper;
@@ -7,6 +7,9 @@ package com.flaiker.zero.helper;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * Spawn arguments for entities when loading them from a map
+ */
 public class SpawnArgs {
     private float               x;
     private float               y;

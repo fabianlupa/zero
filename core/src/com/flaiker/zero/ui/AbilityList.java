@@ -1,5 +1,5 @@
 /******************************************************************************
- * Copyright 2015 Fabian Lupa                                                 *
+ * Copyright 2016 Fabian Lupa                                                 *
  ******************************************************************************/
 
 package com.flaiker.zero.ui;
@@ -15,7 +15,7 @@ import com.flaiker.zero.entities.Player;
 import java.util.ArrayList;
 
 /**
- * Created by Flaiker on 21.12.2014.
+ * List of abilities of the player
  */
 public class AbilityList {
     private ScrollPane    scrollPane;

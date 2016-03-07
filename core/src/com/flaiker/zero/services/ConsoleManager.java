@@ -1,5 +1,5 @@
 /******************************************************************************
- * Copyright 2015 Fabian Lupa                                                 *
+ * Copyright 2016 Fabian Lupa                                                 *
  ******************************************************************************/
 
 package com.flaiker.zero.services;
@@ -9,7 +9,7 @@ import java.util.HashMap;
 import java.util.List;
 
 /**
- * Created by Flaiker on 29.11.2014.
+ * Service for managing console commands
  */
 public class ConsoleManager {
     private List<ConsoleCommand> commandList = new ArrayList<>();
