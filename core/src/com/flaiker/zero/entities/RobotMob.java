@@ -6,6 +6,7 @@ package com.flaiker.zero.entities;
 
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
+import com.flaiker.zero.box2d.Box2dUtils;
 import com.flaiker.zero.helper.AnimationManager;
 import com.flaiker.zero.box2d.ContactCallback;
 import com.flaiker.zero.screens.GameScreen;
@@ -20,6 +21,10 @@ public class RobotMob extends AbstractMob {
     private static final float  ACCELERATION_X = 500f;
     private static final String ATLAS_PATH     = "robotMob";
     private static final int    HEALTH         = 5;
+
+    private static final float DENSITY     = 1f;
+    private static final float FRICTION    = 1f;
+    private static final float RESTITUTION = 0f;
 
     private boolean wallRight = false;
     private boolean wallLeft  = false;
@@ -48,12 +53,17 @@ public class RobotMob extends AbstractMob {
 
         bdef.position.set(getSpriteX(), getSpriteY());
         bdef.type = BodyDef.BodyType.DynamicBody;
+        bdef.fixedRotation = true;
         Body body = world.createBody(bdef);
         body.setUserData(this);
 
         shape.setAsBox(getEntityWidth() / 2f, getEntityHeight() / 2f);
         fdef.shape = shape;
+        fdef.density = DENSITY;
+        fdef.friction = FRICTION;
+        fdef.restitution = RESTITUTION;
         body.createFixture(fdef);
+        Box2dUtils.clearFixtureDefAttributes(fdef);
 
         // sensor right
         shape.setAsBox(0.1f, sprite.getHeight() / GameScreen.PIXEL_PER_METER / 2f - 0.2f,

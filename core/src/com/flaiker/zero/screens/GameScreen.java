@@ -42,6 +42,7 @@ public class GameScreen extends AbstractScreen implements InputProcessor, Consol
     private static final float TIME_STEP           = 1 / 300f;
     private static final int   VELOCITY_ITERATIONS = 6;
     private static final int   POSITION_ITERATIONS = 2;
+    private static final float GRAVITY             = -10f;
     public static final  int   PIXEL_PER_METER     = 64;
 
     private final World              world;
@@ -67,7 +68,7 @@ public class GameScreen extends AbstractScreen implements InputProcessor, Consol
         paused = false;
         box2dCamera = new OrthographicCamera(SCREEN_WIDTH / PIXEL_PER_METER, SCREEN_HEIGHT / PIXEL_PER_METER);
         box2dCamera.position.set(SCREEN_WIDTH / PIXEL_PER_METER / 2f, SCREEN_HEIGHT / PIXEL_PER_METER / 2f, 0);
-        world = new World(new Vector2(0, -20), true);
+        world = new World(new Vector2(0, GRAVITY), true);
         debugRenderer = new Box2DDebugRenderer();
         RayHandler.setGammaCorrection(true);
         RayHandler.useDiffuseLight(true);

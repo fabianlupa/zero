@@ -18,6 +18,10 @@ import com.flaiker.zero.box2d.AbstractBox2dObject;
 public abstract class AbstractBlock extends AbstractBox2dObject {
     private static TextureAtlas blockTextureAtlas = new TextureAtlas("atlases/blocks.atlas");
 
+    private static final float DENSITY     = 100f;
+    private static final float FRICTION    = 1f;
+    private static final float RESTITUTION = 0f;
+
     public AbstractBlock() {
         super(blockTextureAtlas);
     }
@@ -36,8 +40,10 @@ public abstract class AbstractBlock extends AbstractBox2dObject {
         v[2] = new Vector2(getEntityWidth() / 2f, getEntityWidth() / 2f);
         v[3] = new Vector2(getEntityWidth() / 2f, -getEntityWidth() / 2f);
         cs.createLoop(v);
-        //fdef.friction = 0.5f;
         fdef.shape = cs;
+        fdef.density = DENSITY;
+        fdef.friction = FRICTION;
+        fdef.restitution = RESTITUTION;
         fdef.isSensor = false;
         Body tileBody = world.createBody(bdef);
         tileBody.setUserData(this);
