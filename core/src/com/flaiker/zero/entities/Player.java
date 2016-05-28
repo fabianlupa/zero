@@ -30,9 +30,13 @@ public class Player extends AbstractLivingEntity implements InputProcessor, Cons
     private static final float  MAX_SPEED_X       = 4f;
     private static final float  ACCELERATION_X    = 150;
     private static final float  MAX_SPEED_Y       = 100f;
-    private static final float  ACCELERATION_JUMP = 3000f;
+    private static final float  ACCELERATION_JUMP = 2000f;
     private static final int    MAX_HEALTH        = 5;
     private static final String ATLAS_PATH        = "player";
+
+    private static final float DENSITY     = 1f;
+    private static final float FRICTION    = 1f;
+    private static final float RESTITUTION = 0f;
 
     private int              numFootContacts;
     private boolean          canJump;
@@ -95,13 +99,15 @@ public class Player extends AbstractLivingEntity implements InputProcessor, Cons
 
         bdef.position.set(getSpriteX(), getSpriteY());
         bdef.type = BodyDef.BodyType.DynamicBody;
+        bdef.fixedRotation = true;
         Body playerBody = world.createBody(bdef);
         playerBody.setUserData(this);
 
         shape.setAsBox(getEntityWidth() / 2f, getEntityHeight() / 2f);
         fdef.shape = shape;
-        //fdef.friction = 0.5f;
-        fdef.density = 0f;
+        fdef.friction = FRICTION;
+        fdef.density = DENSITY;
+        fdef.restitution = RESTITUTION;
         playerBody.createFixture(fdef).setUserData("player");
         shape.setAsBox(0.35f, 0.1f, new Vector2(0, -sprite.getHeight() / GameScreen.PIXEL_PER_METER / 2f + 0.1f), 0);
         fdef.shape = shape;

@@ -10,6 +10,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.physics.box2d.joints.RevoluteJointDef;
+import com.flaiker.zero.box2d.Box2dUtils;
 import com.flaiker.zero.helper.AnimationManager;
 import com.flaiker.zero.box2d.ContactCallback;
 import com.flaiker.zero.box2d.LightSourceInjectorInterface;
@@ -25,6 +26,10 @@ public class BallMob extends AbstractMob implements LightSourceInjectorInterface
     private static final float  ACCELERATION_X = 100f;
     private static final String ATLAS_PATH     = "ballMob";
     private static final int    HEALTH         = 5;
+
+    private static final float DENSITY     = 1f;
+    private static final float FRICTION    = 1f;
+    private static final float RESTITUTION = 0f;
 
     private AnimationManager animationManager;
     private boolean wallRight = false;
@@ -75,12 +80,11 @@ public class BallMob extends AbstractMob implements LightSourceInjectorInterface
         // create rotating circle
         shape.setRadius(getEntityWidth() / 2f);
         fdef.shape = shape;
-        fdef.density = 1f;
-        fdef.friction = 10000f;
-        fdef.restitution = 0f;
+        fdef.density = DENSITY;
+        fdef.friction = FRICTION;
+        fdef.restitution = RESTITUTION;
         body.createFixture(fdef);
-        fdef.density = 0f;
-        fdef.friction = 0f;
+        Box2dUtils.clearFixtureDefAttributes(fdef);
 
         // create sensors on different body
         Body sensorBody = world.createBody(bdef);
