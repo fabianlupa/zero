@@ -9,11 +9,13 @@ package com.flaiker.zero.entities;
  */
 public abstract class AbstractLivingEntity extends AbstractEntity {
     private Direction requestedDirection;
+    private Direction lastRequestedDirection;
     private float     lastLinearVelocityX;
 
     public AbstractLivingEntity() {
         super();
         this.requestedDirection = Direction.NONE;
+        lastRequestedDirection = Direction.RIGHT;
     }
 
     /**
@@ -63,11 +65,21 @@ public abstract class AbstractLivingEntity extends AbstractEntity {
     protected abstract float getAccelerationX();
 
     protected void setRequestedDirection(Direction direction) {
+        lastRequestedDirection = requestedDirection;
         requestedDirection = direction;
     }
 
-    protected Direction getRequestedDirection() {
+    public Direction getRequestedDirection() {
         return requestedDirection;
+    }
+
+    public Direction getLastRequestedDirection() {
+        return lastRequestedDirection;
+    }
+
+    public Direction getViewDirection() {
+        if (requestedDirection != Direction.NONE) return requestedDirection;
+        else return lastRequestedDirection;
     }
 
     public enum Direction {
