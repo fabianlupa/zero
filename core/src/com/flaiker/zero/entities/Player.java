@@ -41,17 +41,13 @@ public class Player extends AbstractLivingEntity implements InputProcessor, Cons
     private int              numFootContacts;
     private boolean          canJump;
     private AnimationManager animationManager;
-    private int              currentHealth;
-    private int              maxHealth;
     private AbstractAbility  selectedAbility;
     private boolean          noGravOn;
     private boolean          noClipOn;
     private boolean          flyOn;
 
     public Player() {
-        super();
-        currentHealth = MAX_HEALTH;
-        maxHealth = MAX_HEALTH;
+        super(MAX_HEALTH);
         selectedAbility = null;
     }
 
@@ -67,14 +63,6 @@ public class Player extends AbstractLivingEntity implements InputProcessor, Cons
         animationManager.setMinimumIdleTime(5f);
         animationManager.registerAnimation("player", "walk", AbstractEntity.ENTITY_TEXTURE_ATLAS, 1 / 8f);
         animationManager.registerIdleAnimation("player", "idle", AbstractEntity.ENTITY_TEXTURE_ATLAS, 1 / 4f);
-    }
-
-    public int getCurrentHealth() {
-        return currentHealth;
-    }
-
-    public int getMaxHealth() {
-        return maxHealth;
     }
 
     public boolean isPlayerOnGround() {

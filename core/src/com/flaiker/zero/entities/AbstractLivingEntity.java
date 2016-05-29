@@ -8,12 +8,16 @@ package com.flaiker.zero.entities;
  * Base class for entities that "live", e. g. can move
  */
 public abstract class AbstractLivingEntity extends AbstractEntity {
+    protected int currentHealth;
+    protected int maxHealth;
     private Direction requestedDirection;
     private Direction lastRequestedDirection;
     private float     lastLinearVelocityX;
 
-    public AbstractLivingEntity() {
+    public AbstractLivingEntity(int maxHealth) {
         super();
+        this.maxHealth = maxHealth;
+        currentHealth = maxHealth;
         this.requestedDirection = Direction.NONE;
         lastRequestedDirection = Direction.RIGHT;
     }
@@ -44,6 +48,14 @@ public abstract class AbstractLivingEntity extends AbstractEntity {
                 lastLinearVelocityX = body.getLinearVelocity().x;
                 break;
         }
+    }
+
+    public int getCurrentHealth() {
+        return currentHealth;
+    }
+
+    public int getMaxHealth() {
+        return maxHealth;
     }
 
     public void update() {
