@@ -14,13 +14,14 @@ import com.flaiker.zero.box2d.Box2dUtils;
 public class FireballEntity extends AbstractEntity {
     private static final String ATLAS_PATH      = "fireball";
     private static final int    FIREBALL_DAMAGE = 2;
-    private static final int    LIFETIME        = 2000;
+    private static final int    LIFETIME        = 2;
 
     private static final float DENSITY     = 4f;
     private static final float FRICTION    = 1f;
     private static final float RESTITUTION = 1f;
 
     private boolean damageDone;
+    private float   timeAlive;
 
     @Override
     protected String getAtlasPath() {
@@ -68,5 +69,14 @@ public class FireballEntity extends AbstractEntity {
         });
 
         return body;
+    }
+
+    @Override
+    public void update(float delta) {
+        super.update(delta);
+
+        timeAlive += delta;
+
+        if (timeAlive > LIFETIME) dispose();
     }
 }

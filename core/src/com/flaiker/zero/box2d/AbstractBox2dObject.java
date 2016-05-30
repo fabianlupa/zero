@@ -116,8 +116,10 @@ public abstract class AbstractBox2dObject {
 
     /**
      * Update the object using game logic
+     *
+     * @param delta Time since last update
      */
-    public void update() {
+    public void update(float delta) {
         if (body == null) throw new IllegalStateException("Cannot update uninitialized body");
     }
 

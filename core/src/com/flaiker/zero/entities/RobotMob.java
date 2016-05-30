@@ -103,8 +103,8 @@ public class RobotMob extends AbstractMob {
     }
 
     @Override
-    public void update() {
-        super.update();
+    public void update(float delta) {
+        super.update(delta);
         if (getRequestedDirection() == Direction.NONE) {
             setRequestedDirection(Direction.RIGHT);
             animationManager.runAnimation("walk", AnimationManager.AnimationDirection.LEFT);

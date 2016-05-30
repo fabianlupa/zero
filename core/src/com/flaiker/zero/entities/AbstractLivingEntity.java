@@ -63,8 +63,9 @@ public abstract class AbstractLivingEntity extends AbstractEntity {
         if (currentHealth < 0) currentHealth = 0;
     }
 
-    public void update() {
-        super.update();
+    @Override
+    public void update(float delta) {
+        super.update(delta);
         move();
         // check if entity has left the mapbounds, if so teleport it back into it
         if (getSpriteX() < 0) {

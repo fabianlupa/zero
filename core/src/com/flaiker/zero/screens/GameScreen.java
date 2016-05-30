@@ -221,7 +221,7 @@ public class GameScreen extends AbstractScreen implements InputProcessor, Consol
             Object userData = b.getUserData();
             if (userData instanceof AbstractEntity) {
                 AbstractEntity entity = (AbstractEntity) userData;
-                if (!isPaused()) entity.update();
+                if (!isPaused()) entity.update(delta);
                 if (renderMode == RenderMode.GAME || renderMode == RenderMode.TILED) entity.render(batch);
             } else if (userData instanceof AbstractBlock) {
                 if (renderMode == RenderMode.GAME) ((AbstractBlock) userData).render(batch);
