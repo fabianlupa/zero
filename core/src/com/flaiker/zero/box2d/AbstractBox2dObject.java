@@ -12,6 +12,9 @@ import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.World;
 import com.flaiker.zero.screens.GameScreen;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Base class for game objects that can be rendered using a {@link Sprite} and can be added to a Box2D {@link World} for
  * physics simulation.
@@ -21,14 +24,19 @@ import com.flaiker.zero.screens.GameScreen;
  * necessary state for the instance is done in {@link #init()} and {@link #customInit()} respectively.
  */
 public abstract class AbstractBox2dObject {
-    protected     Sprite       sprite;
-    protected     Body         body;
-    protected     Vector2      spawnVector;
-    private final TextureAtlas textureAtlas;
-    private       boolean      initialized;
+    private final TextureAtlas       textureAtlas;
+
+    protected Sprite  sprite;
+    protected Body    body;
+    protected Vector2 spawnVector;
+    private   boolean initialized;
+    private   boolean markedForDeletion;
+
+    private List<BodyCreatedCallback> callbacks;
 
     public AbstractBox2dObject(TextureAtlas textureAtlas) {
         this.textureAtlas = textureAtlas;
+        callbacks = new ArrayList<>();
     }
 
     /**
@@ -70,7 +78,10 @@ public abstract class AbstractBox2dObject {
 
     public void addBodyToWorld(World world) {
         if (!initialized) throw new IllegalStateException("Could not add body to world, not initialized");
-        if (body == null) body = createBody(world);
+        if (body == null) {
+            body = createBody(world);
+            for (BodyCreatedCallback callback : callbacks) callback.onBodyCreated(body);
+        }
         else throw new IllegalStateException("Body has already been added to world");
     }
 
@@ -82,12 +93,25 @@ public abstract class AbstractBox2dObject {
     protected abstract Body createBody(World world);
 
     /**
+     * Add a callback for after the body has been created
+     *
+     * @param callback The callback to be added
+     * @throws IllegalArgumentException Callback has already been added
+     */
+    public void addBodyCreatedCallback(BodyCreatedCallback callback) throws IllegalArgumentException {
+        if (callbacks.contains(callback)) throw new IllegalArgumentException("Callback already added");
+
+        callbacks.add(callback);
+    }
+
+    /**
      * Render the sprite of the object
      * @param batch Batch to draw the sprite on
      */
     public void render(Batch batch) {
         if (body == null) throw new IllegalStateException("Cannot render uninitialized body");
-        sprite.draw(batch);
+
+        if (!markedForDeletion) sprite.draw(batch);
     }
 
     /**
@@ -95,6 +119,33 @@ public abstract class AbstractBox2dObject {
      */
     public void update() {
         if (body == null) throw new IllegalStateException("Cannot update uninitialized body");
+    }
+
+    /**
+     *  Mark the object to be removed from the world
+     *
+     * @throws IllegalStateException Object has already been disposed
+     */
+    public void dispose() throws IllegalStateException {
+        if (markedForDeletion) throw new IllegalStateException("Object is already marked for deletion");
+
+        markedForDeletion = true;
+    }
+
+    public boolean isMarkedForDeletion() {
+        return markedForDeletion;
+    }
+
+    public float getBodyX() {
+        return body.getPosition().x;
+    }
+
+    public float getBodyY() {
+        return body.getPosition().y;
+    }
+
+    public Vector2 getBodyPosition() {
+        return body.getPosition();
     }
 
     public float getSpriteX() {
@@ -111,5 +162,16 @@ public abstract class AbstractBox2dObject {
 
     public float getEntityHeight() {
         return sprite.getHeight() / GameScreen.PIXEL_PER_METER;
+    }
+
+    /**
+     * Callback interface for after {@link #addBodyToWorld(World)} has been called
+     */
+    public interface BodyCreatedCallback {
+        /**
+         * Body has been created
+         * @param body The body that has been added to the world
+         */
+        void onBodyCreated(Body body);
     }
 }
