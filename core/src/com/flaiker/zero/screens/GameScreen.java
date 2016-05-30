@@ -326,6 +326,8 @@ public class GameScreen extends AbstractScreen implements InputProcessor, Consol
         List<ConsoleManager.ConsoleCommand> outList = new ArrayList<>();
         outList.addAll(player.getConsoleCommands());
 
+        outList.add(new ConsoleManager.ConsoleCommand("r", m -> zero.setScreen(new GameScreen(zero, mapHandle))));
+
         return outList;
     }
 
