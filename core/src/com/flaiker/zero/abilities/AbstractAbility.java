@@ -8,16 +8,26 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageTextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.flaiker.zero.box2d.WorldBodyInjector;
+import com.flaiker.zero.entities.Player;
 
+/**
+ * Base class for abilities that can be used by the player
+ */
 public abstract class AbstractAbility {
     //protected static final TextureAtlas ABILITY_TEXTURE_ATLAS = new TextureAtlas("atlases/entities.atlas");
+
+    protected final WorldBodyInjector wbi;
+    protected final Player            player;
 
     private String          name;
     private ImageTextButton imageTextButton;
 
-    public AbstractAbility(String name, String atlasPath, Skin skin) {
+    public AbstractAbility(String name, String atlasPath, Skin skin, WorldBodyInjector wbi, Player player) {
         this.name = name;
         this.imageTextButton = createImageTextButton(atlasPath, skin);
+        this.wbi = wbi;
+        this.player = player;
     }
 
     private ImageTextButton createImageTextButton(String atlasPath, Skin skin) {
@@ -34,5 +44,31 @@ public abstract class AbstractAbility {
 
     public String getName() {
         return name;
+    }
+
+    /**
+     * Use the ability
+     */
+    public abstract void use();
+
+    /**
+     * @return Ability is ready to be used
+     */
+    public boolean canUse() {
+        return true;
+    }
+
+    /**
+     * Update ability's state
+     * @param delta Time in milliseconds since last update
+     */
+    public void update(float delta) {
+    }
+
+    /**
+     * Render the ability
+     * @param delta Time in milliseconds since the last time it was rendered
+     */
+    public void render(float delta) {
     }
 }

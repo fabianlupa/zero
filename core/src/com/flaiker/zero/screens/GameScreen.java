@@ -16,14 +16,14 @@ import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Array;
 import com.flaiker.zero.Zero;
+import com.flaiker.zero.abilities.AbstractAbility;
 import com.flaiker.zero.abilities.FireballAbility;
 import com.flaiker.zero.blocks.AbstractBlock;
+import com.flaiker.zero.box2d.*;
 import com.flaiker.zero.entities.AbstractEntity;
 import com.flaiker.zero.entities.Player;
-import com.flaiker.zero.box2d.LightSourceInjectorInterface;
 import com.flaiker.zero.helper.Map;
 import com.flaiker.zero.helper.SpawnArgs;
-import com.flaiker.zero.box2d.WorldContactListener;
 import com.flaiker.zero.services.ConsoleManager;
 import com.flaiker.zero.tiles.TileRegistry;
 import com.flaiker.zero.ui.AbilityList;
@@ -117,6 +117,18 @@ public class GameScreen extends AbstractScreen implements InputProcessor, Consol
 
         // update timer
         gameTimer.updateTime(delta);
+
+        // Update abilities
+        for (AbstractAbility ability : abilityList.getAbilityList()) ability.update(delta);
+
+        // Remove entities that are marked for deletion
+        world.getBodies(bodies);
+        for (Body b : bodies) {
+            if (b.getUserData() instanceof AbstractBox2dObject) {
+                AbstractBox2dObject box2dObject = (AbstractBox2dObject) b.getUserData();
+                if (box2dObject.isMarkedForDeletion()) world.destroyBody(b);
+            }
+        }
     }
 
     public void pauseGame() {
@@ -182,8 +194,8 @@ public class GameScreen extends AbstractScreen implements InputProcessor, Consol
         abilityList = new AbilityList(player, skin);
         uiStage.addActor(abilityList.getActor());
         // testabilities to make the list not empty
-        abilityList.addAbility(new FireballAbility(skin));
-        abilityList.addAbility(new FireballAbility(skin));
+        abilityList.addAbility(new FireballAbility(skin, this, player));
+        abilityList.addAbility(new FireballAbility(skin, this, player));
 
         uiStage.addActor(escapeMenu.getEscapeMenuTable());
 
@@ -215,6 +227,9 @@ public class GameScreen extends AbstractScreen implements InputProcessor, Consol
                 if (renderMode == RenderMode.GAME) ((AbstractBlock) userData).render(batch);
             }
         }
+
+        // Render abilities
+        for (AbstractAbility ability : abilityList.getAbilityList()) ability.render(delta);
 
         // render collisionlayer using tiled
         if (renderMode == RenderMode.TILED) map.renderCollisionLayer();

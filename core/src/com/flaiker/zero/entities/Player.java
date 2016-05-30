@@ -197,6 +197,9 @@ public class Player extends AbstractLivingEntity implements InputProcessor, Cons
                 body.setLinearVelocity(0f, 0f);
                 keyProcessed = true;
                 break;
+            case Input.Keys.F:
+                if (selectedAbility.canUse()) selectedAbility.use();
+                break;
         }
         return keyProcessed;
     }
