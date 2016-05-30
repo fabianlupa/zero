@@ -38,7 +38,8 @@ import java.util.Optional;
 /**
  * Screen where the game is played on
  */
-public class GameScreen extends AbstractScreen implements InputProcessor, ConsoleManager.CommandableInstance {
+public class GameScreen extends AbstractScreen implements InputProcessor, ConsoleManager.CommandableInstance,
+                                                          WorldBodyInjector {
     private static final float TIME_STEP           = 1 / 300f;
     private static final int   VELOCITY_ITERATIONS = 6;
     private static final int   POSITION_ITERATIONS = 2;
@@ -329,6 +330,11 @@ public class GameScreen extends AbstractScreen implements InputProcessor, Consol
         outList.add(new ConsoleManager.ConsoleCommand("r", m -> zero.setScreen(new GameScreen(zero, mapHandle))));
 
         return outList;
+    }
+
+    @Override
+    public void addBodyToWorld(AbstractBox2dObject box2dObject) {
+        box2dObject.addBodyToWorld(world);
     }
 
     private enum RenderMode {
