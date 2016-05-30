@@ -58,6 +58,11 @@ public abstract class AbstractLivingEntity extends AbstractEntity {
         return maxHealth;
     }
 
+    public void receiveDamage(int dmg) {
+        currentHealth -= dmg;
+        if (currentHealth < 0) currentHealth = 0;
+    }
+
     public void update() {
         super.update();
         move();
@@ -70,6 +75,9 @@ public abstract class AbstractLivingEntity extends AbstractEntity {
             body.setTransform(spawnVector, 0f);
             body.setLinearVelocity(0f, 0f);
         }
+
+        // Check if entity is dead
+        if (currentHealth == 0) dispose();
     }
 
     protected abstract float getMaxSpeedX();
