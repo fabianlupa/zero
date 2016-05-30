@@ -7,8 +7,12 @@ package com.flaiker.zero.entities;
 import box2dLight.Light;
 import box2dLight.PointLight;
 import box2dLight.RayHandler;
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.graphics.g2d.ParticleEffect;
 import com.badlogic.gdx.physics.box2d.*;
+import com.flaiker.zero.Game;
 import com.flaiker.zero.box2d.AdvancedContactCallback;
 import com.flaiker.zero.box2d.Box2dUtils;
 
@@ -24,8 +28,17 @@ public class FireballEntity extends AbstractLightSource {
     private static final float FRICTION    = 1f;
     private static final float RESTITUTION = 1f;
 
-    private boolean damageDone;
-    private float   timeAlive;
+    private boolean        damageDone;
+    private float          timeAlive;
+    private ParticleEffect particleEffect;
+
+    public FireballEntity() {
+        super();
+
+        particleEffect = new ParticleEffect();
+        particleEffect.load(Gdx.files.internal("particles/fireball.p"), Gdx.files.internal("particles"));
+        particleEffect.start();
+    }
 
     @Override
     protected String getAtlasPath() {
@@ -80,8 +93,16 @@ public class FireballEntity extends AbstractLightSource {
         super.update(delta);
 
         timeAlive += delta;
-
         if (timeAlive > LIFETIME) dispose();
+
+        particleEffect.setPosition(getBodyX() * Game.PIXEL_PER_METER, getBodyY() * Game.PIXEL_PER_METER);
+    }
+
+    @Override
+    public void render(Batch batch) {
+        super.render(batch);
+
+        particleEffect.draw(batch, Gdx.graphics.getDeltaTime());
     }
 
     @Override
