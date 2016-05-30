@@ -67,8 +67,8 @@ public class LampRope extends AbstractLightSource {
     }
 
     @Override
-    public void update() {
-        super.update();
+    public void update(float delta) {
+        super.update(delta);
         ropeSprite.setRotation(sprite.getRotation());
     }
 

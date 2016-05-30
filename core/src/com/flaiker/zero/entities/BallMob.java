@@ -25,7 +25,7 @@ public class BallMob extends AbstractMob implements LightSourceInjectorInterface
     private static final float  MAX_SPEED_X    = 2f;
     private static final float  ACCELERATION_X = 100f;
     private static final String ATLAS_PATH     = "ballMob";
-    private static final int    HEALTH         = 5;
+    private static final int    MAX_HEALTH = 5;
 
     private static final float DENSITY     = 1f;
     private static final float FRICTION    = 1f;
@@ -38,7 +38,7 @@ public class BallMob extends AbstractMob implements LightSourceInjectorInterface
     private RayHandler rayHandler;
 
     public BallMob() {
-        super(HEALTH);
+        super(MAX_HEALTH);
     }
 
     @Override
@@ -136,8 +136,8 @@ public class BallMob extends AbstractMob implements LightSourceInjectorInterface
     }
 
     @Override
-    public void update() {
-        super.update();
+    public void update(float delta) {
+        super.update(delta);
         if (getRequestedDirection() == Direction.NONE) setRequestedDirection(Direction.RIGHT);
         aiWalk();
         animationManager.updateSprite();

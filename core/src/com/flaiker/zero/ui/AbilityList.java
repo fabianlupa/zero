@@ -100,4 +100,8 @@ public class AbilityList {
         if (open) hide();
         else show();
     }
+
+    public ArrayList<AbstractAbility> getAbilityList() {
+        return abilityList;
+    }
 }

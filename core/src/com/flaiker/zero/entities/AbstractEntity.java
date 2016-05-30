@@ -50,8 +50,8 @@ public abstract class AbstractEntity extends AbstractBox2dObject {
     }
 
     @Override
-    public void update() {
-        super.update();
+    public void update(float delta) {
+        super.update(delta);
         // update the sprite's position and rotation to the box2d body properties
         setSpritePosition(body.getPosition().x - getEntityWidth() / 2f, body.getPosition().y - getEntityHeight() / 2f);
         setSpriteRotation(MathUtils.radiansToDegrees * body.getAngle());

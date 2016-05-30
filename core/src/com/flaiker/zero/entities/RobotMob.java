@@ -20,7 +20,7 @@ public class RobotMob extends AbstractMob {
     private static final float  MAX_SPEED_X    = 1f;
     private static final float  ACCELERATION_X = 500f;
     private static final String ATLAS_PATH     = "robotMob";
-    private static final int    HEALTH         = 5;
+    private static final int    MAX_HEALTH = 5;
 
     private static final float DENSITY     = 1f;
     private static final float FRICTION    = 1f;
@@ -31,7 +31,7 @@ public class RobotMob extends AbstractMob {
     private AnimationManager animationManager;
 
     public RobotMob() {
-        super(HEALTH);
+        super(MAX_HEALTH);
     }
 
     @Override
@@ -103,8 +103,8 @@ public class RobotMob extends AbstractMob {
     }
 
     @Override
-    public void update() {
-        super.update();
+    public void update(float delta) {
+        super.update(delta);
         if (getRequestedDirection() == Direction.NONE) {
             setRequestedDirection(Direction.RIGHT);
             animationManager.runAnimation("walk", AnimationManager.AnimationDirection.LEFT);
