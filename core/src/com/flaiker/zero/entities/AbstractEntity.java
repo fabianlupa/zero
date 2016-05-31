@@ -7,7 +7,7 @@ package com.flaiker.zero.entities;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.MathUtils;
 import com.flaiker.zero.box2d.AbstractBox2dObject;
-import com.flaiker.zero.screens.GameScreen;
+import com.flaiker.zero.ui.screens.GameScreen;
 
 import java.util.Map;
 

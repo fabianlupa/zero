@@ -9,7 +9,7 @@ import com.badlogic.gdx.physics.box2d.*;
 import com.flaiker.zero.box2d.Box2dUtils;
 import com.flaiker.zero.helper.AnimationManager;
 import com.flaiker.zero.box2d.ContactCallback;
-import com.flaiker.zero.screens.GameScreen;
+import com.flaiker.zero.ui.screens.GameScreen;
 import com.flaiker.zero.tiles.RegistrableSpawn;
 
 /**

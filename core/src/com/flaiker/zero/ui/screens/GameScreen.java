@@ -2,7 +2,7 @@
  * Copyright 2016 Fabian Lupa                                                 *
  ******************************************************************************/
 
-package com.flaiker.zero.screens;
+package com.flaiker.zero.ui.screens;
 
 import box2dLight.RayHandler;
 import com.badlogic.gdx.Gdx;
@@ -26,10 +26,10 @@ import com.flaiker.zero.helper.Map;
 import com.flaiker.zero.helper.SpawnArgs;
 import com.flaiker.zero.services.ConsoleManager;
 import com.flaiker.zero.tiles.TileRegistry;
-import com.flaiker.zero.ui.AbilityList;
-import com.flaiker.zero.ui.EscapeMenu;
-import com.flaiker.zero.ui.GameTimer;
-import com.flaiker.zero.ui.Healthbar;
+import com.flaiker.zero.ui.elements.AbilityList;
+import com.flaiker.zero.ui.elements.EscapeMenu;
+import com.flaiker.zero.ui.elements.GameTimer;
+import com.flaiker.zero.ui.elements.Healthbar;
 
 import java.util.ArrayList;
 import java.util.List;

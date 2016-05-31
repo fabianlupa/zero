@@ -2,7 +2,7 @@
  * Copyright 2016 Fabian Lupa                                                 *
  ******************************************************************************/
 
-package com.flaiker.zero.ui;
+package com.flaiker.zero.ui.elements;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
@@ -14,9 +14,9 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.NinePatchDrawable;
 import com.flaiker.zero.Zero;
 import com.flaiker.zero.helper.DefaultActorListener;
-import com.flaiker.zero.screens.AbstractScreen;
-import com.flaiker.zero.screens.GameScreen;
-import com.flaiker.zero.screens.MenuScreen;
+import com.flaiker.zero.ui.screens.AbstractScreen;
+import com.flaiker.zero.ui.screens.GameScreen;
+import com.flaiker.zero.ui.screens.MenuScreen;
 
 /**
  * Escape / pause menu

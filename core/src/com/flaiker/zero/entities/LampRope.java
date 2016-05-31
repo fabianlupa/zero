@@ -13,7 +13,7 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.physics.box2d.joints.RevoluteJointDef;
-import com.flaiker.zero.screens.GameScreen;
+import com.flaiker.zero.ui.screens.GameScreen;
 import com.flaiker.zero.tiles.RegistrableSpawn;
 
 import java.util.Map;
