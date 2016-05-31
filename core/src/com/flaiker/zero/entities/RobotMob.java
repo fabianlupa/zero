@@ -6,10 +6,10 @@ package com.flaiker.zero.entities;
 
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
+import com.flaiker.zero.Game;
 import com.flaiker.zero.box2d.Box2dUtils;
-import com.flaiker.zero.helper.AnimationManager;
 import com.flaiker.zero.box2d.ContactCallback;
-import com.flaiker.zero.ui.screens.GameScreen;
+import com.flaiker.zero.helper.AnimationManager;
 import com.flaiker.zero.tiles.RegistrableSpawn;
 
 /**
@@ -66,8 +66,8 @@ public class RobotMob extends AbstractMob {
         Box2dUtils.clearFixtureDefAttributes(fdef);
 
         // sensor right
-        shape.setAsBox(0.1f, sprite.getHeight() / GameScreen.PIXEL_PER_METER / 2f - 0.2f,
-                       new Vector2(sprite.getWidth() / GameScreen.PIXEL_PER_METER / 2f - 0.1f, 0), 0);
+        shape.setAsBox(0.1f, sprite.getHeight() / Game.PIXEL_PER_METER / 2f - 0.2f,
+                       new Vector2(sprite.getWidth() / Game.PIXEL_PER_METER / 2f - 0.1f, 0), 0);
         fdef.shape = shape;
         fdef.isSensor = true;
         body.createFixture(fdef).setUserData(new ContactCallback() {
@@ -83,8 +83,8 @@ public class RobotMob extends AbstractMob {
         });
 
         // sensor left
-        shape.setAsBox(-0.1f, sprite.getHeight() / GameScreen.PIXEL_PER_METER / 2f - 0.2f,
-                       new Vector2(-sprite.getWidth() / GameScreen.PIXEL_PER_METER / 2f + 0.1f, 0), 0);
+        shape.setAsBox(-0.1f, sprite.getHeight() / Game.PIXEL_PER_METER / 2f - 0.2f,
+                       new Vector2(-sprite.getWidth() / Game.PIXEL_PER_METER / 2f + 0.1f, 0), 0);
         fdef.shape = shape;
         fdef.isSensor = true;
         body.createFixture(fdef).setUserData(new ContactCallback() {

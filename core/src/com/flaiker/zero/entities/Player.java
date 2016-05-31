@@ -10,10 +10,10 @@ import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
+import com.flaiker.zero.Game;
 import com.flaiker.zero.abilities.AbstractAbility;
-import com.flaiker.zero.helper.AnimationManager;
 import com.flaiker.zero.box2d.ContactCallback;
-import com.flaiker.zero.ui.screens.GameScreen;
+import com.flaiker.zero.helper.AnimationManager;
 import com.flaiker.zero.services.ConsoleManager;
 import com.flaiker.zero.tiles.RegistrableSpawn;
 
@@ -97,7 +97,7 @@ public class Player extends AbstractLivingEntity implements InputProcessor, Cons
         fdef.density = DENSITY;
         fdef.restitution = RESTITUTION;
         playerBody.createFixture(fdef).setUserData("player");
-        shape.setAsBox(0.35f, 0.1f, new Vector2(0, -sprite.getHeight() / GameScreen.PIXEL_PER_METER / 2f + 0.1f), 0);
+        shape.setAsBox(0.35f, 0.1f, new Vector2(0, -sprite.getHeight() / Game.PIXEL_PER_METER / 2f + 0.1f), 0);
         fdef.shape = shape;
         fdef.isSensor = true;
         playerBody.createFixture(fdef).setUserData(new ContactCallback() {
@@ -152,10 +152,10 @@ public class Player extends AbstractLivingEntity implements InputProcessor, Cons
         else {
             Vector2 newPosition = body.getPosition();
 
-            if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)) newPosition.x += 10f / GameScreen.PIXEL_PER_METER;
-            if (Gdx.input.isKeyPressed(Input.Keys.LEFT)) newPosition.x -= 10f / GameScreen.PIXEL_PER_METER;
-            if (Gdx.input.isKeyPressed(Input.Keys.UP)) newPosition.y += 10f / GameScreen.PIXEL_PER_METER;
-            if (Gdx.input.isKeyPressed(Input.Keys.DOWN)) newPosition.y -= 10f / GameScreen.PIXEL_PER_METER;
+            if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)) newPosition.x += 10f / Game.PIXEL_PER_METER;
+            if (Gdx.input.isKeyPressed(Input.Keys.LEFT)) newPosition.x -= 10f / Game.PIXEL_PER_METER;
+            if (Gdx.input.isKeyPressed(Input.Keys.UP)) newPosition.y += 10f / Game.PIXEL_PER_METER;
+            if (Gdx.input.isKeyPressed(Input.Keys.DOWN)) newPosition.y -= 10f / Game.PIXEL_PER_METER;
 
             body.setTransform(newPosition, 0f);
         }

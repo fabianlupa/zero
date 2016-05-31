@@ -10,11 +10,11 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.physics.box2d.joints.RevoluteJointDef;
+import com.flaiker.zero.Game;
 import com.flaiker.zero.box2d.Box2dUtils;
-import com.flaiker.zero.helper.AnimationManager;
 import com.flaiker.zero.box2d.ContactCallback;
 import com.flaiker.zero.box2d.LightSourceInjectorInterface;
-import com.flaiker.zero.ui.screens.GameScreen;
+import com.flaiker.zero.helper.AnimationManager;
 import com.flaiker.zero.tiles.RegistrableSpawn;
 
 /**
@@ -91,8 +91,8 @@ public class BallMob extends AbstractMob implements LightSourceInjectorInterface
         PolygonShape boxShape = new PolygonShape();
 
         // sensor right
-        boxShape.setAsBox(0.01f, sprite.getHeight() / GameScreen.PIXEL_PER_METER / 2f - 0.2f,
-                          new Vector2(sprite.getWidth() / GameScreen.PIXEL_PER_METER / 2f, 0), 0);
+        boxShape.setAsBox(0.01f, sprite.getHeight() / Game.PIXEL_PER_METER / 2f - 0.2f,
+                          new Vector2(sprite.getWidth() / Game.PIXEL_PER_METER / 2f, 0), 0);
         fdef.shape = boxShape;
         fdef.isSensor = true;
         sensorBody.createFixture(fdef).setUserData(new ContactCallback() {
@@ -108,8 +108,8 @@ public class BallMob extends AbstractMob implements LightSourceInjectorInterface
         });
 
         // sensor left
-        boxShape.setAsBox(-0.01f, sprite.getHeight() / GameScreen.PIXEL_PER_METER / 2f - 0.2f,
-                          new Vector2(-sprite.getWidth() / GameScreen.PIXEL_PER_METER / 2f, 0), 0);
+        boxShape.setAsBox(-0.01f, sprite.getHeight() / Game.PIXEL_PER_METER / 2f - 0.2f,
+                          new Vector2(-sprite.getWidth() / Game.PIXEL_PER_METER / 2f, 0), 0);
         fdef.shape = boxShape;
         fdef.isSensor = true;
         sensorBody.createFixture(fdef).setUserData(new ContactCallback() {
