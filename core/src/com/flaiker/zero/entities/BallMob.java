@@ -13,15 +13,17 @@ import com.badlogic.gdx.physics.box2d.joints.RevoluteJointDef;
 import com.flaiker.zero.Game;
 import com.flaiker.zero.box2d.Box2dUtils;
 import com.flaiker.zero.box2d.ContactCallback;
-import com.flaiker.zero.box2d.LightSourceInjectorInterface;
 import com.flaiker.zero.helper.AnimationManager;
+import com.flaiker.zero.injection.CanInject;
+import com.flaiker.zero.injection.InjectDependency;
 import com.flaiker.zero.tiles.RegistrableSpawn;
 
 /**
  * Concrete class for a rolling eye-like-looking mob that also acts as a lightsource with simple ai
  */
 @RegistrableSpawn(type = "ballMob")
-public class BallMob extends AbstractMob implements LightSourceInjectorInterface {
+@CanInject
+public class BallMob extends AbstractMob {
     private static final float  MAX_SPEED_X    = 2f;
     private static final float  ACCELERATION_X = 100f;
     private static final String ATLAS_PATH     = "ballMob";
@@ -41,7 +43,7 @@ public class BallMob extends AbstractMob implements LightSourceInjectorInterface
         super(MAX_HEALTH);
     }
 
-    @Override
+    @InjectDependency(RayHandler.class)
     public void initializeRayHandler(RayHandler rayHandler) {
         if (this.rayHandler != null) throw new IllegalStateException("RayHandler already initialized");
         this.rayHandler = rayHandler;
