@@ -176,7 +176,10 @@ public class Game implements ConsoleManager.CommandableInstance {
                 box2dObject.update(delta);
 
                 // Remove entities that are marked for deletion
-                if (box2dObject.isMarkedForDeletion()) world.destroyBody(b);
+                if (box2dObject.isMarkedForDeletion()) {
+                    box2dObject.dispose();
+                    world.destroyBody(b);
+                }
             }
         }
     }

@@ -63,4 +63,12 @@ public abstract class AbstractLightSource extends AbstractEntity {
         } else throw new IllegalStateException("light or body have not been initialized, " +
                                                "light could not be attached to body");
     }
+
+    @Override
+    public void dispose() {
+        super.dispose();
+
+        // Disable the light instead of disposing it (light instance recycling takes care of it)
+        light.setActive(false);
+    }
 }

@@ -78,7 +78,7 @@ public abstract class AbstractLivingEntity extends AbstractEntity {
         }
 
         // Check if entity is dead
-        if (currentHealth == 0) dispose();
+        if (currentHealth == 0) markForDeletion();
     }
 
     protected abstract float getMaxSpeedX();

@@ -76,7 +76,7 @@ public class FireballEntity extends AbstractLightSource {
                 if (contactedBody.getUserData() instanceof AbstractLivingEntity && !damageDone) {
                     ((AbstractLivingEntity) contactedBody.getUserData()).receiveDamage(FIREBALL_DAMAGE);
                     damageDone = true;
-                    dispose();
+                    markForDeletion();
                 }
             }
 
@@ -93,7 +93,7 @@ public class FireballEntity extends AbstractLightSource {
         super.update(delta);
 
         timeAlive += delta;
-        if (timeAlive > LIFETIME) dispose();
+        if (timeAlive > LIFETIME) markForDeletion();
 
         particleEffect.setPosition(getBodyX() * Game.PIXEL_PER_METER, getBodyY() * Game.PIXEL_PER_METER);
     }
