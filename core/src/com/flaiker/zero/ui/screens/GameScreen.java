@@ -10,11 +10,8 @@ import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.files.FileHandle;
 import com.flaiker.zero.Game;
 import com.flaiker.zero.Zero;
-import com.flaiker.zero.box2d.AbstractBox2dObject;
-import com.flaiker.zero.box2d.WorldBodyInjector;
 import com.flaiker.zero.helper.Map;
 import com.flaiker.zero.services.ConsoleManager;
-import com.flaiker.zero.ui.elements.AbilityList;
 import com.flaiker.zero.ui.elements.EscapeMenu;
 import com.flaiker.zero.ui.elements.GameTimer;
 import com.flaiker.zero.ui.elements.Healthbar;
@@ -25,12 +22,10 @@ import java.util.List;
 /**
  * Screen where the game is played on
  */
-public class GameScreen extends AbstractScreen implements InputProcessor, ConsoleManager.CommandableInstance,
-                                                          WorldBodyInjector {
+public class GameScreen extends AbstractScreen implements InputProcessor, ConsoleManager.CommandableInstance {
     private FileHandle      mapHandle;
     private Game.RenderMode renderMode;
     private Healthbar       healthbar;
-    private AbilityList     abilityList;
     private EscapeMenu      escapeMenu;
     private GameTimer       gameTimer;
     private boolean         paused;
@@ -55,9 +50,6 @@ public class GameScreen extends AbstractScreen implements InputProcessor, Consol
 
         // update timer
         gameTimer.updateTime(delta);
-
-        // Update abilities
-        //for (AbstractAbility ability : abilityList.getAbilityList()) ability.update(delta);
     }
 
     public void pauseGame() {
@@ -89,17 +81,12 @@ public class GameScreen extends AbstractScreen implements InputProcessor, Consol
         }
 
         game = new Game(map, camera);
+        addInputProcessor(game.getInputProcessor());
 
         healthbar = new Healthbar();
         healthbar.setPosition(0, SCREEN_HEIGHT - 55);
         healthbar.setSize(224, 55);
         uiStage.addActor(healthbar);
-
-        //abilityList = new AbilityList(player, skin);
-        //uiStage.addActor(abilityList.getActor());
-        // testabilities to make the list not empty
-        //abilityList.addAbility(new FireballAbility(skin, this, player));
-        //abilityList.addAbility(new FireballAbility(skin, this, player));
 
         uiStage.addActor(escapeMenu.getEscapeMenuTable());
 
@@ -150,10 +137,6 @@ public class GameScreen extends AbstractScreen implements InputProcessor, Consol
                 Gdx.app.log(LOG, "Set rendermode to TILED");
                 keyProcessed = true;
                 break;
-            case Input.Keys.TAB:
-                abilityList.switchState();
-                keyProcessed = true;
-                break;
             case Input.Keys.ESCAPE:
                 escapeMenu.switchPauseState();
                 keyProcessed = true;
@@ -196,16 +179,10 @@ public class GameScreen extends AbstractScreen implements InputProcessor, Consol
     @Override
     public List<ConsoleManager.ConsoleCommand> getConsoleCommands() {
         List<ConsoleManager.ConsoleCommand> outList = new ArrayList<>();
-        //outList.addAll(player.getConsoleCommands());
 
         outList.add(new ConsoleManager.ConsoleCommand("r", m -> zero.setScreen(new GameScreen(zero, mapHandle))));
+        outList.addAll(game.getConsoleCommands());
 
         return outList;
     }
-
-    @Override
-    public void addBodyToWorld(AbstractBox2dObject box2dObject) {
-        //box2dObject.addBodyToWorld(world);
-    }
-
 }

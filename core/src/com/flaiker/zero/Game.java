@@ -6,6 +6,8 @@ package com.flaiker.zero;
 
 import box2dLight.RayHandler;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.InputMultiplexer;
+import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.Batch;
@@ -14,17 +16,21 @@ import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Array;
+import com.flaiker.zero.abilities.AbstractAbility;
+import com.flaiker.zero.abilities.FireballAbility;
 import com.flaiker.zero.blocks.AbstractBlock;
 import com.flaiker.zero.box2d.AbstractBox2dObject;
-import com.flaiker.zero.box2d.LightSourceInjectorInterface;
+import com.flaiker.zero.box2d.WorldBodyInjector;
 import com.flaiker.zero.box2d.WorldContactListener;
 import com.flaiker.zero.entities.AbstractEntity;
 import com.flaiker.zero.entities.Player;
 import com.flaiker.zero.helper.Map;
 import com.flaiker.zero.helper.SpawnArgs;
+import com.flaiker.zero.injection.DependencyInjector;
 import com.flaiker.zero.services.ConsoleManager;
 import com.flaiker.zero.tiles.TileRegistry;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -53,8 +59,13 @@ public class Game implements ConsoleManager.CommandableInstance {
     private final Camera             camera;
     private final RayHandler         rayHandler;
 
+    private final DependencyInjector dependencyInjector;
+    private final InputMultiplexer inputMultiplexer;
+
     private float       accumulator;
     private Array<Body> bodies;
+
+    private List<AbstractAbility> abilities;
 
     public Game(Map map, Camera camera) {
         // Box2D
@@ -78,7 +89,16 @@ public class Game implements ConsoleManager.CommandableInstance {
         rayHandler.setAmbientLight(0.3f, 0.3f, 0.3f, 1f);
         rayHandler.setBlurNum(3);
 
+        dependencyInjector = new DependencyInjector();
+        dependencyInjector.addDependency(rayHandler);
+
+        inputMultiplexer = new InputMultiplexer();
+
         initializeWorld();
+
+        abilities = new ArrayList<>();
+        abilities.add(new FireballAbility(wbi, player));
+        player.switchSelectedAbility(abilities.get(0));
     }
 
     public void render(Batch batch, RenderMode renderMode) {
@@ -108,7 +128,7 @@ public class Game implements ConsoleManager.CommandableInstance {
         }
 
         // Render abilities
-        //for (AbstractAbility ability : abilityList.getAbilityList()) ability.render(delta);
+        for (AbstractAbility ability : abilities) ability.render(batch);
 
         // Render collision layer using tiled
         if (renderMode == RenderMode.TILED) map.renderCollisionLayer();
@@ -145,7 +165,7 @@ public class Game implements ConsoleManager.CommandableInstance {
         doPhysicsStep(delta);
 
         // Update abilities
-        //for (AbstractAbility ability : abilityList.getAbilityList()) ability.update(delta);
+        for (AbstractAbility ability : abilities) ability.update(delta);
 
         world.getBodies(bodies);
         for (Body b : bodies) {
@@ -159,6 +179,10 @@ public class Game implements ConsoleManager.CommandableInstance {
                 if (box2dObject.isMarkedForDeletion()) world.destroyBody(b);
             }
         }
+    }
+
+    public InputProcessor getInputProcessor() {
+        return inputMultiplexer;
     }
 
     private void initializeWorld() {
@@ -177,15 +201,13 @@ public class Game implements ConsoleManager.CommandableInstance {
                     newEntity.initializeSpawnPosition(spawnArgs.getX(), spawnArgs.getY());
                     newEntity.applyAdArgs(spawnArgs.getAdArgs());
 
-                    if (newEntity instanceof LightSourceInjectorInterface) {
-                        ((LightSourceInjectorInterface) newEntity).initializeRayHandler(rayHandler);
-                    }
+                    dependencyInjector.injectDependenciesIfNecessary(newEntity);
 
                     newEntity.init();
                     newEntity.addBodyToWorld(world);
 
                     if (newEntity instanceof Player) {
-                        //addInputProcessor((Player) newEntity);
+                        inputMultiplexer.addProcessor((Player) newEntity);
                         player = (Player) newEntity;
                     }
                 } catch (InstantiationException | IllegalAccessException e) {
@@ -220,9 +242,27 @@ public class Game implements ConsoleManager.CommandableInstance {
         }
     }
 
+    private WorldBodyInjector wbi = new WorldBodyInjector() {
+        @Override
+        public void addBodyToWorld(AbstractBox2dObject box2dObject) {
+            dependencyInjector.injectDependenciesIfNecessary(box2dObject);
+            box2dObject.init();
+            addBodyToWorldWithoutDependencyInjection(box2dObject);
+        }
+
+        @Override
+        public void addBodyToWorldWithoutDependencyInjection(AbstractBox2dObject box2dObject) {
+            box2dObject.addBodyToWorld(world);
+        }
+    };
+
     @Override
     public List<ConsoleManager.ConsoleCommand> getConsoleCommands() {
-        return null;
+        List<ConsoleManager.ConsoleCommand> outList = new ArrayList<>();
+
+        outList.addAll(player.getConsoleCommands());
+
+        return outList;
     }
 
     public enum RenderMode {
