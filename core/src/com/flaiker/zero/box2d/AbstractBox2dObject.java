@@ -31,6 +31,7 @@ public abstract class AbstractBox2dObject {
     protected Vector2 spawnVector;
     private   boolean initialized;
     private   boolean markedForDeletion;
+    private   boolean disposed;
 
     private List<BodyCreatedCallback> callbacks;
 
@@ -128,7 +129,18 @@ public abstract class AbstractBox2dObject {
      *
      * @throws IllegalStateException Object has already been disposed
      */
-    public void dispose() throws IllegalStateException {
+    public void dispose() {
+        if (disposed) throw new IllegalStateException("Object has already been disposed");
+
+        disposed = true;
+    }
+
+    /**
+     * Mark this object to be disposed in the next update loop iteration
+     *
+     * @throws IllegalStateException Object has already been marked for deletion
+     */
+    public void markForDeletion() {
         if (markedForDeletion) throw new IllegalStateException("Object is already marked for deletion");
 
         markedForDeletion = true;
