@@ -4,7 +4,6 @@
 
 package com.flaiker.zero.abilities;
 
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.flaiker.zero.box2d.WorldBodyInjector;
 import com.flaiker.zero.entities.AbstractLivingEntity;
 import com.flaiker.zero.entities.FireballEntity;
@@ -18,8 +17,8 @@ public class FireballAbility extends AbstractCooldownAbility {
     private static final float INITIAL_FORCE  = 5000f;
     private static final float SPAWN_DISTANCE = 1f;
 
-    public FireballAbility(Skin skin, WorldBodyInjector wbi, Player player) {
-        super("Fireball", "fireball", skin, COOLDOWN, wbi, player);
+    public FireballAbility(WorldBodyInjector wbi, Player player) {
+        super("Fireball", COOLDOWN, wbi, player);
     }
 
     @Override
@@ -35,7 +34,6 @@ public class FireballAbility extends AbstractCooldownAbility {
         // Create fireball entity
         FireballEntity fireball = new FireballEntity();
         fireball.initializeSpawnPosition(x, y);
-        fireball.init();
 
         // Apply the initial force
         fireball.addBodyCreatedCallback(c -> {

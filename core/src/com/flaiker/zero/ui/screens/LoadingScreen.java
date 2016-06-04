@@ -2,7 +2,7 @@
  * Copyright 2016 Fabian Lupa                                                 *
  ******************************************************************************/
 
-package com.flaiker.zero.screens;
+package com.flaiker.zero.ui.screens;
 
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.ProgressBar;
@@ -30,8 +30,8 @@ public class LoadingScreen extends AbstractScreen {
         // add ui
         Table table = new Table(skin);
         table.setSize(500, 100);
-        table.setPosition(AbstractScreen.SCREEN_WIDTH / 2f - table.getWidth() / 2f,
-                          AbstractScreen.SCREEN_HEIGHT / 2f - table.getHeight() / 2f);
+        table.setPosition(SCREEN_WIDTH / 2f - table.getWidth() / 2f,
+                          SCREEN_HEIGHT / 2f - table.getHeight() / 2f);
         uiStage.addActor(table);
 
         loadingMessage = new Label(loadingCalls.getCurrentLoadingMessage(), skin);

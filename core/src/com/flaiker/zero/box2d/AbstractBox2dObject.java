@@ -10,7 +10,7 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.World;
-import com.flaiker.zero.screens.GameScreen;
+import com.flaiker.zero.Game;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -49,7 +49,7 @@ public abstract class AbstractBox2dObject {
             throw new IllegalStateException("AbstractBox2dObject failed initialization");
 
         sprite = textureAtlas.createSprite(getAtlasPath());
-        sprite.setPosition(spawnVector.x * GameScreen.PIXEL_PER_METER, spawnVector.y * GameScreen.PIXEL_PER_METER);
+        sprite.setPosition(spawnVector.x * Game.PIXEL_PER_METER, spawnVector.y * Game.PIXEL_PER_METER);
 
         customInit();
 
@@ -151,19 +151,19 @@ public abstract class AbstractBox2dObject {
     }
 
     public float getSpriteX() {
-        return sprite.getX() / GameScreen.PIXEL_PER_METER;
+        return sprite.getX() / Game.PIXEL_PER_METER;
     }
 
     public float getSpriteY() {
-        return sprite.getY() / GameScreen.PIXEL_PER_METER;
+        return sprite.getY() / Game.PIXEL_PER_METER;
     }
 
     public float getEntityWidth() {
-        return sprite.getWidth() / GameScreen.PIXEL_PER_METER;
+        return sprite.getWidth() / Game.PIXEL_PER_METER;
     }
 
     public float getEntityHeight() {
-        return sprite.getHeight() / GameScreen.PIXEL_PER_METER;
+        return sprite.getHeight() / Game.PIXEL_PER_METER;
     }
 
     /**

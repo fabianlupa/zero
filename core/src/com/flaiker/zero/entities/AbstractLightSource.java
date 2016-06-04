@@ -9,12 +9,14 @@ import box2dLight.PositionalLight;
 import box2dLight.RayHandler;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.World;
-import com.flaiker.zero.box2d.LightSourceInjectorInterface;
+import com.flaiker.zero.injection.CanInject;
+import com.flaiker.zero.injection.InjectDependency;
 
 /**
  * Base class for entities that use Box2DLights
  */
-public abstract class AbstractLightSource extends AbstractEntity implements LightSourceInjectorInterface {
+@CanInject
+public abstract class AbstractLightSource extends AbstractEntity {
     private RayHandler rayHandler;
     private Light      light;
 
@@ -26,7 +28,7 @@ public abstract class AbstractLightSource extends AbstractEntity implements Ligh
         super();
     }
 
-    @Override
+    @InjectDependency(RayHandler.class)
     public void initializeRayHandler(RayHandler rayHandler) {
         if (this.rayHandler != null) throw new IllegalStateException("RayHandler already initialized");
         this.rayHandler = rayHandler;

@@ -2,13 +2,14 @@
  * Copyright 2016 Fabian Lupa                                                 *
  ******************************************************************************/
 
-package com.flaiker.zero.box2d;
-
-import box2dLight.RayHandler;
+package com.flaiker.zero.behavior;
 
 /**
- * Interface for parameter injection of a {@link RayHandler}
+ * Interface for describing objects that can be disposed
  */
-public interface LightSourceInjectorInterface {
-    void initializeRayHandler(RayHandler rayHandler);
+public interface Disposable {
+    /**
+     * Dispose all allocated ressources
+     */
+    void dispose();
 }

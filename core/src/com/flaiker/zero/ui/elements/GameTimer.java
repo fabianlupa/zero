@@ -2,11 +2,11 @@
  * Copyright 2016 Fabian Lupa                                                 *
  ******************************************************************************/
 
-package com.flaiker.zero.ui;
+package com.flaiker.zero.ui.elements;
 
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
-import com.flaiker.zero.screens.AbstractScreen;
+import com.flaiker.zero.ui.screens.AbstractScreen;
 
 import java.util.concurrent.TimeUnit;
 
