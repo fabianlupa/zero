@@ -4,6 +4,10 @@
 
 package com.flaiker.zero.entities;
 
+import box2dLight.Light;
+import box2dLight.PointLight;
+import box2dLight.RayHandler;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.physics.box2d.*;
 import com.flaiker.zero.box2d.AdvancedContactCallback;
 import com.flaiker.zero.box2d.Box2dUtils;
@@ -11,7 +15,7 @@ import com.flaiker.zero.box2d.Box2dUtils;
 /**
  * Entity representing a fireball shot by {@link com.flaiker.zero.abilities.FireballAbility}
  */
-public class FireballEntity extends AbstractEntity {
+public class FireballEntity extends AbstractLightSource {
     private static final String ATLAS_PATH      = "fireball";
     private static final int    FIREBALL_DAMAGE = 2;
     private static final int    LIFETIME        = 2;
@@ -78,5 +82,13 @@ public class FireballEntity extends AbstractEntity {
         timeAlive += delta;
 
         if (timeAlive > LIFETIME) dispose();
+    }
+
+    @Override
+    protected Light createLight(RayHandler rayHandler) {
+        PointLight light = new PointLight(rayHandler, 25, new Color(1, 1, 1, 0.9f), 2f, 0f, 0f);
+        light.setSoft(true);
+
+        return light;
     }
 }
