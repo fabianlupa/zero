@@ -4,7 +4,6 @@
 
 package com.flaiker.zero.abilities;
 
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.flaiker.zero.box2d.WorldBodyInjector;
 import com.flaiker.zero.entities.Player;
 
@@ -15,9 +14,9 @@ public abstract class AbstractCooldownAbility extends AbstractAbility {
     private final float cooldown;
     private       float currentCooldown;
 
-    public AbstractCooldownAbility(String name, String atlasPath, Skin skin, float cooldown,
+    public AbstractCooldownAbility(String name, float cooldown,
                                    WorldBodyInjector wbi, Player player) {
-        super(name, atlasPath, skin, wbi, player);
+        super(name, wbi, player);
 
         this.cooldown = cooldown;
     }
