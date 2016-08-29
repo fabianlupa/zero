@@ -38,14 +38,14 @@ public abstract class AbstractLivingEntity extends AbstractEntity {
                     body.setLinearVelocity(-getMaxSpeedX(), body.getLinearVelocity().y);
                 break;
             case NONE:
-                if (body.getLinearVelocity().x > 0) {
+                /*if (body.getLinearVelocity().x > 0) {
                     body.applyForceToCenter(-getAccelerationX(), 0f, true);
                     if (lastLinearVelocityX < 0) body.setLinearVelocity(0, body.getLinearVelocity().y);
                 } else if (body.getLinearVelocity().x < 0) {
                     body.applyForceToCenter(getAccelerationX(), 0f, true);
                     if (lastLinearVelocityX > 0) body.setLinearVelocity(0, body.getLinearVelocity().y);
                 }
-                lastLinearVelocityX = body.getLinearVelocity().x;
+                lastLinearVelocityX = body.getLinearVelocity().x;*/
                 break;
         }
     }
