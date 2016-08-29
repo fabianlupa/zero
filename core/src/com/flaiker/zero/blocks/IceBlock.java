@@ -1,29 +1,18 @@
-/******************************************************************************
- * Copyright 2016 Fabian Lupa                                                 *
- ******************************************************************************/
-
 package com.flaiker.zero.blocks;
 
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
-import com.flaiker.zero.box2d.AbstractBox2dObject;
+import com.flaiker.zero.tiles.RegistrableBlock;
 
-/**
- * Base class for blocks
- * <p>
- * Blocks are static game object oriented in tiles. To be loaded from a map and accounted for in asset generation they
- * may be annotated with {@link com.flaiker.zero.tiles.RegistrableBlock}.
- */
-public abstract class AbstractBlock extends AbstractBox2dObject {
-    private static TextureAtlas blockTextureAtlas = new TextureAtlas("atlases/blocks.atlas");
+@RegistrableBlock(id = 2, name = "ice")
+public class IceBlock extends AbstractBlock {
+    public static final float DENSITY     = 100f;
+    public static final float FRICTION    = 0.2f;
+    public static final float RESTITUTION = 0f;
 
-    private static final float DENSITY     = 100f;
-    private static final float FRICTION    = 3f;
-    private static final float RESTITUTION = 0f;
-
-    public AbstractBlock() {
-        super(blockTextureAtlas);
+    @Override
+    protected String getAtlasPath() {
+        return "02-ice";
     }
 
     @Override

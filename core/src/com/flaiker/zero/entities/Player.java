@@ -126,6 +126,12 @@ public class Player extends AbstractLivingEntity implements InputProcessor, Cons
         super.update(delta);
         animationManager.updateSprite();
         animationManager.updateAnimationFrameDuration("walk", 0.3f / Math.abs(body.getLinearVelocity().x));
+
+        if (body.getLinearVelocity().x > 0)
+            animationManager.runAnimation("walk", AnimationManager.AnimationDirection.RIGHT);
+        else if (body.getLinearVelocity().x < 0)
+            animationManager.runAnimation("walk", AnimationManager.AnimationDirection.LEFT);
+        else animationManager.stopAnimation();
     }
 
     @Override
@@ -139,7 +145,7 @@ public class Player extends AbstractLivingEntity implements InputProcessor, Cons
                 animationManager.runAnimation("walk", AnimationManager.AnimationDirection.RIGHT);
                 break;
             case NONE:
-                animationManager.stopAnimation();
+                if (body.getLinearVelocity().x == 0) animationManager.stopAnimation();
                 break;
         }
 

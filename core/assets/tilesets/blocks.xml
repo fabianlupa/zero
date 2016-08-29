@@ -91,4 +91,10 @@
 			<property name="direction" value="otr"/>
 		</properties>
 	</tile>
+	<tile id="13">
+		<properties>
+			<property name="name" value="ice"/>
+			<property name="id" value="02"/>
+		</properties>
+	</tile>
 </tileset>

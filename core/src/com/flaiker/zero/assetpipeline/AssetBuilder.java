@@ -51,23 +51,26 @@ public class AssetBuilder {
         // Overlay each block with all overlays and save them to temporary directory
         for (BlockWrapper block : blocks) {
             FileHandle blockImage = new FileHandle(BLOCK_PATH + "/" + String.format("%02d", block.blockMetadata.id) +
-                                                   "-" + block.blockMetadata.name + ".png");
+                    "-" + block.blockMetadata.name + ".png");
             if (!blockImage.exists() || blockImage.isDirectory()) continue;
-
-            final Pixmap pixmap = new Pixmap(blockImage);
-            PixmapIO.writePNG(Gdx.files.local(BLOCK_OUTPUT_PATH + "/" + String.format("%02d", block.blockMetadata.id) +
-                                              "-" + block.blockMetadata.name + "-b.png"),
-                              pixmap);
-            overlays.forEach((name, overlay) -> {
-                Pixmap.setBlending(Pixmap.Blending.SourceOver);
-                Pixmap newPixmap = new Pixmap(pixmap.getWidth(), pixmap.getHeight(), Pixmap.Format.RGBA8888);
-                newPixmap.drawPixmap(pixmap, 0, 0);
-                newPixmap.drawPixmap(overlay, 0, 0);
-                PixmapIO.writePNG(Gdx.files.local(BLOCK_OUTPUT_PATH + "/" +
-                                                  String.format("%02d", block.blockMetadata.id) + "-" +
-                                                  block.blockMetadata.name + "-" + name + ".png"),
-                                  newPixmap);
-            });
+            if (block.blockMetadata.edged) {
+                final Pixmap pixmap = new Pixmap(blockImage);
+                PixmapIO.writePNG(Gdx.files.local(BLOCK_OUTPUT_PATH + "/" + String.format("%02d", block.blockMetadata.id) +
+                                "-" + block.blockMetadata.name + "-b.png"),
+                        pixmap);
+                overlays.forEach((name, overlay) -> {
+                    Pixmap.setBlending(Pixmap.Blending.SourceOver);
+                    Pixmap newPixmap = new Pixmap(pixmap.getWidth(), pixmap.getHeight(), Pixmap.Format.RGBA8888);
+                    newPixmap.drawPixmap(pixmap, 0, 0);
+                    newPixmap.drawPixmap(overlay, 0, 0);
+                    PixmapIO.writePNG(Gdx.files.local(BLOCK_OUTPUT_PATH + "/" +
+                                    String.format("%02d", block.blockMetadata.id) + "-" +
+                                    block.blockMetadata.name + "-" + name + ".png"),
+                            newPixmap);
+                });
+            } else {
+                blockImage.copyTo(new FileHandle(BLOCK_OUTPUT_PATH + "/" + blockImage.name()));
+            }
         }
     }
 
