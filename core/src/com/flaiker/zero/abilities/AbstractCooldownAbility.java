@@ -5,6 +5,7 @@
 package com.flaiker.zero.abilities;
 
 import com.flaiker.zero.box2d.WorldBodyInjector;
+import com.flaiker.zero.entities.AbstractLivingEntity;
 import com.flaiker.zero.entities.Player;
 
 /**
@@ -15,7 +16,7 @@ public abstract class AbstractCooldownAbility extends AbstractAbility {
     private       float currentCooldown;
 
     public AbstractCooldownAbility(String name, float cooldown,
-                                   WorldBodyInjector wbi, Player player) {
+                                   WorldBodyInjector wbi, AbstractLivingEntity player) {
         super(name, wbi, player);
 
         this.cooldown = cooldown;

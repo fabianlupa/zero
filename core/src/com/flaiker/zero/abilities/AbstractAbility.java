@@ -6,6 +6,7 @@ package com.flaiker.zero.abilities;
 
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.flaiker.zero.box2d.WorldBodyInjector;
+import com.flaiker.zero.entities.AbstractLivingEntity;
 import com.flaiker.zero.entities.Player;
 
 /**
@@ -13,11 +14,11 @@ import com.flaiker.zero.entities.Player;
  */
 public abstract class AbstractAbility {
     protected final WorldBodyInjector wbi;
-    protected final Player            player;
+    protected final AbstractLivingEntity player;
 
     private String          name;
 
-    public AbstractAbility(String name, WorldBodyInjector wbi, Player player) {
+    public AbstractAbility(String name, WorldBodyInjector wbi, AbstractLivingEntity player) {
         this.name = name;
         this.wbi = wbi;
         this.player = player;

@@ -61,7 +61,7 @@ public class Player extends AbstractLivingEntity implements InputProcessor, Cons
         animationManager = new AnimationManager(sprite);
         animationManager.setMaximumAddedIdleTime(2f);
         animationManager.setMinimumIdleTime(5f);
-        animationManager.registerAnimation("player", "walk", AbstractEntity.ENTITY_TEXTURE_ATLAS, 1 / 8f);
+        animationManager.registerAnimation("player", "walk", AbstractEntity.ENTITY_TEXTURE_ATLAS, 1 / 8f, true);
         animationManager.registerIdleAnimation("player", "idle", AbstractEntity.ENTITY_TEXTURE_ATLAS, 1 / 4f);
     }
 

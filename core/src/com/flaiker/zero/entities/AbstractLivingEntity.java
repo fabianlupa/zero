@@ -10,9 +10,10 @@ package com.flaiker.zero.entities;
 public abstract class AbstractLivingEntity extends AbstractEntity {
     protected int currentHealth;
     protected int maxHealth;
-    private Direction requestedDirection;
-    private Direction lastRequestedDirection;
-    private float     lastLinearVelocityX;
+    private Direction  requestedDirection;
+    private Direction  lastRequestedDirection;
+    private float      lastLinearVelocityX;
+    private EntityState entityState;
 
     public AbstractLivingEntity(int maxHealth) {
         super();
@@ -20,12 +21,15 @@ public abstract class AbstractLivingEntity extends AbstractEntity {
         currentHealth = maxHealth;
         this.requestedDirection = Direction.NONE;
         lastRequestedDirection = Direction.RIGHT;
+        entityState = EntityState.LIVING;
     }
 
     /**
      * Move the entity according to its {@link #requestedDirection} and {@link #lastLinearVelocityX}
      */
     protected void move() {
+        if (entityState != EntityState.LIVING) return;
+
         switch (requestedDirection) {
             case RIGHT:
                 body.applyForceToCenter(getAccelerationX(), 0f, true);
@@ -78,7 +82,20 @@ public abstract class AbstractLivingEntity extends AbstractEntity {
         }
 
         // Check if entity is dead
-        if (currentHealth == 0) markForDeletion();
+        if (currentHealth == 0 && entityState == EntityState.LIVING) {
+            changeEntityState(EntityState.DYING);
+            //markForDeletion();
+        }
+    }
+
+    protected void changeEntityState(EntityState newState) {
+        entityState = newState;
+        onEntityStateChanged(newState);
+        if (newState == EntityState.DEAD) markForDeletion();
+    }
+
+    protected void onEntityStateChanged(EntityState newState) {
+        if (newState == EntityState.DYING) changeEntityState(EntityState.DEAD);
     }
 
     protected abstract float getMaxSpeedX();
@@ -105,5 +122,11 @@ public abstract class AbstractLivingEntity extends AbstractEntity {
 
     public enum Direction {
         LEFT, RIGHT, NONE
+    }
+
+    public enum EntityState {
+        LIVING,
+        DYING,
+        DEAD
     }
 }

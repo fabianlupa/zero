@@ -23,7 +23,7 @@ import com.flaiker.zero.tiles.RegistrableSpawn;
  */
 @RegistrableSpawn(type = "ballMob")
 @CanInject
-public class BallMob extends AbstractMob {
+public class BallMob extends AbstractMob implements AnimationManager.AnimationCallback {
     private static final float  MAX_SPEED_X    = 2f;
     private static final float  ACCELERATION_X = 100f;
     private static final String ATLAS_PATH     = "ballMob";
@@ -56,10 +56,12 @@ public class BallMob extends AbstractMob {
 
     @Override
     protected void customInit() throws IllegalStateException {
-        animationManager = new AnimationManager(sprite);
+        animationManager = new AnimationManager(sprite, this);
         animationManager.setMaximumAddedIdleTime(4f);
         animationManager.setMinimumIdleTime(5f);
         animationManager.registerIdleAnimation("ballMob", "idle", AbstractEntity.ENTITY_TEXTURE_ATLAS, 1 / 16f);
+
+        animationManager.registerAnimation("ballMob", "death", AbstractEntity.ENTITY_TEXTURE_ATLAS, 1 / 16f, false);
 
         if (rayHandler == null) throw new IllegalStateException("RayHandler not initialized");
 
@@ -147,6 +149,11 @@ public class BallMob extends AbstractMob {
         pointLight.setPosition(body.getPosition().x, body.getPosition().y);
     }
 
+    @Override
+    protected void onEntityStateChanged(EntityState newState) {
+        if (newState == EntityState.DYING) animationManager.runAnimation("death");
+    }
+
     private void aiWalk() {
         if (wallRight && getRequestedDirection() == Direction.RIGHT) {
             setRequestedDirection(Direction.LEFT);
@@ -163,5 +170,14 @@ public class BallMob extends AbstractMob {
     @Override
     protected float getAccelerationX() {
         return ACCELERATION_X;
+    }
+
+    @Override
+    public void onAnimationEnd(String animationKey) {
+        if (animationKey != null && animationKey.equals("death")) changeEntityState(EntityState.DEAD);
+    }
+
+    @Override
+    public void onAnimationStart(String animationKey) {
     }
 }
