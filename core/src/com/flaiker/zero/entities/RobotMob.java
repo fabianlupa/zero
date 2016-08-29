@@ -16,7 +16,7 @@ import com.flaiker.zero.tiles.RegistrableSpawn;
  * Robot like mob with simple ai
  */
 @RegistrableSpawn(type = "robotMob")
-public class RobotMob extends AbstractMob {
+public class RobotMob extends AbstractMob implements AnimationManager.AnimationCallback {
     private static final float  MAX_SPEED_X    = 1f;
     private static final float  ACCELERATION_X = 500f;
     private static final String ATLAS_PATH     = "robotMob";
@@ -36,8 +36,10 @@ public class RobotMob extends AbstractMob {
 
     @Override
     protected void customInit() throws IllegalStateException {
-        animationManager = new AnimationManager(sprite);
-        animationManager.registerAnimation("robotMob", "walk", AbstractEntity.ENTITY_TEXTURE_ATLAS, 1 / 16f);
+        animationManager = new AnimationManager(sprite, this);
+        animationManager.registerAnimation("robotMob", "walk", AbstractEntity.ENTITY_TEXTURE_ATLAS, 1 / 16f, true);
+
+        animationManager.registerAnimation("robotMob", "death", AbstractEntity.ENTITY_TEXTURE_ATLAS, 1 / 16f, false);
     }
 
     @Override
@@ -123,6 +125,11 @@ public class RobotMob extends AbstractMob {
     }
 
     @Override
+    protected void onEntityStateChanged(EntityState newState) {
+        if (newState == EntityState.DYING) animationManager.runAnimation("death");
+    }
+
+    @Override
     protected float getMaxSpeedX() {
         return MAX_SPEED_X;
     }
@@ -130,5 +137,17 @@ public class RobotMob extends AbstractMob {
     @Override
     protected float getAccelerationX() {
         return ACCELERATION_X;
+    }
+
+    @Override
+    public void onAnimationEnd(String animationKey) {
+        if (animationKey.equals("death")) {
+            changeEntityState(EntityState.DEAD);
+        }
+    }
+
+    @Override
+    public void onAnimationStart(String animationKey) {
+
     }
 }

@@ -9,6 +9,7 @@ import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.utils.Array;
 
 import java.util.HashMap;
 import java.util.Random;
@@ -21,19 +22,22 @@ import java.util.TreeMap;
 public class AnimationManager {
     public static final String LOG = AnimationManager.class.getSimpleName();
 
+    private static final Random generator = new Random();
+
     private HashMap<String, Animation> animationList;
     private HashMap<String, Animation> idleAnimationList;
     private Sprite                     sprite;
     private Animation                  currentAnimation;
+    private String                     currentAnimationKey;
     private TextureRegion              unanimatedRegion;
     private float                      elapsedTime;
     private AnimationDirection         animationDirection;
 
+    private AnimationCallback callback;
     private float maximumAddedIdleTime = 0;
     private float minimumIdleTime      = 6;
     private float currentIdleTime      = 0;
     private float currentAddedIdleTime = 0;
-    Random generator = new Random();
 
     public AnimationManager(Sprite sprite) {
         animationList = new HashMap<>();
@@ -46,19 +50,27 @@ public class AnimationManager {
         this.elapsedTime = 0;
     }
 
+    public AnimationManager(Sprite sprite, AnimationCallback callback) {
+        this(sprite);
+
+        this.callback = callback;
+    }
+
     public void registerAnimation(String key, Animation animation) {
         animationList.put(key, animation);
     }
 
-    public void registerAnimation(String entityName, String key, TextureAtlas atlas, float frameDuration) {
-        animationList.put(key, getAnimationFromKey(entityName, key, atlas, frameDuration));
+    public void registerAnimation(String entityName, String key, TextureAtlas atlas, float frameDuration,
+                                  boolean loop) {
+        animationList.put(key, getAnimationFromKey(entityName, key, atlas, frameDuration, loop));
     }
 
     public void registerIdleAnimation(String entityName, String key, TextureAtlas atlas, float frameDuration) {
-        idleAnimationList.put(key, getAnimationFromKey(entityName, key, atlas, frameDuration));
+        idleAnimationList.put(key, getAnimationFromKey(entityName, key, atlas, frameDuration, false));
     }
 
-    private Animation getAnimationFromKey(String entityName, String key, TextureAtlas atlas, float frameDuration) {
+    private Animation getAnimationFromKey(String entityName, String key, TextureAtlas atlas, float frameDuration,
+                                          boolean loop) {
         SortedMap<Integer, TextureRegion> list = new TreeMap<>();
         for (TextureAtlas.AtlasRegion region : atlas.getRegions()) {
             String[] name = region.name.split("_");
@@ -74,7 +86,9 @@ public class AnimationManager {
                 }
             }
         }
-        return new Animation(frameDuration, list.values().toArray(new TextureRegion[list.size()]));
+        Array<? extends TextureRegion> textareaArray
+                = new Array<>(list.values().toArray(new TextureRegion[list.size()]));
+        return new Animation(frameDuration, textareaArray, loop ? Animation.PlayMode.LOOP : Animation.PlayMode.NORMAL);
     }
 
     public void updateAnimationFrameDuration(String key, float newDuration) {
@@ -92,8 +106,12 @@ public class AnimationManager {
         Animation foundAnimation = animationList.get(key);
 
         if (foundAnimation != null) {
-            if (currentAnimation != foundAnimation) elapsedTime = 0;
+            if (currentAnimation != foundAnimation) {
+                elapsedTime = 0;
+                if (callback != null) callback.onAnimationStart(currentAnimationKey);
+            }
             currentAnimation = foundAnimation;
+            currentAnimationKey = key;
             animationDirection = direction;
         }
     }
@@ -116,7 +134,7 @@ public class AnimationManager {
             currentAddedIdleTime = 0;
             elapsedTime += Gdx.graphics.getDeltaTime();
             sprite.setRegion(currentAnimation.getKeyFrame(elapsedTime, true));
-            if (idleAnimationList.containsValue(currentAnimation) &&
+            if (currentAnimation.getPlayMode() == Animation.PlayMode.NORMAL &&
                 currentAnimation.isAnimationFinished(elapsedTime)) {
                 stopAnimation();
             }
@@ -137,7 +155,10 @@ public class AnimationManager {
     }
 
     public void stopAnimation() {
+        if (callback != null) callback.onAnimationEnd(currentAnimationKey);
+
         currentAnimation = null;
+        currentAnimationKey = null;
         sprite.setFlip(false, false);
         currentIdleTime = 0;
         currentAddedIdleTime = 0;
@@ -153,5 +174,10 @@ public class AnimationManager {
 
     public enum AnimationDirection {
         LEFT, RIGHT
+    }
+
+    public interface AnimationCallback {
+        void onAnimationEnd(String animationKey);
+        void onAnimationStart(String animationKey);
     }
 }

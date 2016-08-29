@@ -17,13 +17,15 @@ public class FireballAbility extends AbstractCooldownAbility {
     private static final float INITIAL_FORCE  = 5000f;
     private static final float SPAWN_DISTANCE = 1f;
 
-    public FireballAbility(WorldBodyInjector wbi, Player player) {
+    public FireballAbility(WorldBodyInjector wbi, AbstractLivingEntity player) {
         super("Fireball", COOLDOWN, wbi, player);
     }
 
     @Override
     public void use() {
         super.use();
+
+        if (player == null) return;
 
         // Calculate the starting position
         float x = player.getViewDirection() == AbstractLivingEntity.Direction.LEFT
