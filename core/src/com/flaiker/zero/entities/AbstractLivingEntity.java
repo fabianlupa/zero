@@ -4,16 +4,35 @@
 
 package com.flaiker.zero.entities;
 
+import com.badlogic.gdx.graphics.Color;
+
 /**
  * Base class for entities that "live", e. g. can move
  */
 public abstract class AbstractLivingEntity extends AbstractEntity {
+    private static final Color[] DMG_ANIMATION_COLORS;
+    private static final float   DMG_ANIMATION_DURATION = 0.6f;
+
     protected int currentHealth;
     protected int maxHealth;
-    private Direction  requestedDirection;
-    private Direction  lastRequestedDirection;
-    private float      lastLinearVelocityX;
+
+    private Direction   requestedDirection;
+    private Direction   lastRequestedDirection;
+    private float       lastLinearVelocityX;
     private EntityState entityState;
+    private float       currentDmgAnimationDuration;
+    private boolean     dmgAnimationRunning;
+
+    static {
+        DMG_ANIMATION_COLORS = new Color[]{
+                new Color(1f, 0f, 0f, 1f),
+                new Color(1f, 0.2f, 0.2f, 1f),
+                new Color(1f, 0.4f, 0.4f, 1f),
+                new Color(1f, 0.6f, 0.6f, 1f),
+                new Color(1f, 0.8f, 0.8f, 1f),
+                new Color(1f, 1f, 1f, 1f)
+        };
+    }
 
     public AbstractLivingEntity(int maxHealth) {
         super();
@@ -63,8 +82,15 @@ public abstract class AbstractLivingEntity extends AbstractEntity {
     }
 
     public void receiveDamage(int dmg) {
-        currentHealth -= dmg;
-        if (currentHealth < 0) currentHealth = 0;
+        if (!dmgAnimationRunning) {
+            currentHealth -= dmg;
+            if (currentHealth < 0) currentHealth = 0;
+
+            dmgAnimationRunning = true;
+        } else {
+            // Entity is invulnerable during damage animation
+        }
+
     }
 
     @Override
@@ -79,6 +105,17 @@ public abstract class AbstractLivingEntity extends AbstractEntity {
         if (getSpriteY() < 0) {
             body.setTransform(spawnVector, 0f);
             body.setLinearVelocity(0f, 0f);
+        }
+
+        // Update damage animation
+        if (dmgAnimationRunning) {
+            currentDmgAnimationDuration += delta;
+            sprite.setColor(DMG_ANIMATION_COLORS[(int) (currentDmgAnimationDuration / DMG_ANIMATION_DURATION
+                                                        * (DMG_ANIMATION_COLORS.length - 1))]);
+        }
+        if (currentDmgAnimationDuration > DMG_ANIMATION_DURATION) {
+            currentDmgAnimationDuration = 0f;
+            dmgAnimationRunning = false;
         }
 
         // Check if entity is dead
