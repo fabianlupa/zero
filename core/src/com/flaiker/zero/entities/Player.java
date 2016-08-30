@@ -20,6 +20,8 @@ import com.flaiker.zero.tiles.RegistrableSpawn;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.flaiker.zero.CheatManager.Cheat.*;
+
 /**
  * The player of the game
  */
@@ -42,9 +44,6 @@ public class Player extends AbstractLivingEntity implements InputProcessor, Cons
     private boolean          canJump;
     private AnimationManager animationManager;
     private AbstractAbility  selectedAbility;
-    private boolean          noGravOn;
-    private boolean          noClipOn;
-    private boolean          flyOn;
 
     public Player() {
         super(MAX_HEALTH);
@@ -154,7 +153,7 @@ public class Player extends AbstractLivingEntity implements InputProcessor, Cons
     @Override
     protected void move() {
         // Override all move logic if fly cheat is enabled
-        if (!flyOn) super.move();
+        if (!FLY.isEnabled()) super.move();
         else {
             Vector2 newPosition = body.getPosition();
 
@@ -289,27 +288,22 @@ public class Player extends AbstractLivingEntity implements InputProcessor, Cons
             }
         }));
         outList.add(new ConsoleManager.ConsoleCommand("nograv", parValuePairs1 -> {
-            if (noGravOn) {
-                noGravOn = false;
-                body.setGravityScale(1);
-            } else {
-                noGravOn = true;
-                body.setGravityScale(0);
+            NO_GRAVITATION.switchState();
+
+            if (NO_GRAVITATION.isEnabled()) body.setGravityScale(1f);
+            else {
+                body.setGravityScale(0f);
                 body.setLinearVelocity(0f, 0f);
             }
         }));
         outList.add(new ConsoleManager.ConsoleCommand("noclip", parValuePairs -> {
-            if (noClipOn) {
-                noClipOn = false;
-                body.getFixtureList().forEach(f -> f.setSensor(false));
-            } else {
-                noClipOn = true;
-                body.getFixtureList().forEach(f -> f.setSensor(true));
-            }
+            NO_CLIPPING.switchState();
+
+            if (NO_CLIPPING.isEnabled()) body.getFixtureList().forEach(f -> f.setSensor(false));
+            else body.getFixtureList().forEach(f -> f.setSensor(true));
         }));
-        outList.add(new ConsoleManager.ConsoleCommand("fly", parValuePairs -> {
-            flyOn = !flyOn;
-        }));
+        outList.add(new ConsoleManager.ConsoleCommand("fly", parValuePairs -> FLY.switchState()));
+        outList.add(new ConsoleManager.ConsoleCommand("nocd", parValuePairs -> NO_COOLDOWN.switchState()));
 
         return outList;
     }

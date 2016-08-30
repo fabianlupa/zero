@@ -4,6 +4,7 @@
 
 package com.flaiker.zero.abilities;
 
+import com.flaiker.zero.CheatManager;
 import com.flaiker.zero.box2d.WorldBodyInjector;
 import com.flaiker.zero.entities.AbstractLivingEntity;
 import com.flaiker.zero.entities.Player;
@@ -47,6 +48,8 @@ public abstract class AbstractCooldownAbility extends AbstractAbility {
     @Override
     public void update(float delta) {
         super.update(delta);
+
+        if (player instanceof Player && CheatManager.Cheat.NO_COOLDOWN.isEnabled()) currentCooldown = 0f;
 
         if (currentCooldown != 0) {
             currentCooldown -= delta;
