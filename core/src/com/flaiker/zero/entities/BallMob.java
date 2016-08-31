@@ -13,6 +13,7 @@ import com.badlogic.gdx.physics.box2d.joints.RevoluteJointDef;
 import com.flaiker.zero.Game;
 import com.flaiker.zero.box2d.Box2dUtils;
 import com.flaiker.zero.box2d.ContactCallback;
+import com.flaiker.zero.box2d.DamagePlayerOnTouchContactCallback;
 import com.flaiker.zero.helper.AnimationManager;
 import com.flaiker.zero.injection.CanInject;
 import com.flaiker.zero.injection.InjectDependency;
@@ -87,7 +88,7 @@ public class BallMob extends AbstractMob implements AnimationManager.AnimationCa
         fdef.density = DENSITY;
         fdef.friction = FRICTION;
         fdef.restitution = RESTITUTION;
-        body.createFixture(fdef);
+        body.createFixture(fdef).setUserData(new DamagePlayerOnTouchContactCallback(this));
         Box2dUtils.clearFixtureDefAttributes(fdef);
 
         // create sensors on different body
