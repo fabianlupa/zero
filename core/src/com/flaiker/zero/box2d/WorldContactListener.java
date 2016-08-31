@@ -46,6 +46,14 @@ public class WorldContactListener implements ContactListener {
         if (fb.getUserData() instanceof ContactCallback) {
             ((ContactCallback) fb.getUserData()).onContactStop();
         }
+
+        if (fa.getUserData() instanceof AdvancedContactCallback) {
+            ((AdvancedContactCallback) fa.getUserData()).onContactStop(fb.getBody());
+        }
+
+        if (fb.getUserData() instanceof AdvancedContactCallback) {
+            ((AdvancedContactCallback) fb.getUserData()).onContactStop(fa.getBody());
+        }
     }
 
     @Override
