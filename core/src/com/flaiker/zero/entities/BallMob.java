@@ -22,17 +22,22 @@ import com.flaiker.zero.tiles.RegistrableSpawn;
 /**
  * Concrete class for a rolling eye-like-looking mob that also acts as a lightsource with simple ai
  */
-@RegistrableSpawn(type = "ballMob")
+@RegistrableSpawn(type = BallMob.IDENTIFIER)
 @CanInject
 public class BallMob extends AbstractMob implements AnimationManager.AnimationCallback {
+    public static final String IDENTIFIER = "ballMob";
+
     private static final float  MAX_SPEED_X    = 2f;
     private static final float  ACCELERATION_X = 100f;
-    private static final String ATLAS_PATH     = "ballMob";
+    private static final String ATLAS_PATH     = IDENTIFIER;
     private static final int    MAX_HEALTH = 5;
 
     private static final float DENSITY     = 1f;
     private static final float FRICTION    = 1f;
     private static final float RESTITUTION = 0f;
+
+    private static final String ANIMATION_IDLE_KEY = "idle";
+    private static final String ANIMATION_DEATH_KEY = "death";
 
     private AnimationManager animationManager;
     private boolean wallRight = false;
@@ -60,9 +65,10 @@ public class BallMob extends AbstractMob implements AnimationManager.AnimationCa
         animationManager = new AnimationManager(sprite, this);
         animationManager.setMaximumAddedIdleTime(4f);
         animationManager.setMinimumIdleTime(5f);
-        animationManager.registerIdleAnimation("ballMob", "idle", AbstractEntity.ENTITY_TEXTURE_ATLAS, 1 / 16f);
-
-        animationManager.registerAnimation("ballMob", "death", AbstractEntity.ENTITY_TEXTURE_ATLAS, 1 / 16f, false);
+        animationManager.registerIdleAnimation(IDENTIFIER, ANIMATION_IDLE_KEY, AbstractEntity.ENTITY_TEXTURE_ATLAS,
+                                               1 / 16f);
+        animationManager.registerAnimation(IDENTIFIER, ANIMATION_DEATH_KEY, AbstractEntity.ENTITY_TEXTURE_ATLAS,
+                                           1 / 16f, false);
 
         if (rayHandler == null) throw new IllegalStateException("RayHandler not initialized");
 
@@ -152,7 +158,7 @@ public class BallMob extends AbstractMob implements AnimationManager.AnimationCa
 
     @Override
     protected void onEntityStateChanged(EntityState newState) {
-        if (newState == EntityState.DYING) animationManager.runAnimation("death");
+        if (newState == EntityState.DYING) animationManager.runAnimation(ANIMATION_DEATH_KEY);
     }
 
     private void aiWalk() {
@@ -175,7 +181,7 @@ public class BallMob extends AbstractMob implements AnimationManager.AnimationCa
 
     @Override
     public void onAnimationEnd(String animationKey) {
-        if (animationKey != null && animationKey.equals("death")) changeEntityState(EntityState.DEAD);
+        if (animationKey != null && animationKey.equals(ANIMATION_DEATH_KEY)) changeEntityState(EntityState.DEAD);
     }
 
     @Override

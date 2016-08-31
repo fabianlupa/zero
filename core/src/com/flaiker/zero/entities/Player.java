@@ -25,20 +25,24 @@ import static com.flaiker.zero.CheatManager.Cheat.*;
 /**
  * The player of the game
  */
-@RegistrableSpawn(type = "player")
+@RegistrableSpawn(type = Player.IDENTIFIER)
 public class Player extends AbstractLivingEntity implements InputProcessor, ConsoleManager.CommandableInstance {
     public static final String LOG = Player.class.getSimpleName();
+    public static final String IDENTIFIER = "player";
 
     private static final float  MAX_SPEED_X       = 4f;
     private static final float  ACCELERATION_X    = 150;
     private static final float  MAX_SPEED_Y       = 100f;
     private static final float  ACCELERATION_JUMP = 2000f;
     private static final int    MAX_HEALTH        = 5;
-    private static final String ATLAS_PATH        = "player";
+    private static final String ATLAS_PATH        = IDENTIFIER;
 
     private static final float DENSITY     = 1f;
     private static final float FRICTION    = 1f;
     private static final float RESTITUTION = 0f;
+
+    private static final String ANIMATION_WALK_KEY = "walk";
+    private static final String ANIMATION_IDLE_KEY = "idle";
 
     private int              numFootContacts;
     private boolean          canJump;
@@ -60,8 +64,10 @@ public class Player extends AbstractLivingEntity implements InputProcessor, Cons
         animationManager = new AnimationManager(sprite);
         animationManager.setMaximumAddedIdleTime(2f);
         animationManager.setMinimumIdleTime(5f);
-        animationManager.registerAnimation("player", "walk", AbstractEntity.ENTITY_TEXTURE_ATLAS, 1 / 8f, true);
-        animationManager.registerIdleAnimation("player", "idle", AbstractEntity.ENTITY_TEXTURE_ATLAS, 1 / 4f);
+        animationManager.registerAnimation(IDENTIFIER, ANIMATION_WALK_KEY, AbstractEntity.ENTITY_TEXTURE_ATLAS, 1 / 8f,
+                                           true);
+        animationManager.registerIdleAnimation(IDENTIFIER, ANIMATION_IDLE_KEY, AbstractEntity.ENTITY_TEXTURE_ATLAS,
+                                               1 / 4f);
     }
 
     public boolean isPlayerOnGround() {

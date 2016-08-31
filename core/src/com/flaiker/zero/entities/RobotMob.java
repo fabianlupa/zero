@@ -16,16 +16,21 @@ import com.flaiker.zero.tiles.RegistrableSpawn;
 /**
  * Robot like mob with simple ai
  */
-@RegistrableSpawn(type = "robotMob")
+@RegistrableSpawn(type = RobotMob.IDENTIFIER)
 public class RobotMob extends AbstractMob implements AnimationManager.AnimationCallback {
+    public static final String IDENTIFIER = "robotMob";
+
     private static final float  MAX_SPEED_X    = 1f;
     private static final float  ACCELERATION_X = 500f;
-    private static final String ATLAS_PATH     = "robotMob";
+    private static final String ATLAS_PATH     = IDENTIFIER;
     private static final int    MAX_HEALTH = 5;
 
     private static final float DENSITY     = 1f;
     private static final float FRICTION    = 1f;
     private static final float RESTITUTION = 0f;
+
+    private static final String ANIMATION_WALK_KEY = "walk";
+    private static final String ANIMATION_DEATH_KEY = "death";
 
     private boolean wallRight = false;
     private boolean wallLeft  = false;
@@ -38,9 +43,10 @@ public class RobotMob extends AbstractMob implements AnimationManager.AnimationC
     @Override
     protected void customInit() throws IllegalStateException {
         animationManager = new AnimationManager(sprite, this);
-        animationManager.registerAnimation("robotMob", "walk", AbstractEntity.ENTITY_TEXTURE_ATLAS, 1 / 16f, true);
-
-        animationManager.registerAnimation("robotMob", "death", AbstractEntity.ENTITY_TEXTURE_ATLAS, 1 / 16f, false);
+        animationManager.registerAnimation(IDENTIFIER, ANIMATION_WALK_KEY, AbstractEntity.ENTITY_TEXTURE_ATLAS, 1 / 16f,
+                                           true);
+        animationManager.registerAnimation(IDENTIFIER, ANIMATION_DEATH_KEY, AbstractEntity.ENTITY_TEXTURE_ATLAS,
+                                           1 / 16f, false);
     }
 
     @Override
@@ -127,7 +133,7 @@ public class RobotMob extends AbstractMob implements AnimationManager.AnimationC
 
     @Override
     protected void onEntityStateChanged(EntityState newState) {
-        if (newState == EntityState.DYING) animationManager.runAnimation("death");
+        if (newState == EntityState.DYING) animationManager.runAnimation(ANIMATION_DEATH_KEY);
     }
 
     @Override
@@ -142,7 +148,7 @@ public class RobotMob extends AbstractMob implements AnimationManager.AnimationC
 
     @Override
     public void onAnimationEnd(String animationKey) {
-        if (animationKey.equals("death")) {
+        if (animationKey.equals(ANIMATION_DEATH_KEY)) {
             changeEntityState(EntityState.DEAD);
         }
     }
