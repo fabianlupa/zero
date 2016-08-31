@@ -9,6 +9,7 @@ import com.badlogic.gdx.physics.box2d.*;
 import com.flaiker.zero.Game;
 import com.flaiker.zero.box2d.Box2dUtils;
 import com.flaiker.zero.box2d.ContactCallback;
+import com.flaiker.zero.box2d.DamagePlayerOnTouchContactCallback;
 import com.flaiker.zero.helper.AnimationManager;
 import com.flaiker.zero.tiles.RegistrableSpawn;
 
@@ -64,7 +65,7 @@ public class RobotMob extends AbstractMob implements AnimationManager.AnimationC
         fdef.density = DENSITY;
         fdef.friction = FRICTION;
         fdef.restitution = RESTITUTION;
-        body.createFixture(fdef);
+        body.createFixture(fdef).setUserData(new DamagePlayerOnTouchContactCallback(this));
         Box2dUtils.clearFixtureDefAttributes(fdef);
 
         // sensor right
