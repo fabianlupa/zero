@@ -9,7 +9,7 @@ import com.badlogic.gdx.graphics.Color;
 /**
  * Base class for entities that "live", e. g. can move
  */
-public abstract class AbstractLivingEntity extends AbstractEntity {
+public abstract class AbstractLivingEntity extends AbstractSpawnableEntity {
     private static final Color[] DMG_ANIMATION_COLORS;
     private static final float   DMG_ANIMATION_DURATION = 0.6f;
 

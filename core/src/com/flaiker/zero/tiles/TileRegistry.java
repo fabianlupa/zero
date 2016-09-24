@@ -6,6 +6,7 @@ package com.flaiker.zero.tiles;
 
 import com.flaiker.zero.blocks.AbstractBlock;
 import com.flaiker.zero.entities.AbstractEntity;
+import com.flaiker.zero.entities.AbstractSpawnableEntity;
 import org.reflections.Reflections;
 
 import java.util.*;
@@ -25,8 +26,8 @@ public class TileRegistry {
     private static final String ENTITY_PACKAGE = "com.flaiker.zero.entities";
     private static TileRegistry instance;
 
-    private final Map<Integer, BlockWrapper>                   blocks;
-    private final Map<String, Class<? extends AbstractEntity>> spawns;
+    private final Map<Integer, BlockWrapper>                            blocks;
+    private final Map<String, Class<? extends AbstractSpawnableEntity>> spawns;
 
     private TileRegistry() {
         blocks = new HashMap<>();
@@ -54,7 +55,8 @@ public class TileRegistry {
 
         // Use reflection to find all spawns in the specified package
         Reflections reflections = new Reflections(ENTITY_PACKAGE);
-        Set<Class<? extends AbstractEntity>> abstractEntities = reflections.getSubTypesOf(AbstractEntity.class);
+        Set<Class<? extends AbstractSpawnableEntity>> abstractEntities
+                = reflections.getSubTypesOf(AbstractSpawnableEntity.class);
 
         abstractEntities.stream().filter(f -> f.isAnnotationPresent(RegistrableSpawn.class)).forEach(c -> {
             RegistrableSpawn annotation = c.getAnnotation(RegistrableSpawn.class);
@@ -78,7 +80,7 @@ public class TileRegistry {
      * @param type Entity type name
      * @return Optional of possibly found entity type
      */
-    public Optional<Class<? extends AbstractEntity>> getEntityClassByType(String type) {
+    public Optional<Class<? extends AbstractSpawnableEntity>> getEntityClassByType(String type) {
         return Optional.ofNullable(spawns.get(type));
     }
 

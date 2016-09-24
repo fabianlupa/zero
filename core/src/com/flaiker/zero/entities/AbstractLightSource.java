@@ -16,7 +16,7 @@ import com.flaiker.zero.injection.InjectDependency;
  * Base class for entities that use Box2DLights
  */
 @CanInject
-public abstract class AbstractLightSource extends AbstractEntity {
+public abstract class AbstractLightSource extends AbstractSpawnableEntity {
     private RayHandler rayHandler;
     private Light      light;
 

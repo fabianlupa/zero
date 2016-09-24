@@ -23,6 +23,7 @@ import com.flaiker.zero.box2d.AbstractBox2dObject;
 import com.flaiker.zero.box2d.WorldBodyInjector;
 import com.flaiker.zero.box2d.WorldContactListener;
 import com.flaiker.zero.entities.AbstractEntity;
+import com.flaiker.zero.entities.AbstractSpawnableEntity;
 import com.flaiker.zero.entities.Player;
 import com.flaiker.zero.helper.Map;
 import com.flaiker.zero.helper.SpawnArgs;
@@ -197,11 +198,11 @@ public class Game implements ConsoleManager.CommandableInstance {
 
         // Spawn entities add their spawns
         for (SpawnArgs spawnArgs : map.getSpawns()) {
-            Optional<Class<? extends AbstractEntity>> entityType =
+            Optional<Class<? extends AbstractSpawnableEntity>> entityType =
                     TileRegistry.getInstance().getEntityClassByType(spawnArgs.getType());
 
             if (entityType.isPresent()) {
-                AbstractEntity newEntity;
+                AbstractSpawnableEntity newEntity;
                 try {
                     newEntity = entityType.get().newInstance();
                     newEntity.initializeSpawnPosition(spawnArgs.getX(), spawnArgs.getY());

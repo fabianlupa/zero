@@ -187,4 +187,11 @@ public class BallMob extends AbstractMob implements AnimationManager.AnimationCa
     @Override
     public void onAnimationStart(String animationKey) {
     }
+
+    @Override
+    public void dispose() {
+        super.dispose();
+
+        pointLight.setActive(false);
+    }
 }

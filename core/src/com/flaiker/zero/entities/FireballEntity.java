@@ -15,11 +15,14 @@ import com.badlogic.gdx.physics.box2d.*;
 import com.flaiker.zero.Game;
 import com.flaiker.zero.box2d.AdvancedContactCallback;
 import com.flaiker.zero.box2d.Box2dUtils;
+import com.flaiker.zero.injection.CanInject;
+import com.flaiker.zero.injection.InjectDependency;
 
 /**
  * Entity representing a fireball shot by {@link com.flaiker.zero.abilities.FireballAbility}
  */
-public class FireballEntity extends AbstractLightSource {
+@CanInject
+public class FireballEntity extends AbstractEntity {
     private static final String ATLAS_PATH      = "fireball";
     private static final int    FIREBALL_DAMAGE = 2;
     private static final int    LIFETIME        = 2;
@@ -31,6 +34,8 @@ public class FireballEntity extends AbstractLightSource {
     private boolean        damageDone;
     private float          timeAlive;
     private ParticleEffect particleEffect;
+    private RayHandler     rayHandler;
+    private Light          light;
 
     public FireballEntity() {
         super();
@@ -38,6 +43,17 @@ public class FireballEntity extends AbstractLightSource {
         particleEffect = new ParticleEffect();
         particleEffect.load(Gdx.files.internal("particles/fireball.p"), Gdx.files.internal("particles"));
         particleEffect.start();
+    }
+
+    @InjectDependency(RayHandler.class)
+    public void initializeRayHandler(RayHandler rayHandler) {
+        if (this.rayHandler != null) throw new IllegalStateException("RayHandler already initialized");
+        this.rayHandler = rayHandler;
+    }
+
+    @Override
+    protected void customInit() throws IllegalStateException {
+        if (rayHandler == null) throw new IllegalStateException("RayHandler not initialized");
     }
 
     @Override
@@ -85,6 +101,10 @@ public class FireballEntity extends AbstractLightSource {
             }
         });
 
+        light = new PointLight(rayHandler, 25, new Color(1, 1, 1, 0.9f), 2f, 0f, 0f);
+        light.setSoft(true);
+        light.attachToBody(body);
+
         return body;
     }
 
@@ -103,13 +123,5 @@ public class FireballEntity extends AbstractLightSource {
         super.render(batch);
 
         particleEffect.draw(batch, Gdx.graphics.getDeltaTime());
-    }
-
-    @Override
-    protected Light createLight(RayHandler rayHandler) {
-        PointLight light = new PointLight(rayHandler, 25, new Color(1, 1, 1, 0.9f), 2f, 0f, 0f);
-        light.setSoft(true);
-
-        return light;
     }
 }

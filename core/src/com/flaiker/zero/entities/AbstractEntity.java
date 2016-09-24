@@ -24,31 +24,6 @@ public abstract class AbstractEntity extends AbstractBox2dObject {
         super(ENTITY_TEXTURE_ATLAS);
     }
 
-    /**
-     * Apply additional arguments from the map object
-     * <p>
-     * When loading a spawn additional arguments specified in {@link com.flaiker.zero.tiles.RegistrableSpawn#adArgs()}
-     * will be injected using this method.
-     *
-     * @param adArgPairs Map of key value pairs
-     */
-    public void applyAdArgs(Map<String, String> adArgPairs) {
-    }
-
-    /**
-     * Helper method to retrieve values from a addArgs map
-     *
-     * @param adArgsPairs  Map containing the keys and values
-     * @param key          Key to be searched
-     * @param defaultValue Value to be used if the key is not found or value is null
-     * @return Chosen value
-     */
-    protected String getAdArgsValueOrDefault(Map<String, String> adArgsPairs, String key, String defaultValue) {
-        if (!adArgsPairs.containsKey(key)) return defaultValue;
-        if (adArgsPairs.get(key) == null) return defaultValue;
-        return adArgsPairs.get(key);
-    }
-
     @Override
     public void update(float delta) {
         super.update(delta);
