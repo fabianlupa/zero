@@ -9,8 +9,6 @@ import com.badlogic.gdx.math.MathUtils;
 import com.flaiker.zero.Game;
 import com.flaiker.zero.box2d.AbstractBox2dObject;
 
-import java.util.Map;
-
 /**
  * Base class for entities
  * <p>
