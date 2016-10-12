@@ -18,6 +18,7 @@ import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Array;
 import com.flaiker.zero.abilities.AbstractAbility;
 import com.flaiker.zero.abilities.FireballAbility;
+import com.flaiker.zero.abilities.LaserAbility;
 import com.flaiker.zero.blocks.AbstractBlock;
 import com.flaiker.zero.box2d.AbstractBox2dObject;
 import com.flaiker.zero.box2d.WorldBodyInjector;
@@ -99,7 +100,8 @@ public class Game implements ConsoleManager.CommandableInstance {
 
         abilities = new ArrayList<>();
         abilities.add(new FireballAbility(wbi, player));
-        player.switchSelectedAbility(abilities.get(0));
+        abilities.add(new LaserAbility(wbi, player));
+        player.switchSelectedAbility(abilities.get(1));
     }
 
     public void render(Batch batch, RenderMode renderMode) {

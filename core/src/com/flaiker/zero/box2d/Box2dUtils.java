@@ -21,8 +21,8 @@ public abstract class Box2dUtils {
         fdef.friction = 0.2f;
         fdef.isSensor = false;
         fdef.shape = null;
-        fdef.filter.categoryBits = 0x0001;
+        fdef.filter.categoryBits = CollisionBits.CATEGORY_DEFAULT;
         fdef.filter.groupIndex = 0;
-        fdef.filter.maskBits = -1;
+        fdef.filter.maskBits = CollisionBits.MASK_DEFAULT;
     }
 }

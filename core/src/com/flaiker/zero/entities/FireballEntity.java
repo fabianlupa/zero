@@ -14,6 +14,7 @@ import com.badlogic.gdx.graphics.g2d.ParticleEffect;
 import com.badlogic.gdx.physics.box2d.*;
 import com.flaiker.zero.Game;
 import com.flaiker.zero.box2d.AdvancedContactCallback;
+import com.flaiker.zero.box2d.CollisionBits;
 import com.flaiker.zero.box2d.Box2dUtils;
 import com.flaiker.zero.injection.CanInject;
 import com.flaiker.zero.injection.InjectDependency;
@@ -79,6 +80,8 @@ public class FireballEntity extends AbstractEntity {
         fdef.density = DENSITY;
         fdef.friction = FRICTION;
         fdef.restitution = RESTITUTION;
+        fdef.filter.maskBits = CollisionBits.MASK_MOBS;
+        fdef.filter.categoryBits = CollisionBits.CATEGORY_MOBS;
         body.createFixture(fdef);
         Box2dUtils.clearFixtureDefAttributes(fdef);
 

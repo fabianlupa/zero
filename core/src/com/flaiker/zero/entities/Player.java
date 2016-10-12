@@ -12,6 +12,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import com.flaiker.zero.Game;
 import com.flaiker.zero.abilities.AbstractAbility;
+import com.flaiker.zero.box2d.CollisionBits;
 import com.flaiker.zero.box2d.ContactCallback;
 import com.flaiker.zero.helper.AnimationManager;
 import com.flaiker.zero.services.ConsoleManager;
@@ -101,6 +102,8 @@ public class Player extends AbstractLivingEntity implements InputProcessor, Cons
         fdef.friction = FRICTION;
         fdef.density = DENSITY;
         fdef.restitution = RESTITUTION;
+        fdef.filter.categoryBits = CollisionBits.CATEGORY_PLAYER;
+        fdef.filter.maskBits = CollisionBits.MASK_PLAYER;
         playerBody.createFixture(fdef).setUserData("player");
         shape.setAsBox(0.35f, 0.1f, new Vector2(0, -sprite.getHeight() / Game.PIXEL_PER_METER / 2f + 0.1f), 0);
         fdef.shape = shape;

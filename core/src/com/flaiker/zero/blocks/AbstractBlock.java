@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import com.flaiker.zero.box2d.AbstractBox2dObject;
+import com.flaiker.zero.box2d.CollisionBits;
 
 /**
  * Base class for blocks
@@ -45,6 +46,8 @@ public abstract class AbstractBlock extends AbstractBox2dObject {
         fdef.friction = FRICTION;
         fdef.restitution = RESTITUTION;
         fdef.isSensor = false;
+        fdef.filter.maskBits = CollisionBits.MASK_BLOCKS;
+        fdef.filter.categoryBits = CollisionBits.CATEGORY_BLOCKS;
         Body tileBody = world.createBody(bdef);
         tileBody.setUserData(this);
         tileBody.createFixture(fdef);

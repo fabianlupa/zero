@@ -2,6 +2,7 @@ package com.flaiker.zero.blocks;
 
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
+import com.flaiker.zero.box2d.CollisionBits;
 import com.flaiker.zero.tiles.RegistrableBlock;
 
 @RegistrableBlock(id = 2, name = "ice")
@@ -34,6 +35,8 @@ public class IceBlock extends AbstractBlock {
         fdef.friction = FRICTION;
         fdef.restitution = RESTITUTION;
         fdef.isSensor = false;
+        fdef.filter.maskBits = CollisionBits.MASK_BLOCKS;
+        fdef.filter.categoryBits = CollisionBits.CATEGORY_BLOCKS;
         Body tileBody = world.createBody(bdef);
         tileBody.setUserData(this);
         tileBody.createFixture(fdef);

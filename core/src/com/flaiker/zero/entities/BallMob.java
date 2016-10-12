@@ -11,6 +11,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.physics.box2d.joints.RevoluteJointDef;
 import com.flaiker.zero.Game;
+import com.flaiker.zero.box2d.CollisionBits;
 import com.flaiker.zero.box2d.Box2dUtils;
 import com.flaiker.zero.box2d.ContactCallback;
 import com.flaiker.zero.box2d.DamagePlayerOnTouchContactCallback;
@@ -94,6 +95,8 @@ public class BallMob extends AbstractMob implements AnimationManager.AnimationCa
         fdef.density = DENSITY;
         fdef.friction = FRICTION;
         fdef.restitution = RESTITUTION;
+        fdef.filter.maskBits = CollisionBits.MASK_MOBS;
+        fdef.filter.categoryBits = CollisionBits.CATEGORY_MOBS;
         body.createFixture(fdef).setUserData(new DamagePlayerOnTouchContactCallback(this));
         Box2dUtils.clearFixtureDefAttributes(fdef);
 
@@ -105,6 +108,8 @@ public class BallMob extends AbstractMob implements AnimationManager.AnimationCa
         boxShape.setAsBox(0.01f, sprite.getHeight() / Game.PIXEL_PER_METER / 2f - 0.2f,
                           new Vector2(sprite.getWidth() / Game.PIXEL_PER_METER / 2f, 0), 0);
         fdef.shape = boxShape;
+        fdef.filter.maskBits = CollisionBits.MASK_MOBS;
+        fdef.filter.categoryBits = CollisionBits.CATEGORY_MOBS;
         fdef.isSensor = true;
         sensorBody.createFixture(fdef).setUserData(new ContactCallback() {
             @Override
@@ -122,6 +127,8 @@ public class BallMob extends AbstractMob implements AnimationManager.AnimationCa
         boxShape.setAsBox(-0.01f, sprite.getHeight() / Game.PIXEL_PER_METER / 2f - 0.2f,
                           new Vector2(-sprite.getWidth() / Game.PIXEL_PER_METER / 2f, 0), 0);
         fdef.shape = boxShape;
+        fdef.filter.maskBits = CollisionBits.MASK_MOBS;
+        fdef.filter.categoryBits = CollisionBits.CATEGORY_MOBS;
         fdef.isSensor = true;
         sensorBody.createFixture(fdef).setUserData(new ContactCallback() {
             @Override
