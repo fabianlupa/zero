@@ -46,7 +46,7 @@ public abstract class AbstractBlock extends AbstractBox2dObject {
         fdef.friction = FRICTION;
         fdef.restitution = RESTITUTION;
         fdef.isSensor = false;
-        fdef.filter.maskBits = CollisionBits.MASK_BLOCKS;
+        fdef.filter.maskBits = CollisionBits.MASK_ENVIRONMENT;
         fdef.filter.categoryBits = CollisionBits.CATEGORY_BLOCKS;
         Body tileBody = world.createBody(bdef);
         tileBody.setUserData(this);

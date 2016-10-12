@@ -146,6 +146,10 @@ public abstract class AbstractBox2dObject {
         markedForDeletion = true;
     }
 
+    public void setPositionX(float x) {
+        body.getPosition().set(x, body.getPosition().y);
+    }
+
     public boolean isMarkedForDeletion() {
         return markedForDeletion;
     }
@@ -156,6 +160,14 @@ public abstract class AbstractBox2dObject {
 
     public float getBodyY() {
         return body.getPosition().y;
+    }
+
+    public float getBodyXCenter() {
+        return body.getPosition().x + body.getLocalCenter().x;
+    }
+
+    public float getBodyYCenter() {
+        return body.getPosition().y + body.getLocalCenter().y;
     }
 
     public Vector2 getBodyPosition() {

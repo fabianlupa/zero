@@ -10,6 +10,7 @@ import box2dLight.RayHandler;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
+import com.flaiker.zero.box2d.CollisionBits;
 import com.flaiker.zero.tiles.RegistrableSpawn;
 
 import java.util.Map;
@@ -64,6 +65,8 @@ public class LampHorizontal extends AbstractLightSource {
 
         shape.setAsBox(getEntityWidth() / 2f, getEntityHeight() / 2f);
         fdef.shape = shape;
+        fdef.filter.categoryBits = CollisionBits.CATEGORY_DECO;
+        fdef.filter.maskBits = CollisionBits.MASK_ENVIRONMENT;
         lampBody.createFixture(fdef);
 
         return lampBody;

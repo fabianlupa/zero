@@ -14,6 +14,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.physics.box2d.joints.RevoluteJointDef;
 import com.flaiker.zero.Game;
+import com.flaiker.zero.box2d.CollisionBits;
 import com.flaiker.zero.tiles.RegistrableSpawn;
 
 import java.util.Map;
@@ -107,6 +108,8 @@ public class LampRope extends AbstractLightSource {
                                 new Vector2(0, sprite.getHeight() / 2 / Game.PIXEL_PER_METER)});
         fdef.shape = shape;
         fdef.density = 100;
+        fdef.filter.categoryBits = CollisionBits.CATEGORY_DECO;
+        fdef.filter.maskBits = CollisionBits.MASK_ENVIRONMENT;
         lampBody.createFixture(fdef);
 
         RevoluteJointDef revoluteJointDef = new RevoluteJointDef();
